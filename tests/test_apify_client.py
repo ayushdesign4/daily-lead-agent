@@ -7,6 +7,7 @@ from src.apify_client import (
     ApifyClient,
     ApifyAuthError,
     ApifyCreditExhaustedError,
+    ApifyTimeoutError,
     ApifyError,
 )
 
@@ -74,3 +75,32 @@ def test_run_search_batch_credit_exhausted(mock_post, mock_get):
     client = ApifyClient(token="valid_token")
     with pytest.raises(ApifyCreditExhaustedError):
         client.run_search_batch(["test query"])
+
+
+@patch("requests.get")
+@patch("requests.post")
+def test_run_search_batch_timeout(mock_post, mock_get):
+    # check_account_status passes
+    mock_status_resp = MagicMock()
+    mock_status_resp.status_code = 200
+    mock_status_resp.json.return_value = {"data": {"limits": {"isOverLimit": False}}}
+
+    # post to start run succeeds
+    mock_post_resp = MagicMock()
+    mock_post_resp.status_code = 200
+    mock_post_resp.json.return_value = {"data": {"id": "run_123", "defaultDatasetId": "ds_123"}}
+    mock_post.return_value = mock_post_resp
+
+    # Polling returns RUNNING status until timeout
+    mock_poll_resp = MagicMock()
+    mock_poll_resp.status_code = 200
+    mock_poll_resp.json.return_value = {"data": {"status": "RUNNING"}}
+
+    mock_get.side_effect = [mock_status_resp, mock_poll_resp, mock_poll_resp, mock_poll_resp]
+
+    client = ApifyClient(token="valid_token")
+    with patch("time.sleep", return_value=None):
+        with pytest.raises(ApifyTimeoutError) as exc_info:
+            client.run_search_batch(["test query"], max_wait_seconds=2, poll_interval=1)
+
+    assert "timed out" in str(exc_info.value).lower()

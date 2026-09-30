@@ -97,21 +97,25 @@ daily-lead-agent/
 
 ## ⏰ Delivery Schedule & Timing
 
-- **01:00 AM IST (19:30 UTC previous day)**: `daily_leads.yml` executes overnight.
+- **01:00 AM IST (19:30 UTC previous day)**: `daily_leads.yml` executes overnight with `--mode prepare`.
   - Inspects queue.
-  - Runs Apify batches if extra leads are needed.
-  - Saves surplus to queue.
+  - Runs demand-driven Apify batches if extra leads are needed (no arbitrary batch limit; runs dynamically until target is met).
+  - Saves all discovered leads into `pending_queue.csv` and `master_leads.csv`.
   - Commits database and logs back to the GitHub repository.
-  - Sends lead email.
-- **10:45 AM - 11:00 AM IST (05:15 UTC)**: `deliver_leads.yml` verifies today's delivery status.
-  - If already delivered overnight, exits idempotently (0 duplicate emails sent).
-  - If processing was pending, completes delivery before 11:00 AM.
+  - **Does NOT send the daily lead email** (preparation only).
+- **10:45 AM - 11:00 AM IST (05:15 UTC)**: `deliver_leads.yml` executes with `--mode deliver`.
+  - Checks if delivery already completed today (idempotency guarantees 0 duplicate emails).
+  - If queue has $< 200$ leads, automatically continues processing until target is satisfied or credits exhaust.
+  - Delivers `output/leads_YYYY-MM-DD.txt` via Gmail SMTP.
+  - Transactional queue safety: leads are permanently removed from `pending_queue.csv` **only after verified email transmission**.
+  - If email fails, all leads are automatically preserved in the queue.
+  - Writes atomic delivery receipt so post-delivery interruptions never cause duplicate sends.
 
 ---
 
 ## 🧪 Testing and Verification
 
-A comprehensive 22-test automated suite covers all requirements:
+A comprehensive 31-test automated suite covers all requirements and edge cases:
 
 ```bash
 # Run full unit and integration test suite

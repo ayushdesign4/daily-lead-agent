@@ -106,12 +106,13 @@ When your Apify credits run out or you want to switch to a new Apify account, th
 You can test the entire workflow directly in GitHub Actions without waiting for 11:00 AM IST:
 
 1. In your GitHub repository, click the **Actions** tab.
-2. In the left sidebar, click **Daily Lead Agent - Overnight Run & Delivery**.
-3. Click **Run workflow** (dropdown button on the right).
-4. Options:
-   - To run a zero-credit dry-run test: check **dry_run** -> click **Run workflow**.
-   - To run for real: enter target `5` (or leave default `200`) -> click **Run workflow**.
-5. Watch the workflow complete! Check your email inbox for the attached `leads_YYYY-MM-DD.txt` file.
+2. In the left sidebar, you have two scheduled workflows:
+   - **Daily Lead Agent - Overnight Run & Delivery**: Prepares and queues leads overnight at 01:00 AM IST without sending emails.
+   - **Deliver Leads - 11 AM IST Delivery Check**: Delivers today's `.txt` leads file at 11:00 AM IST.
+3. To test immediately via manual trigger:
+   - Click **Deliver Leads - 11 AM IST Delivery Check** -> **Run workflow**.
+   - If leads are needed, it will automatically scrape, queue, and deliver.
+   - Check your email inbox for the attached `leads_YYYY-MM-DD.txt` file!
 
 ---
 

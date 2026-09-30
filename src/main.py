@@ -22,7 +22,13 @@ from src.state_manager import StateManager, get_today_ist_date
 from src.niche_manager import NicheManager
 from src.email_extractor import extract_emails_from_dataset
 from src.deduplicator import Deduplicator
-from src.apify_client import ApifyClient, ApifyCreditExhaustedError, ApifyAuthError, ApifyError
+from src.apify_client import (
+    ApifyClient,
+    ApifyCreditExhaustedError,
+    ApifyAuthError,
+    ApifyTimeoutError,
+    ApifyError,
+)
 from src.queue_manager import QueueManager
 from src.delivery import DeliveryManager
 
@@ -179,6 +185,9 @@ class DailyLeadAgent:
                 exhaustion_reason = str(e)
                 logger.error(f"Apify credit or authorization failure in batch {batches_run}: {e}")
                 break
+            except ApifyTimeoutError as e:
+                logger.error(f"Apify actor run timed out in batch {batches_run}: {e}")
+                break
             except ApifyError as e:
                 logger.error(f"Apify error in batch {batches_run}: {e}")
                 break
@@ -285,9 +294,15 @@ class DailyLeadAgent:
                 logger.error(f"Failed to deliver daily lead email: {e}")
                 delivered_success = False
 
-            # TRANSACTIONAL QUEUE SAFETY:
+            # TRANSACTIONAL QUEUE SAFETY & POST-DELIVERY STATE RECORDING:
             if delivered_success:
-                # ONLY commit removal from queue after email successfully sent!
+                # 1. Immediately record atomic delivery receipt (guarantees idempotency even if subsequent steps fail)
+                try:
+                    self.state_manager.record_delivery_receipt(date_str, self.run_id, emails_to_deliver)
+                except Exception as receipt_err:
+                    logger.error(f"Error recording delivery receipt: {receipt_err}")
+
+                # 2. ONLY commit removal from queue after email successfully sent!
                 self.queue_manager.commit_delivered_leads(remaining_queue)
                 final_status = "PARTIAL_CREDIT_LIMIT" if credit_exhausted else "COMPLETED"
                 status_reason = f"Delivered {final_lead_count}/{self.target} leads."

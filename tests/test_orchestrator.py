@@ -6,7 +6,7 @@ from pathlib import Path
 
 from src.main import DailyLeadAgent
 from src.state_manager import StateManager
-from src.apify_client import ApifyClient, ApifyCreditExhaustedError
+from src.apify_client import ApifyClient, ApifyCreditExhaustedError, ApifyTimeoutError
 from src.delivery import DeliveryManager
 
 
@@ -425,3 +425,81 @@ def test_api_token_replacement_preserves_all_data(test_env):
     assert len(state.load_used_niches()) == 1
     assert state.load_used_niches()[0]["niche"] == "Old Tech"
     assert len(state.load_daily_runs()) == 1
+
+
+def test_apify_timeout_handled_gracefully(test_env):
+    """
+    Requirement 1:
+    If Apify actor run times out, treat it as a proper failure, do NOT process dataset
+    as if it succeeded, and continue gracefully without crashing.
+    """
+    state = test_env["state"]
+    mock_apify = test_env["apify"]
+    mock_delivery = test_env["delivery"]
+
+    # Apify raises timeout error
+    mock_apify.run_search_batch.side_effect = ApifyTimeoutError("Run timed out after 600s")
+
+    agent = DailyLeadAgent(
+        target=50,
+        dry_run=False,
+        state_manager=state,
+        apify_client=mock_apify,
+        delivery_manager=mock_delivery,
+    )
+
+    # Should handle gracefully without raising unhandled exception
+    count = agent.run(force=True, mode="prepare")
+    assert count == 0
+    # No leads extracted or delivered
+    assert len(state.load_master_leads()) == 0
+    assert len(state.load_queue()) == 0
+
+
+def test_delivery_receipt_prevents_duplicate_send_if_subsequent_state_fails(test_env):
+    """
+    Requirement 2:
+    Edge case where Gmail successfully sends lead file, but saving/updating delivery state
+    fails immediately afterward (e.g. disk write error or crash).
+    Subsequent runs must detect the verified delivery receipt, reconcile queue,
+    and prevent duplicate sends.
+    """
+    state = test_env["state"]
+    mock_apify = test_env["apify"]
+    mock_delivery = test_env["delivery"]
+
+    # Seed 20 leads in queue
+    leads = [
+        {"email": f"delivered_{i}@gmail.com", "date_added": "2026-09-30", "source_niche": "Tech", "source_run_id": "PREV"}
+        for i in range(20)
+    ]
+    state.add_to_queue(leads)
+
+    agent = DailyLeadAgent(
+        target=20,
+        dry_run=False,
+        state_manager=state,
+        apify_client=mock_apify,
+        delivery_manager=mock_delivery,
+    )
+
+    # First run succeeds in delivery
+    delivered = agent.run(force=True, mode="deliver")
+    assert delivered == 20
+    assert mock_delivery.send_daily_leads.call_count == 1
+    assert state.has_delivery_receipt("2026-09-30") is True
+
+    # Now simulate that daily_runs.csv was somehow wiped or failed to save status
+    state.initialize_files()
+    from src.state_manager import atomic_write_csv, DAILY_RUNS_HEADERS
+    atomic_write_csv(state.runs_file, DAILY_RUNS_HEADERS, [])
+
+    # Second run without force
+    second_delivered = agent.run(force=False, mode="deliver")
+    assert second_delivered == 0
+    # Email MUST NOT have been sent a second time!
+    assert mock_delivery.send_daily_leads.call_count == 1
+    # State was successfully reconciled
+    runs = state.load_daily_runs()
+    assert any(r.get("status") in ("COMPLETED", "SENT") for r in runs)
+

@@ -2,6 +2,7 @@
 
 import csv
 import os
+import json
 import tempfile
 import logging
 from datetime import datetime, timezone, timedelta
@@ -9,6 +10,7 @@ from pathlib import Path
 from typing import Dict, List, Set, Optional, Tuple
 
 from src.config import (
+    DATA_DIR,
     MASTER_LEADS_FILE,
     PENDING_QUEUE_FILE,
     USED_NICHES_FILE,
@@ -222,6 +224,113 @@ class StateManager:
             atomic_write_csv(self.niches_file, USED_NICHES_HEADERS, existing)
             logger.info(f"Recorded {added} new used niches (total recorded: {len(existing)})")
 
+    # ----------------- Delivery Receipt & Reconciliation -----------------
+
+    def get_receipt_path(self, date_str: str) -> Path:
+        """Path to atomic delivery receipt JSON for a given date."""
+        return self.master_file.parent / f"delivery_receipt_{date_str}.json"
+
+    def record_delivery_receipt(
+        self,
+        date_str: str,
+        run_id: str,
+        delivered_emails: List[str],
+    ) -> Path:
+        """
+        Record a permanent, atomic delivery receipt immediately upon verified SMTP transmission.
+        This guarantees that even if a subsequent state update crashes, the delivery is proven
+        and leads will not be duplicate-delivered on a retry.
+        """
+        receipt_file = self.get_receipt_path(date_str)
+        receipt_data = {
+            "date": date_str,
+            "run_id": run_id,
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "delivered_count": len(delivered_emails),
+            "emails": [e.strip().lower() for e in delivered_emails],
+        }
+
+        temp_file = None
+        try:
+            with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=receipt_file.parent, delete=False) as f:
+                temp_file = Path(f.name)
+                json.dump(receipt_data, f, indent=2)
+                f.flush()
+                os.fsync(f.fileno())
+            os.replace(temp_file, receipt_file)
+            logger.info(f"Delivery receipt recorded atomically: {receipt_file} ({len(delivered_emails)} leads)")
+            return receipt_file
+        except Exception as e:
+            logger.error(f"Failed to record delivery receipt: {e}")
+            if temp_file and temp_file.exists():
+                try:
+                    temp_file.unlink()
+                except OSError:
+                    pass
+            raise
+
+    def has_delivery_receipt(self, date_str: str) -> bool:
+        """Check if a verified delivery receipt exists for date_str."""
+        receipt_file = self.get_receipt_path(date_str)
+        if not receipt_file.exists():
+            return False
+        try:
+            with open(receipt_file, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                return bool(data.get("delivered_count", 0) > 0 and data.get("emails"))
+        except Exception as e:
+            logger.warning(f"Error reading delivery receipt {receipt_file}: {e}")
+            return False
+
+    def get_delivery_receipt(self, date_str: str) -> Optional[Dict]:
+        """Load delivery receipt data if present."""
+        receipt_file = self.get_receipt_path(date_str)
+        if not receipt_file.exists():
+            return None
+        try:
+            with open(receipt_file, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception as e:
+            logger.warning(f"Could not read receipt {receipt_file}: {e}")
+            return None
+
+    def reconcile_delivered_state(self, date_str: str) -> None:
+        """
+        Recover and reconcile queue and daily_runs state if a previous run
+        successfully sent the lead email but failed during the subsequent state write.
+        """
+        receipt = self.get_delivery_receipt(date_str)
+        if not receipt:
+            return
+
+        sent_emails = set(receipt.get("emails", []))
+        if not sent_emails:
+            return
+
+        # 1. Purge sent emails from pending queue if still lingering
+        current_queue = self.load_queue()
+        purged_queue = [row for row in current_queue if row.get("email", "").strip().lower() not in sent_emails]
+        if len(purged_queue) < len(current_queue):
+            self.save_queue(purged_queue)
+            logger.info(f"Reconciled queue: removed {len(current_queue) - len(purged_queue)} already-delivered leads.")
+
+        # 2. Ensure daily_runs.csv reflects the completed delivery
+        runs = self.load_daily_runs()
+        has_completed_run = any(
+            r.get("date") == date_str and r.get("status") in ("COMPLETED", "SENT", "PARTIAL_CREDIT_LIMIT")
+            for r in runs
+        )
+        if not has_completed_run:
+            self.record_daily_run(
+                date_str=date_str,
+                status="COMPLETED",
+                target=receipt.get("delivered_count", 0),
+                delivered=receipt.get("delivered_count", 0),
+                reason="Reconciled from verified delivery receipt after prior state interruption.",
+                run_id=receipt.get("run_id", "RECOVERED"),
+            )
+            logger.info(f"Reconciled daily_runs.csv for {date_str} from delivery receipt.")
+
     # ----------------- Daily Runs / Idempotency -----------------
 
     def load_daily_runs(self) -> List[Dict[str, str]]:
@@ -238,10 +347,17 @@ class StateManager:
         """
         Check whether today's delivery has already been successfully sent.
         Prevents duplicate daily emails if workflow runs multiple times.
+        Checks both delivery receipts and daily_runs history.
         """
         if not date_str:
             date_str = get_today_ist_date()
 
+        # Step 1: Check verified delivery receipt first (handles post-email crash edge case)
+        if self.has_delivery_receipt(date_str):
+            self.reconcile_delivered_state(date_str)
+            return True
+
+        # Step 2: Check daily_runs.csv records
         runs = self.load_daily_runs()
         for run in runs:
             if run.get("date") == date_str:
