@@ -1,0 +1,12 @@
+[2026-09-30 23:09:00] [INFO] ============================================================
+[2026-09-30 23:09:00] [INFO] Starting Daily Lead Agent | Run ID: RUN-002A1F6F | Date: 2026-10-01 IST
+[2026-09-30 23:09:00] [INFO] Target: 200 leads | Mode: prepare | Dry Run: False
+[2026-09-30 23:09:00] [INFO] Starting pending queue size: 0
+[2026-09-30 23:09:00] [INFO] --- Starting Apify Batch 1 (Shortage: 200) ---
+[2026-09-30 23:09:00] [INFO] Batch 1 queries (10): ['Options Trading Hedging Strategies', 'Swing Trading Price Action', 'Index Funds SIP Strategy', 'Fundamental Analysis Stocks', 'Technical Analysis Candlesticks', 'Real Estate Commercial Property', 'Angel Investing Startups', 'Commodity Crude Oil Trading', 'Forex Currency Trading India', 'Bonds and Fixed Income Debt']
+[2026-09-30 23:10:18] [INFO] Batch 1 Summary: 6 valid emails -> 0 intra-batch dups -> 0 master dups -> 6 genuinely new leads
+[2026-09-30 23:10:18] [INFO] Target not yet satisfied. Remaining shortage: 194
+[2026-09-30 23:10:18] [INFO] --- Starting Apify Batch 2 (Shortage: 194) ---
+[2026-09-30 23:10:18] [INFO] Batch 2 queries (10): ['Cricket Batting Techniques', 'Football Skills Drill Analysis', 'Badminton Footwork Training', 'Chess Grandmaster Openings', 'Table Tennis Serve Techniques', 'Swimming Drills for Beginners', 'Martial Arts Self Defense', 'Athletics Sprinting Form', 'Kabaddi Training Workouts', 'Yoga Asanas Flexibility']
+[2026-09-30 23:20:29] [ERROR] Apify actor run timed out in batch 2: Apify run ijMrAeKe9vB0kM8E9 timed out after 600s without completing successfully (last status: RUNNING).
+[2026-09-30 23:20:29] [INFO] Overnight preparation run complete. Daily email is scheduled for 11:00 AM IST.
