@@ -11,9 +11,9 @@ logger = logging.getLogger(__name__)
 QUERY_TEMPLATE = 'site:youtube.com "{niche}" "Business Inquiries" "gmail.com" India'
 
 # Curated seed niches specifically tailored for high-volume YouTube thumbnail outreach
-# Grouped into distinct categories to avoid semantic overlap within batches
+# 17 categories x 10 distinct niches = 170 curated niches
 SEED_NICHES = [
-    # Personal Finance & Wealth
+    # 1. Personal Finance & Wealth
     "Personal Finance India",
     "Mutual Funds Guide",
     "Stock Market for Beginners",
@@ -24,7 +24,7 @@ SEED_NICHES = [
     "Early Retirement FIRE India",
     "Small Business Loans",
     "Gold and Commodity Trading",
-    # Fitness & Health
+    # 2. Fitness & Health
     "Calisthenics Home Workout",
     "Bodybuilding Transformation",
     "Yoga & Meditation Practice",
@@ -35,7 +35,7 @@ SEED_NICHES = [
     "Gym Workout for Beginners",
     "Healthy Meal Prep India",
     "Post-Pregnancy Fitness",
-    # Travel & Food
+    # 3. Travel & Exploration
     "Solo Traveling in India",
     "Indian Street Food Tour",
     "Budget Backpacking Asia",
@@ -46,7 +46,7 @@ SEED_NICHES = [
     "Traditional Indian Recipes",
     "Food Vlogging Delhi Mumbai",
     "Highway Dhaba Food Exploration",
-    # Technology & Gadgets
+    # 4. Consumer Tech & Gadgets
     "Smartphone Unboxing and Review",
     "Custom PC Building Guide",
     "Best Laptops for Students",
@@ -57,7 +57,7 @@ SEED_NICHES = [
     "Budget Audio & Headphones",
     "Smartwatches & Wearables",
     "Tech Hacks and Shortcuts",
-    # Coding & Development
+    # 5. Software Development & Coding
     "Python Programming Tutorial",
     "Web Development MERN Stack",
     "Data Science and Machine Learning",
@@ -68,7 +68,7 @@ SEED_NICHES = [
     "Cybersecurity Ethical Hacking",
     "Frontend UI UX Design",
     "Backend System Design",
-    # Business, Career & Startups
+    # 6. Business, Career & Startups
     "Indian Startup Case Studies",
     "E-commerce Business Model",
     "Freelancing Tips India",
@@ -79,7 +79,7 @@ SEED_NICHES = [
     "Sales and Negotiation Skills",
     "Export Import Business India",
     "Franchise Business Opportunities",
-    # Productivity & Self-Improvement
+    # 7. Productivity & Self-Improvement
     "Time Management Techniques",
     "Book Summaries in Hindi",
     "Daily Routine and Habits",
@@ -90,7 +90,7 @@ SEED_NICHES = [
     "Speed Reading & Note Taking",
     "Overcoming Procrastination",
     "Journaling and Mindfulness",
-    # Gaming & Esports
+    # 8. Gaming & Esports
     "PC Gaming Benchmarks",
     "Battlegrounds Mobile India BGMI",
     "GTA 5 Roleplay Series",
@@ -101,7 +101,7 @@ SEED_NICHES = [
     "Story Mode Games Walkthrough",
     "Gaming Setup Room Tour",
     "Indie Game Reviews",
-    # Filmmaking, Photography & Design
+    # 9. Filmmaking, Design & Creative Arts
     "Video Editing in Premiere Pro",
     "Cinematic Smartphone Filmmaking",
     "Portrait Photography Tips",
@@ -112,7 +112,7 @@ SEED_NICHES = [
     "Drone Flying and Cinematography",
     "Motion Graphics After Effects",
     "Street Photography India",
-    # Automotive & Mobility
+    # 10. Automotive & Mobility
     "Electric Vehicle Reviews India",
     "New Car Buying Guide",
     "Superbike Touring and Vlogs",
@@ -123,7 +123,7 @@ SEED_NICHES = [
     "Motorcycle Maintenance Guide",
     "Scooter and Commuter Bikes",
     "Commercial Trucks and Buses",
-    # Education & Exam Preparation
+    # 11. Education & Exam Preparation
     "UPSC Civil Services Preparation",
     "SSC CGL Exam Strategy",
     "Bank PO Exam Preparation",
@@ -134,7 +134,7 @@ SEED_NICHES = [
     "Current Affairs Analysis India",
     "English Speaking Spoken Course",
     "Science Experiments at Home",
-    # Lifestyle, Hobbies & Culture
+    # 12. Lifestyle, Fashion & Culture
     "Men Fashion and Grooming",
     "Home Interior Decor Ideas",
     "Gardening and Urban Farming",
@@ -145,6 +145,61 @@ SEED_NICHES = [
     "Board Games and Hobbies",
     "Carpentry and DIY Woodworking",
     "Pet Care and Dog Training",
+    # 13. Deep Tech, AI & Robotics (New curated additions to ensure 150+)
+    "Generative AI Tools & Workflows",
+    "Robotics Projects Arduino",
+    "Cloud Architecture AWS GCP",
+    "Prompt Engineering Guide",
+    "Microservices Distributed Systems",
+    "Blockchain Smart Contract Solidity",
+    "Data Engineering Apache Spark",
+    "Linux System Administration",
+    "Computer Networking CCNA",
+    "Mobile App Monetization",
+    # 14. Advanced Investing & Markets
+    "Options Trading Hedging Strategies",
+    "Swing Trading Price Action",
+    "Index Funds SIP Strategy",
+    "Fundamental Analysis Stocks",
+    "Technical Analysis Candlesticks",
+    "Real Estate Commercial Property",
+    "Angel Investing Startups",
+    "Commodity Crude Oil Trading",
+    "Forex Currency Trading India",
+    "Bonds and Fixed Income Debt",
+    # 15. Sports & Athletics
+    "Cricket Batting Techniques",
+    "Football Skills Drill Analysis",
+    "Badminton Footwork Training",
+    "Chess Grandmaster Openings",
+    "Table Tennis Serve Techniques",
+    "Swimming Drills for Beginners",
+    "Martial Arts Self Defense",
+    "Athletics Sprinting Form",
+    "Kabaddi Training Workouts",
+    "Yoga Asanas Flexibility",
+    # 16. Hobbies, Arts & Crafts
+    "Oil Painting Portrait Drawing",
+    "Resin Art DIY Crafts",
+    "Pottery & Clay Sculpting",
+    "Calligraphy Handwriting Practice",
+    "Baking Pastries & Sourdough",
+    "Terrarium Aquascaping Design",
+    "Organic Kitchen Terrace Garden",
+    "Origami Paper Folding Art",
+    "Knitting & Embroidery Basics",
+    "Wood Carving Craft Tutorials",
+    # 17. Podcasting, Media & Entertainment
+    "Comedy Standup Open Mic",
+    "Hindi Storytelling Narratives",
+    "Filmmaking Behind the Scenes",
+    "Voice Acting and Dubbing",
+    "Sound Design and Foley",
+    "Music Production Beat Making",
+    "Songwriting Lyrics Workshop",
+    "Electronic Music DJ Mixing",
+    "Indian Classical Music Vocal",
+    "Guitar Fingerstyle Acoustic",
 ]
 
 
@@ -225,18 +280,31 @@ class NicheManager:
 
             selected.append(candidate)
 
-        # 2. If seed pool is running low, dynamically generate fresh vertical variations
+        # 2. If curated pool is exhausted or running low, dynamically generate fresh vertical variations
         if len(selected) < count:
             modifiers = [
-                "Podcast", "Masterclass", "Case Studies", "Deep Dive",
-                "Community", "Tips and Tricks", "Channel", "Interviews", "Insights"
+                "Masterclass", "Case Studies", "Deep Dive", "Tutorials",
+                "Breakdown", "Tips and Tricks", "Channel", "Interviews",
+                "Insights", "Roadmap", "Analysis", "Behind the Scenes",
+                "Strategies", "Stories", "Podcast", "Discussions"
             ]
             base_topics = [
                 "Architecture", "Real Estate", "Fintech", "Health Tech", "SaaS Growth",
                 "Anime Analysis", "Standup Comedy", "Music Production", "DJing",
                 "Astronomy", "Philosophy", "Psychology", "Mythology", "Culinary Arts",
-                "Table Tennis", "Badminton", "Cricket Analysis", "Chess Strategy"
+                "Table Tennis", "Badminton", "Cricket Analysis", "Chess Strategy",
+                "Mechanical Keyboards", "Aquascaping", "Organic Farming", "Terrace Gardening",
+                "Video Editing", "Motion Graphics", "3D Animation", "Cyber Security",
+                "Ethical Hacking", "Cloud Computing", "Prompt Engineering", "Data Science",
+                "Options Trading", "Mutual Funds", "Income Tax", "Stock Market",
+                "Home Workouts", "Calisthenics", "Keto Diet", "Marathon Training",
+                "Motorcycle Touring", "Electric Vehicles", "Car Detailing", "Off-Roading",
+                "UPSC Preparation", "SSC Exam", "Banking Exam", "NEET Biology",
+                "IIT JEE Physics", "CAT Exam", "Spoken English", "Public Speaking",
+                "Time Management", "Book Summaries", "Freelancing", "Digital Marketing",
+                "E-commerce", "Dropshipping", "Resumes Building", "Interview Prep"
             ]
+
             for topic in base_topics:
                 if len(selected) >= count:
                     break
@@ -244,6 +312,27 @@ class NicheManager:
                     if len(selected) >= count:
                         break
                     candidate = f"{topic} {mod} India"
+                    norm = normalize_niche(candidate)
+                    if norm not in used_set and not any(are_niches_semantically_too_close(candidate, s) for s in selected):
+                        selected.append(candidate)
+
+        # 3. Dynamic Infinite Fallback: Programmatic combinations if all above are ever exhausted
+        if len(selected) < count:
+            disciplines = [
+                "Tech", "Design", "Finance", "Fitness", "Coding", "Marketing",
+                "Business", "Creative", "Filmmaking", "Gaming", "Education", "Travel"
+            ]
+            formats = [
+                "Explainer", "Showcase", "Playbook", "Guide", "Crash Course",
+                "Review Hub", "Workshop", "Tips Hub", "Mastery", "Secrets"
+            ]
+            for disc in disciplines:
+                if len(selected) >= count:
+                    break
+                for fmt in formats:
+                    if len(selected) >= count:
+                        break
+                    candidate = f"Creator {disc} {fmt} India"
                     norm = normalize_niche(candidate)
                     if norm not in used_set and not any(are_niches_semantically_too_close(candidate, s) for s in selected):
                         selected.append(candidate)
