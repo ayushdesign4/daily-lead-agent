@@ -244,8 +244,14 @@ class StateManager:
 
         runs = self.load_daily_runs()
         for run in runs:
-            if run.get("date") == date_str and run.get("status") in ("SENT", "COMPLETED"):
-                return True
+            if run.get("date") == date_str:
+                status = run.get("status", "")
+                try:
+                    delivered = int(run.get("delivered", "0") or "0")
+                except ValueError:
+                    delivered = 0
+                if status in ("SENT", "COMPLETED") or (status == "PARTIAL_CREDIT_LIMIT" and delivered > 0):
+                    return True
         return False
 
     def record_daily_run(

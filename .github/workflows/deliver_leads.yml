@@ -49,7 +49,7 @@ jobs:
           if [ "${{ github.event.inputs.force }}" = "true" ]; then
             ARGS="$ARGS --force"
           fi
-          python -m src.main $ARGS
+          python -m src.main --mode deliver $ARGS
 
       - name: Commit and Push Persistent State
         if: always()

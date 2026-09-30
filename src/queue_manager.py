@@ -1,4 +1,4 @@
-"""Pending queue management and FIFO lead dispatching."""
+"""Pending queue management and FIFO lead dispatching with transactional delivery safety."""
 
 import logging
 from typing import List, Dict, Tuple
@@ -18,33 +18,49 @@ class QueueManager:
         queue = self.state_manager.load_queue()
         return len(queue)
 
-    def consume_leads(self, target_count: int) -> Tuple[List[Dict[str, str]], int]:
+    def select_leads_for_delivery(self, target_count: int) -> Tuple[List[Dict[str, str]], List[Dict[str, str]]]:
         """
-        Take up to `target_count` leads from the queue.
+        Stage up to `target_count` leads for delivery without mutating pending_queue.csv on disk.
         Returns:
-            (selected_leads, remaining_shortage)
+            (selected_leads, remaining_queue)
         """
         queue = self.state_manager.load_queue()
-        initial_size = len(queue)
-
-        if initial_size == 0:
-            logger.info("Pending queue is empty. Full target must be retrieved from search.")
-            return [], target_count
-
         selected = queue[:target_count]
         remaining = queue[target_count:]
+        logger.info(f"Staged {len(selected)} leads for delivery. Remaining in stage: {len(remaining)}")
+        return selected, remaining
 
-        # Atomically update queue
-        self.state_manager.save_queue(remaining)
+    def commit_delivered_leads(self, remaining_queue: List[Dict[str, str]]) -> None:
+        """
+        Atomically persist the remaining queue ONLY after delivery has successfully sent.
+        """
+        self.state_manager.save_queue(remaining_queue)
+        logger.info(f"Delivered leads permanently removed from queue. Remaining: {len(remaining_queue)}")
 
-        delivered_count = len(selected)
-        shortage = target_count - delivered_count
+    def restore_leads(self, leads_to_restore: List[Dict[str, str]]) -> None:
+        """
+        Restore leads back to the head of the queue if delivery failed.
+        Ensures zero leads are lost due to email transmission failure.
+        """
+        current_queue = self.state_manager.load_queue()
+        current_emails = {row["email"].strip().lower() for row in current_queue}
+        restored = []
+        for lead in leads_to_restore:
+            email = lead["email"].strip().lower()
+            if email not in current_emails:
+                restored.append(lead)
+                current_emails.add(email)
+        new_queue = restored + current_queue
+        self.state_manager.save_queue(new_queue)
+        logger.info(f"Restored {len(restored)} leads to head of queue after delivery failure. Queue size: {len(new_queue)}")
 
-        logger.info(
-            f"Consumed {delivered_count} leads from queue. "
-            f"Remaining queue size: {len(remaining)}. "
-            f"Remaining shortage: {shortage}"
-        )
+    def consume_leads(self, target_count: int) -> Tuple[List[Dict[str, str]], int]:
+        """
+        Legacy helper for popping leads. Kept for backwards compatibility.
+        """
+        selected, remaining = self.select_leads_for_delivery(target_count)
+        self.commit_delivered_leads(remaining)
+        shortage = target_count - len(selected)
         return selected, shortage
 
     def add_leads(self, leads: List[Dict[str, str]]) -> int:

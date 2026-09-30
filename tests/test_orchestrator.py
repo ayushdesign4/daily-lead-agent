@@ -62,7 +62,7 @@ def test_scenario_a_queue_has_sufficient_leads(test_env):
         delivery_manager=mock_delivery,
     )
 
-    delivered = agent.run(force=True)
+    delivered = agent.run(force=True, mode="deliver")
 
     assert delivered == 200
     # Apify must NOT be called
@@ -108,12 +108,12 @@ def test_scenario_b_queue_shortage_batch_surplus(test_env):
         delivery_manager=mock_delivery,
     )
 
-    delivered = agent.run(force=True)
+    delivered = agent.run(force=True, mode="deliver")
 
     assert delivered == 200
     # Exactly 1 batch must be run
     assert mock_apify.run_search_batch.call_count == 1
-    # 153 surplus leads must be in queue
+    # 153 surplus leads must remain in queue (73 initial + 280 scraped - 200 delivered = 153)
     assert len(state.load_queue()) == 153
     # Master DB must now have all 280 newly discovered emails
     assert len(state.load_master_leads()) == 280
@@ -156,7 +156,7 @@ def test_scenario_c_credit_exhaustion_graceful_handling(test_env):
         delivery_manager=mock_delivery,
     )
 
-    delivered = agent.run(force=True)
+    delivered = agent.run(force=True, mode="deliver")
 
     # Delivered available 70 leads
     assert delivered == 70
@@ -169,26 +169,259 @@ def test_scenario_c_credit_exhaustion_graceful_handling(test_env):
     assert runs[-1]["status"] == "PARTIAL_CREDIT_LIMIT"
 
 
-def test_scenario_d_idempotency_prevents_duplicate_send(test_env):
+def test_overnight_run_does_not_send_daily_email(test_env):
     """
-    Scenario D: Idempotency protection.
-    If run has already executed today, second run without --force must not send emails.
+    Requirement 1:
+    The 01:00 AM overnight workflow must ONLY prepare/process leads.
+    It must NOT send the daily lead email.
     """
     state = test_env["state"]
     mock_apify = test_env["apify"]
     mock_delivery = test_env["delivery"]
 
+    # Mock Apify returning 150 emails
+    mock_apify.run_search_batch.return_value = [
+        {"snippet": f"Email: creator_{i}@gmail.com"} for i in range(150)
+    ]
+
     agent = DailyLeadAgent(
-        target=10,
-        dry_run=True,
+        target=100,
+        dry_run=False,
         state_manager=state,
         apify_client=mock_apify,
         delivery_manager=mock_delivery,
     )
 
-    # First run
-    agent.run(force=True)
+    # Run overnight preparation
+    count_prepared = agent.run(force=True, mode="prepare")
 
-    # Second run without force
-    delivered_second = agent.run(force=False)
-    assert delivered_second == 0
+    # Queue must have the prepared leads
+    assert count_prepared >= 100
+    assert len(state.load_queue()) >= 100
+    # DAILY EMAIL MUST NOT BE SENT
+    mock_delivery.send_daily_leads.assert_not_called()
+    # Run status recorded as PREPARED
+    runs = state.load_daily_runs()
+    assert runs[-1]["status"] == "PREPARED"
+
+
+def test_11_am_delivery_sends_exactly_once(test_env):
+    """
+    Requirement 1 & 5:
+    The actual daily lead email is sent around 11:00 AM IST and sends exactly once (idempotent).
+    """
+    state = test_env["state"]
+    mock_apify = test_env["apify"]
+    mock_delivery = test_env["delivery"]
+
+    # Prepare 50 leads in queue
+    leads = [
+        {"email": f"queued_{i}@gmail.com", "date_added": "2026-09-30", "source_niche": "Tech", "source_run_id": "PREV"}
+        for i in range(50)
+    ]
+    state.add_to_queue(leads)
+
+    agent = DailyLeadAgent(
+        target=50,
+        dry_run=False,
+        state_manager=state,
+        apify_client=mock_apify,
+        delivery_manager=mock_delivery,
+    )
+
+    # First delivery at 11 AM
+    delivered_1 = agent.run(force=False, mode="deliver")
+    assert delivered_1 == 50
+    assert mock_delivery.send_daily_leads.call_count == 1
+
+    # Second delivery check at 11 AM (same day, no force)
+    delivered_2 = agent.run(force=False, mode="deliver")
+    assert delivered_2 == 0
+    # Still called only once!
+    assert mock_delivery.send_daily_leads.call_count == 1
+
+
+def test_delivery_failure_restores_leads_to_queue(test_env):
+    """
+    Requirement 2 & 3:
+    Never permanently remove leads from pending_queue.csv before successful delivery.
+    If Gmail delivery fails, the selected leads remain safely in the queue.
+    """
+    state = test_env["state"]
+    mock_apify = test_env["apify"]
+    mock_delivery = test_env["delivery"]
+
+    # Seed 50 leads in queue
+    leads = [
+        {"email": f"queued_{i}@gmail.com", "date_added": "2026-09-30", "source_niche": "Tech", "source_run_id": "PREV"}
+        for i in range(50)
+    ]
+    state.add_to_queue(leads)
+
+    # Simulate Gmail SMTP failure
+    mock_delivery.send_daily_leads.return_value = False
+
+    agent = DailyLeadAgent(
+        target=50,
+        dry_run=False,
+        state_manager=state,
+        apify_client=mock_apify,
+        delivery_manager=mock_delivery,
+    )
+
+    delivered = agent.run(force=True, mode="deliver")
+    assert delivered == 0
+
+    # QUEUE MUST STILL CONTAIN ALL 50 LEADS!
+    assert len(state.load_queue()) == 50
+    runs = state.load_daily_runs()
+    assert runs[-1]["status"] == "DELIVERY_FAILED"
+
+
+def test_newly_discovered_leads_not_lost_when_delivery_fails(test_env):
+    """
+    Requirement 2 & 3:
+    Newly discovered leads are not permanently lost if delivery fails immediately after scraping.
+    """
+    state = test_env["state"]
+    mock_apify = test_env["apify"]
+    mock_delivery = test_env["delivery"]
+
+    # Queue initially empty
+    assert len(state.load_queue()) == 0
+
+    # Apify discovers 30 new leads
+    mock_apify.run_search_batch.return_value = [
+        {"snippet": f"Email: new_creator_{i}@gmail.com"} for i in range(30)
+    ]
+
+    # SMTP delivery fails
+    mock_delivery.send_daily_leads.side_effect = Exception("SMTP connection failure")
+
+    agent = DailyLeadAgent(
+        target=30,
+        dry_run=False,
+        state_manager=state,
+        apify_client=mock_apify,
+        delivery_manager=mock_delivery,
+    )
+
+    delivered = agent.run(force=True, mode="deliver")
+    assert delivered == 0
+
+    # Leads must be safely recorded in master DB AND pending queue!
+    assert len(state.load_master_leads()) == 30
+    assert len(state.load_queue()) == 30
+
+
+def test_more_than_5_batches_can_run_when_required(test_env):
+    """
+    Requirement 4:
+    Remove arbitrary 5-batch limit.
+    Continue demand-driven batches while fewer than target leads are obtained.
+    """
+    state = test_env["state"]
+    mock_apify = test_env["apify"]
+    mock_delivery = test_env["delivery"]
+
+    # Each batch returns only 10 unique leads
+    mock_apify.run_search_batch.side_effect = [
+        [{"snippet": f"Email: b{batch}_{i}@gmail.com"} for i in range(10)]
+        for batch in range(10)
+    ]
+
+    # Target 70 leads -> requires 7 batches (7 > 5)
+    agent = DailyLeadAgent(
+        target=70,
+        dry_run=False,
+        state_manager=state,
+        apify_client=mock_apify,
+        delivery_manager=mock_delivery,
+    )
+
+    delivered = agent.run(force=True, mode="deliver")
+    assert delivered == 70
+
+    # Apify was called exactly 7 times (> 5 batches!)
+    assert mock_apify.run_search_batch.call_count == 7
+    # Queue remaining should be 0
+    assert len(state.load_queue()) == 0
+
+
+def test_processing_stops_immediately_once_target_satisfied(test_env):
+    """
+    Requirement 4:
+    Stop immediately when the daily target is satisfied. Never run unnecessary batches.
+    """
+    state = test_env["state"]
+    mock_apify = test_env["apify"]
+    mock_delivery = test_env["delivery"]
+
+    # Target: 50. Batch 1 returns 30. Batch 2 returns 40 (total 70 >= 50).
+    mock_apify.run_search_batch.side_effect = [
+        [{"snippet": f"Email: b1_{i}@gmail.com"} for i in range(30)],
+        [{"snippet": f"Email: b2_{i}@gmail.com"} for i in range(40)],
+        [{"snippet": f"Email: b3_{i}@gmail.com"} for i in range(30)],  # Should NEVER be called
+    ]
+
+    agent = DailyLeadAgent(
+        target=50,
+        dry_run=False,
+        state_manager=state,
+        apify_client=mock_apify,
+        delivery_manager=mock_delivery,
+    )
+
+    delivered = agent.run(force=True, mode="deliver")
+    assert delivered == 50
+    # Must stop after batch 2!
+    assert mock_apify.run_search_batch.call_count == 2
+    # 20 surplus leads in queue (30 + 40 - 50 = 20)
+    assert len(state.load_queue()) == 20
+
+
+def test_api_token_replacement_preserves_all_data(test_env):
+    """
+    Requirement 5:
+    Changing the Apify API token must never reset or delete any existing data
+    (master database, queue, niche history, or daily run history).
+    """
+    state = test_env["state"]
+    mock_delivery = test_env["delivery"]
+
+    # Populate state with initial records
+    state.add_to_master([
+        {"email": "saved@gmail.com", "date_first_seen": "2026-09-28", "source_niche": "Tech", "source_run_id": "OLD_KEY"}
+    ])
+    state.add_to_queue([
+        {"email": "queued@gmail.com", "date_added": "2026-09-28", "source_niche": "Tech", "source_run_id": "OLD_KEY"}
+    ])
+    state.record_used_niches([
+        {"niche": "Old Tech", "date_used": "2026-09-28", "query_text": "site:youtube.com ..."}
+    ])
+    state.record_daily_run(
+        date_str="2026-09-28",
+        status="COMPLETED",
+        target=1,
+        delivered=1,
+        reason="Delivered 1 lead",
+        run_id="OLD_KEY",
+    )
+
+    # Now create an agent with a completely new Apify token
+    new_mock_apify = MagicMock(spec=ApifyClient)
+    new_agent = DailyLeadAgent(
+        target=10,
+        dry_run=False,
+        state_manager=state,
+        apify_client=new_mock_apify,
+        delivery_manager=mock_delivery,
+    )
+
+    # Verify that data files are completely preserved
+    assert "saved@gmail.com" in state.load_master_leads()
+    assert len(state.load_queue()) == 1
+    assert state.load_queue()[0]["email"] == "queued@gmail.com"
+    assert len(state.load_used_niches()) == 1
+    assert state.load_used_niches()[0]["niche"] == "Old Tech"
+    assert len(state.load_daily_runs()) == 1

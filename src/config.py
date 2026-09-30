@@ -29,7 +29,6 @@ DAILY_RUNS_FILE = DATA_DIR / "daily_runs.csv"
 DAILY_TARGET = int(os.getenv("DAILY_TARGET", "200"))
 MAX_QUERIES_PER_BATCH = int(os.getenv("MAX_QUERIES_PER_BATCH", "10"))
 MAX_PAGES_PER_QUERY = int(os.getenv("MAX_PAGES_PER_QUERY", "30"))
-MAX_BATCHES_PER_RUN = int(os.getenv("MAX_BATCHES_PER_RUN", "5"))  # Safe guard against runaway loop
 
 # Apify Actor Settings
 APIFY_ACTOR_ID = os.getenv("APIFY_ACTOR_ID", "apify/google-search-scraper")

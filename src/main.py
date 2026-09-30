@@ -1,7 +1,7 @@
 """Daily Lead Agent Orchestrator.
 
-Implements demand-driven scraping, queue consumption, deduplication,
-credit exhaustion handling, and daily delivery.
+Implements demand-driven scraping, queue safety, transactional delivery,
+credit exhaustion handling, and multi-stage overnight/11 AM workflows.
 """
 
 import sys
@@ -9,17 +9,16 @@ import uuid
 import logging
 import argparse
 from pathlib import Path
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Tuple
 
 from src.config import (
     DAILY_TARGET,
     MAX_QUERIES_PER_BATCH,
-    MAX_BATCHES_PER_RUN,
     LOGS_DIR,
     DRY_RUN,
     TEST_MODE,
 )
-from src.state_manager import StateManager, get_today_ist_date, get_current_ist_time
+from src.state_manager import StateManager, get_today_ist_date
 from src.niche_manager import NicheManager
 from src.email_extractor import extract_emails_from_dataset
 from src.deduplicator import Deduplicator
@@ -27,15 +26,15 @@ from src.apify_client import ApifyClient, ApifyCreditExhaustedError, ApifyAuthEr
 from src.queue_manager import QueueManager
 from src.delivery import DeliveryManager
 
-# Setup secure logger that will write to both file and console
+
 def setup_logging(date_str: str) -> logging.Logger:
+    """Setup secure logger writing to both daily log file and console."""
     LOGS_DIR.mkdir(parents=True, exist_ok=True)
     log_file = LOGS_DIR / f"{date_str}.log"
 
     logger = logging.getLogger("DailyLeadAgent")
     logger.setLevel(logging.INFO)
 
-    # Avoid adding duplicate handlers if setup_logging called multiple times
     if not logger.handlers:
         file_handler = logging.FileHandler(log_file, encoding="utf-8")
         file_handler.setLevel(logging.INFO)
@@ -73,10 +72,125 @@ class DailyLeadAgent:
         self.delivery_manager = delivery_manager or DeliveryManager(dry_run=self.dry_run)
         self.run_id = f"RUN-{uuid.uuid4().hex[:8].upper()}"
 
+    def _process_and_fill_queue(self, date_str: str, logger: logging.Logger) -> Tuple[bool, str, int]:
+        """
+        Run demand-driven Apify batches until the pending queue contains at least `self.target` leads,
+        or until niches/credits are exhausted.
+        Returns:
+            (credit_exhausted, exhaustion_reason, batches_run)
+        """
+        current_queue_size = self.queue_manager.get_queue_size()
+        shortage = max(0, self.target - current_queue_size)
+
+        if shortage == 0:
+            logger.info(f"Pending queue already has {current_queue_size} leads (>= target {self.target}). 0 Apify batches needed.")
+            return False, "", 0
+
+        master_leads = self.state_manager.load_master_leads()
+        deduplicator = Deduplicator(master_leads)
+
+        batches_run = 0
+        credit_exhausted = False
+        exhaustion_reason = ""
+
+        # Demand-driven loop: continues while shortage > 0, fresh niches exist, and API access is healthy
+        while shortage > 0:
+            batches_run += 1
+            logger.info(f"--- Starting Apify Batch {batches_run} (Shortage: {shortage}) ---")
+
+            # Select fresh niches
+            batch_niches = self.niche_manager.select_batch_niches(MAX_QUERIES_PER_BATCH)
+            if not batch_niches:
+                logger.warning("No unused niches available in pool. Stopping search.")
+                break
+
+            niche_names = [n[0] for n in batch_niches]
+            queries = [n[1] for n in batch_niches]
+            logger.info(f"Batch {batches_run} queries ({len(queries)}): {niche_names}")
+
+            try:
+                if self.dry_run:
+                    if self.test_mode:
+                        logger.info(f"[TEST MODE] Generating simulated search results for batch {batches_run}...")
+                        dataset_items = [
+                            {
+                                "title": f"Indian Creator {niche_names[0]} #{i}",
+                                "snippet": f"Contact for business inquiries: creator_{batches_run}_{i}@gmail.com. Subscribe!",
+                                "url": f"https://youtube.com/@channel_{batches_run}_{i}"
+                            }
+                            for i in range(15)
+                        ]
+                    else:
+                        logger.info(f"[DRY RUN] Simulating empty Apify batch {batches_run}...")
+                        dataset_items = []
+                else:
+                    dataset_items = self.apify_client.run_search_batch(queries)
+
+                # Extract emails
+                extracted_emails = extract_emails_from_dataset(dataset_items)
+                raw_count = len(extracted_emails)
+
+                # Deduplicate against batch and lifetime database
+                genuinely_new_emails, intra_dups, master_dups = deduplicator.filter_new_emails(extracted_emails)
+                new_count = len(genuinely_new_emails)
+
+                logger.info(
+                    f"Batch {batches_run} Summary: {raw_count} valid emails -> "
+                    f"{intra_dups} intra-batch dups -> {master_dups} master dups -> "
+                    f"{new_count} genuinely new leads"
+                )
+
+                # Record batch niches as permanently used
+                self.niche_manager.record_batch_as_used(batch_niches, date_str)
+
+                # If new leads obtained, record them into lifetime master DB and pending queue
+                if genuinely_new_emails:
+                    new_records = [
+                        {
+                            "email": email,
+                            "date_first_seen": date_str,
+                            "date_added": date_str,
+                            "source_niche": niche_names[0] if niche_names else "Search",
+                            "source_run_id": self.run_id,
+                        }
+                        for email in genuinely_new_emails
+                    ]
+                    # Update master DB (lifetime deduplication tracking)
+                    self.state_manager.add_to_master(new_records)
+                    # Add directly to pending queue (so leads are never lost if delivery fails)
+                    self.queue_manager.add_leads(new_records)
+
+                    # Update in-memory deduplicator
+                    for email in genuinely_new_emails:
+                        deduplicator.master_emails.add(email)
+
+                # Recalculate shortage based on updated queue size
+                current_queue_size = self.queue_manager.get_queue_size()
+                shortage = max(0, self.target - current_queue_size)
+
+                if shortage == 0:
+                    logger.info(f"Target satisfied in queue ({current_queue_size} available). Stopping Apify immediately.")
+                    break
+                else:
+                    logger.info(f"Target not yet satisfied. Remaining shortage: {shortage}")
+
+            except (ApifyCreditExhaustedError, ApifyAuthError) as e:
+                credit_exhausted = True
+                exhaustion_reason = str(e)
+                logger.error(f"Apify credit or authorization failure in batch {batches_run}: {e}")
+                break
+            except ApifyError as e:
+                logger.error(f"Apify error in batch {batches_run}: {e}")
+                break
+
+        return credit_exhausted, exhaustion_reason, batches_run
+
     def run(self, force: bool = False, mode: str = "all") -> int:
         """
-        Execute the daily lead workflow.
-        Returns the number of leads delivered.
+        Execute the lead workflow according to mode:
+        - 'prepare': 01:00 AM overnight preparation. Fills queue. Does NOT send daily email.
+        - 'deliver': 11:00 AM IST delivery. Checks queue, runs search if needed, sends email.
+        - 'all': Runs preparation and delivery in one session.
         """
         date_str = get_today_ist_date()
         logger = setup_logging(date_str)
@@ -85,131 +199,58 @@ class DailyLeadAgent:
         logger.info(f"Starting Daily Lead Agent | Run ID: {self.run_id} | Date: {date_str} IST")
         logger.info(f"Target: {self.target} leads | Mode: {mode} | Dry Run: {self.dry_run}")
 
-        # Step 1: Idempotency Protection
-        if not force and self.state_manager.is_already_delivered_today(date_str):
-            logger.info(f"Delivery for today ({date_str}) is already recorded as SENT/COMPLETED. Exiting to prevent duplicates.")
-            return 0
+        # Step 1: Idempotency Protection (for delivery runs)
+        if mode in ("deliver", "all"):
+            if not force and self.state_manager.is_already_delivered_today(date_str):
+                logger.info(f"Delivery for today ({date_str}) is already recorded as SENT/COMPLETED. Exiting to prevent duplicates.")
+                return 0
 
-        # Step 2: Queue inspection (Credit optimization rule: always check queue first)
         initial_queue_size = self.queue_manager.get_queue_size()
         logger.info(f"Starting pending queue size: {initial_queue_size}")
 
-        daily_pool: List[Dict[str, str]] = []
-        shortage = self.target
-
-        # Pop from queue if available
-        if initial_queue_size > 0:
-            popped_leads, shortage = self.queue_manager.consume_leads(self.target)
-            daily_pool.extend(popped_leads)
-            logger.info(f"Retrieved {len(popped_leads)} leads from pending queue. Remaining shortage: {shortage}")
-
         credit_exhausted = False
         exhaustion_reason = ""
-        batches_run = 0
 
-        # Step 3: Run Apify in demand-driven batches if shortage remains
-        if shortage > 0 and mode != "deliver_only":
-            master_leads = self.state_manager.load_master_leads()
-            deduplicator = Deduplicator(master_leads)
+        # Step 2: Processing / Preparation
+        if mode in ("prepare", "all") or (mode == "deliver" and initial_queue_size < self.target):
+            credit_exhausted, exhaustion_reason, batches_run = self._process_and_fill_queue(date_str, logger)
 
-            while shortage > 0 and batches_run < MAX_BATCHES_PER_RUN:
-                batches_run += 1
-                logger.info(f"--- Starting Apify Batch {batches_run} (Shortage: {shortage}) ---")
+        queue_after_processing = self.queue_manager.get_queue_size()
 
-                # Select fresh niches
-                batch_niches = self.niche_manager.select_batch_niches(MAX_QUERIES_PER_BATCH)
-                if not batch_niches:
-                    logger.warning("No unused niches available in pool. Stopping search.")
-                    break
-
-                niche_names = [n[0] for n in batch_niches]
-                queries = [n[1] for n in batch_niches]
-                logger.info(f"Batch {batches_run} queries ({len(queries)}): {niche_names}")
-
+        # Step 3: Handle mode == "prepare" (OVERNIGHT RUN)
+        if mode == "prepare":
+            logger.info("Overnight preparation run complete. Daily email is scheduled for 11:00 AM IST.")
+            status = "PREPARED_CREDIT_EXHAUSTED" if credit_exhausted else "PREPARED"
+            reason = f"Prepared queue with {queue_after_processing} leads."
+            if credit_exhausted:
+                reason += f" Credit limit: {exhaustion_reason}"
                 try:
-                    if self.dry_run:
-                        if self.test_mode:
-                            logger.info(f"[TEST MODE] Generating simulated search results for batch {batches_run}...")
-                            dataset_items = [
-                                {
-                                    "title": f"Indian Creator {niche_names[0]} #{i}",
-                                    "snippet": f"Contact for business inquiries: creator_{batches_run}_{i}@gmail.com. Subscribe!",
-                                    "url": f"https://youtube.com/@channel_{batches_run}_{i}"
-                                }
-                                for i in range(15)
-                            ]
-                        else:
-                            logger.info(f"[DRY RUN] Simulating empty Apify batch {batches_run}...")
-                            dataset_items = []
-                    else:
-                        dataset_items = self.apify_client.run_search_batch(queries)
-
-                    # Extract emails
-                    extracted_emails = extract_emails_from_dataset(dataset_items)
-                    raw_count = len(extracted_emails)
-
-                    # Deduplicate against batch and lifetime database
-                    genuinely_new_emails, intra_dups, master_dups = deduplicator.filter_new_emails(extracted_emails)
-                    new_count = len(genuinely_new_emails)
-
-                    logger.info(
-                        f"Batch {batches_run} Summary: {raw_count} valid emails -> "
-                        f"{intra_dups} intra-batch dups -> {master_dups} master dups -> "
-                        f"{new_count} genuinely new leads"
+                    self.delivery_manager.send_credit_exhaustion_alert(
+                        date_str=date_str,
+                        error_details=exhaustion_reason,
+                        leads_obtained_today=queue_after_processing,
+                        today_target=self.target,
+                        shortfall=max(0, self.target - queue_after_processing),
+                        daily_file_sent=False,
                     )
+                except Exception as e:
+                    logger.error(f"Failed to send credit alert email: {e}")
 
-                    # Record batch niches as permanently used
-                    self.niche_manager.record_batch_as_used(batch_niches, date_str)
+            self.state_manager.record_daily_run(
+                date_str=date_str,
+                status=status,
+                target=self.target,
+                delivered=0,
+                reason=reason,
+                run_id=self.run_id,
+            )
+            return queue_after_processing
 
-                    # If new leads obtained, record them into master DB immediately
-                    new_records = [
-                        {
-                            "email": email,
-                            "date_first_seen": date_str,
-                            "source_niche": niche_names[0] if niche_names else "Search",
-                            "source_run_id": self.run_id,
-                        }
-                        for email in genuinely_new_emails
-                    ]
-                    self.state_manager.add_to_master(new_records)
-
-                    # Also update our in-memory deduplicator so subsequent batches in this run won't duplicate
-                    for email in genuinely_new_emails:
-                        deduplicator.master_emails.add(email)
-
-                    # Allocate to daily pool and pending queue
-                    if new_count >= shortage:
-                        allocated_to_today = new_records[:shortage]
-                        surplus_for_queue = new_records[shortage:]
-
-                        daily_pool.extend(allocated_to_today)
-                        if surplus_for_queue:
-                            self.queue_manager.add_leads(surplus_for_queue)
-
-                        shortage = 0
-                        logger.info(
-                            f"Daily target SATISFIED! {len(allocated_to_today)} leads to today, "
-                            f"{len(surplus_for_queue)} saved in pending queue. Stopping Apify immediately."
-                        )
-                        break
-                    else:
-                        daily_pool.extend(new_records)
-                        shortage -= new_count
-                        logger.info(f"Target not yet satisfied. Remaining shortage: {shortage}")
-
-                except (ApifyCreditExhaustedError, ApifyAuthError) as e:
-                    credit_exhausted = True
-                    exhaustion_reason = str(e)
-                    logger.error(f"Apify credit or authorization failure in batch {batches_run}: {e}")
-                    # Stop immediately without retrying
-                    break
-                except ApifyError as e:
-                    logger.error(f"Apify error in batch {batches_run}: {e}")
-                    break
-
-        # Step 4: Handle credit exhaustion notification if triggered
-        final_lead_count = len(daily_pool)
-        queue_remaining = self.queue_manager.get_queue_size()
+        # Step 4: Handle mode == "deliver" or "all" (11:00 AM IST DELIVERY)
+        # Stage leads from queue without mutating queue on disk
+        leads_to_deliver, remaining_queue = self.queue_manager.select_leads_for_delivery(self.target)
+        final_lead_count = len(leads_to_deliver)
+        shortfall = self.target - final_lead_count
 
         if credit_exhausted:
             logger.warning("Sending credit exhaustion alert email to administrator...")
@@ -219,18 +260,15 @@ class DailyLeadAgent:
                     error_details=exhaustion_reason,
                     leads_obtained_today=final_lead_count,
                     today_target=self.target,
-                    shortfall=shortage,
+                    shortfall=shortfall,
                     daily_file_sent=(final_lead_count > 0),
                 )
             except Exception as e:
                 logger.error(f"Failed to send credit alert email: {e}")
 
-        # Step 5: Deliver daily leads
         delivered_success = False
-        delivery_file_path = None
-        emails_to_deliver = [item["email"] for item in daily_pool]
-
-        if emails_to_deliver:
+        if leads_to_deliver:
+            emails_to_deliver = [item["email"] for item in leads_to_deliver]
             delivery_file_path = self.delivery_manager.generate_lead_file(emails_to_deliver, date_str)
             shortfall_note = exhaustion_reason if credit_exhausted else None
 
@@ -238,7 +276,7 @@ class DailyLeadAgent:
                 delivered_success = self.delivery_manager.send_daily_leads(
                     file_path=delivery_file_path,
                     lead_count=final_lead_count,
-                    queue_remaining=queue_remaining,
+                    queue_remaining=len(remaining_queue),
                     date_str=date_str,
                     target=self.target,
                     shortfall_reason=shortfall_note,
@@ -246,36 +284,43 @@ class DailyLeadAgent:
             except Exception as e:
                 logger.error(f"Failed to deliver daily lead email: {e}")
                 delivered_success = False
+
+            # TRANSACTIONAL QUEUE SAFETY:
+            if delivered_success:
+                # ONLY commit removal from queue after email successfully sent!
+                self.queue_manager.commit_delivered_leads(remaining_queue)
+                final_status = "PARTIAL_CREDIT_LIMIT" if credit_exhausted else "COMPLETED"
+                status_reason = f"Delivered {final_lead_count}/{self.target} leads."
+                if credit_exhausted:
+                    status_reason += f" Credit limit: {exhaustion_reason}"
+            else:
+                # Delivery failed: DO NOT remove leads from queue!
+                # All leads remain safely in pending_queue.csv for the next attempt.
+                logger.error("Delivery failed. All staged leads are preserved safely in pending_queue.csv!")
+                final_status = "DELIVERY_FAILED"
+                status_reason = f"Delivery failed for {final_lead_count} leads. Leads preserved in queue."
         else:
             logger.warning("No leads available to deliver today.")
+            final_status = "CREDIT_EXHAUSTED" if credit_exhausted else "NO_LEADS_AVAILABLE"
+            status_reason = f"No leads available. Credit exhausted: {credit_exhausted}"
 
-        # Step 6: Record run status in daily_runs.csv
-        final_status = "FAILED"
-        if delivered_success:
-            final_status = "PARTIAL_CREDIT_LIMIT" if credit_exhausted else "COMPLETED"
-        elif credit_exhausted:
-            final_status = "CREDIT_EXHAUSTED"
-
-        status_reason = f"Delivered {final_lead_count}/{self.target} leads."
-        if credit_exhausted:
-            status_reason += f" Credit limit: {exhaustion_reason}"
-
+        # Record daily run state
         self.state_manager.record_daily_run(
             date_str=date_str,
             status=final_status,
             target=self.target,
-            delivered=final_lead_count,
+            delivered=final_lead_count if delivered_success else 0,
             reason=status_reason,
             run_id=self.run_id,
         )
 
         logger.info(
             f"Run {self.run_id} finished. Status: {final_status} | "
-            f"Delivered: {final_lead_count}/{self.target} | "
-            f"Queue Remaining: {queue_remaining}"
+            f"Delivered: {final_lead_count if delivered_success else 0}/{self.target} | "
+            f"Queue Remaining: {self.queue_manager.get_queue_size()}"
         )
         logger.info("=" * 60)
-        return final_lead_count
+        return final_lead_count if delivered_success else 0
 
 
 def parse_args():
@@ -284,7 +329,7 @@ def parse_args():
     parser.add_argument("--dry-run", action="store_true", help="Simulate without external API or SMTP calls")
     parser.add_argument("--test-mode", action="store_true", help="Run full pipeline with synthetic creator data (0 credits consumed)")
     parser.add_argument("--force", action="store_true", help="Bypass today's idempotency check")
-    parser.add_argument("--mode", choices=["all", "prepare", "deliver_only"], default="all", help="Workflow mode")
+    parser.add_argument("--mode", choices=["all", "prepare", "deliver"], default="all", help="Workflow mode ('prepare'=overnight, 'deliver'=11 AM)")
     return parser.parse_args()
 
 

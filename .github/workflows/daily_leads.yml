@@ -61,7 +61,7 @@ jobs:
           if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
             ARGS="$ARGS --dry-run"
           fi
-          python -m src.main $ARGS
+          python -m src.main --mode prepare $ARGS
 
       - name: Commit and Push Persistent State
         if: always()
