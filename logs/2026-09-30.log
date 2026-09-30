@@ -157,3 +157,15 @@
 [2026-09-30 13:09:08] [INFO] --- Starting Apify Batch 1 (Shortage: 5) ---
 [2026-09-30 13:09:08] [WARNING] No unused niches available in pool. Stopping search.
 [2026-09-30 13:09:08] [INFO] Overnight preparation run complete. Daily email is scheduled for 11:00 AM IST.
+[2026-09-30 13:42:25] [INFO] ============================================================
+[2026-09-30 13:42:25] [INFO] Starting Daily Lead Agent | Run ID: RUN-C81BCD0F | Date: 2026-09-30 IST
+[2026-09-30 13:42:25] [INFO] Target: 5 leads | Mode: prepare | Dry Run: False
+[2026-09-30 13:42:25] [INFO] Starting pending queue size: 0
+[2026-09-30 13:42:25] [INFO] --- Starting Apify Batch 1 (Shortage: 5) ---
+[2026-09-30 13:42:25] [INFO] Batch 1 queries (10): ['Generative AI Tools & Workflows', 'Robotics Projects Arduino', 'Cloud Architecture AWS GCP', 'Prompt Engineering Guide', 'Microservices Distributed Systems', 'Blockchain Smart Contract Solidity', 'Data Engineering Apache Spark', 'Linux System Administration', 'Computer Networking CCNA', 'Mobile App Monetization']
+[2026-09-30 13:43:42] [INFO] Batch 1 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-09-30 13:43:42] [INFO] Target not yet satisfied. Remaining shortage: 5
+[2026-09-30 13:43:42] [INFO] --- Starting Apify Batch 2 (Shortage: 5) ---
+[2026-09-30 13:43:42] [INFO] Batch 2 queries (10): ['Options Trading Hedging Strategies', 'Swing Trading Price Action', 'Index Funds SIP Strategy', 'Fundamental Analysis Stocks', 'Technical Analysis Candlesticks', 'Real Estate Commercial Property', 'Angel Investing Startups', 'Commodity Crude Oil Trading', 'Forex Currency Trading India', 'Bonds and Fixed Income Debt']
+[2026-09-30 13:53:51] [ERROR] Apify actor run timed out in batch 2: Apify run WertxRsf6zBU8ZYkj timed out after 600s without completing successfully (last status: RUNNING).
+[2026-09-30 13:53:51] [INFO] Overnight preparation run complete. Daily email is scheduled for 11:00 AM IST.
