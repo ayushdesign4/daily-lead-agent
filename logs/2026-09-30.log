@@ -1,0 +1,152 @@
+[2026-09-30 13:06:08] [INFO] ============================================================
+[2026-09-30 13:06:08] [INFO] Starting Daily Lead Agent | Run ID: RUN-220229D6 | Date: 2026-09-30 IST
+[2026-09-30 13:06:08] [INFO] Target: 200 leads | Mode: prepare | Dry Run: True
+[2026-09-30 13:06:08] [INFO] Starting pending queue size: 0
+[2026-09-30 13:06:08] [INFO] --- Starting Apify Batch 1 (Shortage: 200) ---
+[2026-09-30 13:06:08] [INFO] Batch 1 queries (10): ['Personal Finance India', 'Mutual Funds Guide', 'Stock Market for Beginners', 'Real Estate Investing India', 'Crypto and Web3 India', 'Income Tax Saving Tips', 'Credit Cards & Cashback', 'Early Retirement FIRE India', 'Small Business Loans', 'Gold and Commodity Trading']
+[2026-09-30 13:06:08] [INFO] [DRY RUN] Simulating empty Apify batch 1...
+[2026-09-30 13:06:08] [INFO] Batch 1 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-09-30 13:06:08] [INFO] Target not yet satisfied. Remaining shortage: 200
+[2026-09-30 13:06:08] [INFO] --- Starting Apify Batch 2 (Shortage: 200) ---
+[2026-09-30 13:06:08] [INFO] Batch 2 queries (10): ['Calisthenics Home Workout', 'Bodybuilding Transformation', 'Yoga & Meditation Practice', 'Indian Diet and Nutrition', 'Fat Loss Workout Routine', 'Powerlifting & Strength Training', 'Marathon & Running Training', 'Gym Workout for Beginners', 'Healthy Meal Prep India', 'Post-Pregnancy Fitness']
+[2026-09-30 13:06:08] [INFO] [DRY RUN] Simulating empty Apify batch 2...
+[2026-09-30 13:06:08] [INFO] Batch 2 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-09-30 13:06:08] [INFO] Target not yet satisfied. Remaining shortage: 200
+[2026-09-30 13:06:08] [INFO] --- Starting Apify Batch 3 (Shortage: 200) ---
+[2026-09-30 13:06:08] [INFO] Batch 3 queries (10): ['Solo Traveling in India', 'Indian Street Food Tour', 'Budget Backpacking Asia', 'Luxury Hotel Reviews', 'Mountain Trekking Himalayas', 'Hidden Gems Travel India', 'Village Cooking Channel', 'Traditional Indian Recipes', 'Food Vlogging Delhi Mumbai', 'Highway Dhaba Food Exploration']
+[2026-09-30 13:06:08] [INFO] [DRY RUN] Simulating empty Apify batch 3...
+[2026-09-30 13:06:08] [INFO] Batch 3 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-09-30 13:06:08] [INFO] Target not yet satisfied. Remaining shortage: 200
+[2026-09-30 13:06:08] [INFO] --- Starting Apify Batch 4 (Shortage: 200) ---
+[2026-09-30 13:06:08] [INFO] Batch 4 queries (10): ['Smartphone Unboxing and Review', 'Custom PC Building Guide', 'Best Laptops for Students', 'Artificial Intelligence Tools', 'Home Automation Smart Devices', 'Cyber Security Tips India', 'Camera Gear for Beginners', 'Budget Audio & Headphones', 'Smartwatches & Wearables', 'Tech Hacks and Shortcuts']
+[2026-09-30 13:06:08] [INFO] [DRY RUN] Simulating empty Apify batch 4...
+[2026-09-30 13:06:08] [INFO] Batch 4 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-09-30 13:06:08] [INFO] Target not yet satisfied. Remaining shortage: 200
+[2026-09-30 13:06:08] [INFO] --- Starting Apify Batch 5 (Shortage: 200) ---
+[2026-09-30 13:06:08] [INFO] Batch 5 queries (10): ['Python Programming Tutorial', 'Web Development MERN Stack', 'Data Science and Machine Learning', 'DevOps and Cloud Computing', 'Flutter Mobile App Development', 'Full Stack Developer Roadmap', 'Leetcode DSA Solutions', 'Cybersecurity Ethical Hacking', 'Frontend UI UX Design', 'Backend System Design']
+[2026-09-30 13:06:08] [INFO] [DRY RUN] Simulating empty Apify batch 5...
+[2026-09-30 13:06:08] [INFO] Batch 5 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-09-30 13:06:08] [INFO] Target not yet satisfied. Remaining shortage: 200
+[2026-09-30 13:06:08] [INFO] --- Starting Apify Batch 6 (Shortage: 200) ---
+[2026-09-30 13:06:08] [INFO] Batch 6 queries (10): ['Indian Startup Case Studies', 'E-commerce Business Model', 'Freelancing Tips India', 'Digital Marketing Strategy', 'Campus Placement Interview Prep', 'MBA Career Guidance', 'Resumes and Portfolio Building', 'Sales and Negotiation Skills', 'Export Import Business India', 'Franchise Business Opportunities']
+[2026-09-30 13:06:08] [INFO] [DRY RUN] Simulating empty Apify batch 6...
+[2026-09-30 13:06:08] [INFO] Batch 6 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-09-30 13:06:08] [INFO] Target not yet satisfied. Remaining shortage: 200
+[2026-09-30 13:06:08] [INFO] --- Starting Apify Batch 7 (Shortage: 200) ---
+[2026-09-30 13:06:08] [INFO] Batch 7 queries (10): ['Time Management Techniques', 'Book Summaries in Hindi', 'Daily Routine and Habits', 'Public Speaking & Communication', 'Focus and Deep Work', 'Study Motivation for Students', 'Mental Health & Wellness', 'Speed Reading & Note Taking', 'Overcoming Procrastination', 'Journaling and Mindfulness']
+[2026-09-30 13:06:08] [INFO] [DRY RUN] Simulating empty Apify batch 7...
+[2026-09-30 13:06:08] [INFO] Batch 7 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-09-30 13:06:08] [INFO] Target not yet satisfied. Remaining shortage: 200
+[2026-09-30 13:06:08] [INFO] --- Starting Apify Batch 8 (Shortage: 200) ---
+[2026-09-30 13:06:08] [INFO] Batch 8 queries (10): ['PC Gaming Benchmarks', 'Battlegrounds Mobile India BGMI', 'GTA 5 Roleplay Series', 'Minecraft Survival Guide', 'Valorant Strategy and Highlights', 'Esports Tournament Coverage', 'Mobile Gaming Live Stream', 'Story Mode Games Walkthrough', 'Gaming Setup Room Tour', 'Indie Game Reviews']
+[2026-09-30 13:06:08] [INFO] [DRY RUN] Simulating empty Apify batch 8...
+[2026-09-30 13:06:08] [INFO] Batch 8 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-09-30 13:06:08] [INFO] Target not yet satisfied. Remaining shortage: 200
+[2026-09-30 13:06:08] [INFO] --- Starting Apify Batch 9 (Shortage: 200) ---
+[2026-09-30 13:06:08] [INFO] Batch 9 queries (10): ['Video Editing in Premiere Pro', 'Cinematic Smartphone Filmmaking', 'Portrait Photography Tips', 'YouTube Studio Lighting Setup', 'Photoshop Thumbnail Design Tutorial', 'DaVinci Resolve Color Grading', 'Audio Recording for Creators', 'Drone Flying and Cinematography', 'Motion Graphics After Effects', 'Street Photography India']
+[2026-09-30 13:06:08] [INFO] [DRY RUN] Simulating empty Apify batch 9...
+[2026-09-30 13:06:08] [INFO] Batch 9 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-09-30 13:06:08] [INFO] Target not yet satisfied. Remaining shortage: 200
+[2026-09-30 13:06:08] [INFO] --- Starting Apify Batch 10 (Shortage: 200) ---
+[2026-09-30 13:06:08] [INFO] Batch 10 queries (10): ['Electric Vehicle Reviews India', 'New Car Buying Guide', 'Superbike Touring and Vlogs', 'Car Detailing and Care', 'Off-Road 4x4 Adventures', 'Used Car Inspection Tips', 'Automotive Tech and Engines', 'Motorcycle Maintenance Guide', 'Scooter and Commuter Bikes', 'Commercial Trucks and Buses']
+[2026-09-30 13:06:08] [INFO] [DRY RUN] Simulating empty Apify batch 10...
+[2026-09-30 13:06:08] [INFO] Batch 10 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-09-30 13:06:08] [INFO] Target not yet satisfied. Remaining shortage: 200
+[2026-09-30 13:06:08] [INFO] --- Starting Apify Batch 11 (Shortage: 200) ---
+[2026-09-30 13:06:08] [INFO] Batch 11 queries (10): ['UPSC Civil Services Preparation', 'SSC CGL Exam Strategy', 'Bank PO Exam Preparation', 'NEET Biology Lectures', 'IIT JEE Physics Preparation', 'CAT Exam Quantitative Aptitude', 'History & Geopolitics Analysis', 'Current Affairs Analysis India', 'English Speaking Spoken Course', 'Science Experiments at Home']
+[2026-09-30 13:06:08] [INFO] [DRY RUN] Simulating empty Apify batch 11...
+[2026-09-30 13:06:08] [INFO] Batch 11 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-09-30 13:06:08] [INFO] Target not yet satisfied. Remaining shortage: 200
+[2026-09-30 13:06:08] [INFO] --- Starting Apify Batch 12 (Shortage: 200) ---
+[2026-09-30 13:06:08] [INFO] Batch 12 queries (10): ['Men Fashion and Grooming', 'Home Interior Decor Ideas', 'Gardening and Urban Farming', 'Sneakerhead Collection India', 'Guitar Lessons for Beginners', 'Magic Tricks and Mentalism', 'Longform Interview Podcasts', 'Board Games and Hobbies', 'Carpentry and DIY Woodworking', 'Pet Care and Dog Training']
+[2026-09-30 13:06:08] [INFO] [DRY RUN] Simulating empty Apify batch 12...
+[2026-09-30 13:06:08] [INFO] Batch 12 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-09-30 13:06:08] [INFO] Target not yet satisfied. Remaining shortage: 200
+[2026-09-30 13:06:08] [INFO] --- Starting Apify Batch 13 (Shortage: 200) ---
+[2026-09-30 13:06:08] [INFO] Batch 13 queries (10): ['Architecture Podcast India', 'Architecture Masterclass India', 'Architecture Case Studies India', 'Architecture Deep Dive India', 'Architecture Community India', 'Architecture Tips and Tricks India', 'Architecture Channel India', 'Architecture Interviews India', 'Architecture Insights India', 'Real Estate Podcast India']
+[2026-09-30 13:06:08] [INFO] [DRY RUN] Simulating empty Apify batch 13...
+[2026-09-30 13:06:08] [INFO] Batch 13 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-09-30 13:06:08] [INFO] Target not yet satisfied. Remaining shortage: 200
+[2026-09-30 13:06:08] [INFO] --- Starting Apify Batch 14 (Shortage: 200) ---
+[2026-09-30 13:06:08] [INFO] Batch 14 queries (10): ['Real Estate Masterclass India', 'Real Estate Case Studies India', 'Real Estate Deep Dive India', 'Real Estate Community India', 'Real Estate Tips and Tricks India', 'Real Estate Interviews India', 'Real Estate Insights India', 'Fintech Podcast India', 'Fintech Masterclass India', 'Fintech Case Studies India']
+[2026-09-30 13:06:08] [INFO] [DRY RUN] Simulating empty Apify batch 14...
+[2026-09-30 13:06:08] [INFO] Batch 14 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-09-30 13:06:08] [INFO] Target not yet satisfied. Remaining shortage: 200
+[2026-09-30 13:06:08] [INFO] --- Starting Apify Batch 15 (Shortage: 200) ---
+[2026-09-30 13:06:08] [INFO] Batch 15 queries (10): ['Real Estate Channel India', 'Fintech Deep Dive India', 'Fintech Community India', 'Fintech Tips and Tricks India', 'Fintech Channel India', 'Fintech Interviews India', 'Fintech Insights India', 'Health Tech Podcast India', 'Health Tech Masterclass India', 'Health Tech Case Studies India']
+[2026-09-30 13:06:08] [INFO] [DRY RUN] Simulating empty Apify batch 15...
+[2026-09-30 13:06:08] [INFO] Batch 15 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-09-30 13:06:08] [INFO] Target not yet satisfied. Remaining shortage: 200
+[2026-09-30 13:06:08] [INFO] --- Starting Apify Batch 16 (Shortage: 200) ---
+[2026-09-30 13:06:08] [INFO] Batch 16 queries (10): ['Health Tech Deep Dive India', 'Health Tech Community India', 'Health Tech Tips and Tricks India', 'Health Tech Interviews India', 'Health Tech Insights India', 'SaaS Growth Podcast India', 'SaaS Growth Masterclass India', 'SaaS Growth Case Studies India', 'SaaS Growth Deep Dive India', 'SaaS Growth Community India']
+[2026-09-30 13:06:08] [INFO] [DRY RUN] Simulating empty Apify batch 16...
+[2026-09-30 13:06:08] [INFO] Batch 16 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-09-30 13:06:08] [INFO] Target not yet satisfied. Remaining shortage: 200
+[2026-09-30 13:06:08] [INFO] --- Starting Apify Batch 17 (Shortage: 200) ---
+[2026-09-30 13:06:08] [INFO] Batch 17 queries (10): ['Health Tech Channel India', 'SaaS Growth Tips and Tricks India', 'SaaS Growth Interviews India', 'SaaS Growth Insights India', 'Anime Analysis Podcast India', 'Anime Analysis Masterclass India', 'Anime Analysis Case Studies India', 'Anime Analysis Deep Dive India', 'Anime Analysis Community India', 'Anime Analysis Tips and Tricks India']
+[2026-09-30 13:06:08] [INFO] [DRY RUN] Simulating empty Apify batch 17...
+[2026-09-30 13:06:08] [INFO] Batch 17 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-09-30 13:06:08] [INFO] Target not yet satisfied. Remaining shortage: 200
+[2026-09-30 13:06:08] [INFO] --- Starting Apify Batch 18 (Shortage: 200) ---
+[2026-09-30 13:06:08] [INFO] Batch 18 queries (10): ['SaaS Growth Channel India', 'Anime Analysis Channel India', 'Standup Comedy Podcast India', 'Standup Comedy Masterclass India', 'Standup Comedy Case Studies India', 'Standup Comedy Deep Dive India', 'Standup Comedy Community India', 'Standup Comedy Tips and Tricks India', 'Standup Comedy Interviews India', 'Standup Comedy Insights India']
+[2026-09-30 13:06:08] [INFO] [DRY RUN] Simulating empty Apify batch 18...
+[2026-09-30 13:06:08] [INFO] Batch 18 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-09-30 13:06:08] [INFO] Target not yet satisfied. Remaining shortage: 200
+[2026-09-30 13:06:08] [INFO] --- Starting Apify Batch 19 (Shortage: 200) ---
+[2026-09-30 13:06:08] [INFO] Batch 19 queries (10): ['Anime Analysis Interviews India', 'Anime Analysis Insights India', 'Standup Comedy Channel India', 'Music Production Podcast India', 'Music Production Masterclass India', 'Music Production Case Studies India', 'Music Production Deep Dive India', 'Music Production Community India', 'Music Production Tips and Tricks India', 'Music Production Interviews India']
+[2026-09-30 13:06:08] [INFO] [DRY RUN] Simulating empty Apify batch 19...
+[2026-09-30 13:06:08] [INFO] Batch 19 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-09-30 13:06:08] [INFO] Target not yet satisfied. Remaining shortage: 200
+[2026-09-30 13:06:08] [INFO] --- Starting Apify Batch 20 (Shortage: 200) ---
+[2026-09-30 13:06:08] [INFO] Batch 20 queries (10): ['Music Production Channel India', 'DJing Podcast India', 'DJing Masterclass India', 'DJing Case Studies India', 'DJing Deep Dive India', 'DJing Community India', 'DJing Tips and Tricks India', 'DJing Channel India', 'DJing Interviews India', 'DJing Insights India']
+[2026-09-30 13:06:08] [INFO] [DRY RUN] Simulating empty Apify batch 20...
+[2026-09-30 13:06:08] [INFO] Batch 20 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-09-30 13:06:08] [INFO] Target not yet satisfied. Remaining shortage: 200
+[2026-09-30 13:06:08] [INFO] --- Starting Apify Batch 21 (Shortage: 200) ---
+[2026-09-30 13:06:08] [INFO] Batch 21 queries (10): ['Music Production Insights India', 'Astronomy Podcast India', 'Astronomy Masterclass India', 'Astronomy Case Studies India', 'Astronomy Deep Dive India', 'Astronomy Community India', 'Astronomy Tips and Tricks India', 'Astronomy Channel India', 'Astronomy Interviews India', 'Astronomy Insights India']
+[2026-09-30 13:06:08] [INFO] [DRY RUN] Simulating empty Apify batch 21...
+[2026-09-30 13:06:08] [INFO] Batch 21 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-09-30 13:06:08] [INFO] Target not yet satisfied. Remaining shortage: 200
+[2026-09-30 13:06:08] [INFO] --- Starting Apify Batch 22 (Shortage: 200) ---
+[2026-09-30 13:06:08] [INFO] Batch 22 queries (10): ['Philosophy Podcast India', 'Philosophy Masterclass India', 'Philosophy Case Studies India', 'Philosophy Deep Dive India', 'Philosophy Community India', 'Philosophy Tips and Tricks India', 'Philosophy Channel India', 'Philosophy Interviews India', 'Philosophy Insights India', 'Psychology Podcast India']
+[2026-09-30 13:06:08] [INFO] [DRY RUN] Simulating empty Apify batch 22...
+[2026-09-30 13:06:08] [INFO] Batch 22 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-09-30 13:06:08] [INFO] Target not yet satisfied. Remaining shortage: 200
+[2026-09-30 13:06:08] [INFO] --- Starting Apify Batch 23 (Shortage: 200) ---
+[2026-09-30 13:06:08] [INFO] Batch 23 queries (10): ['Psychology Masterclass India', 'Psychology Case Studies India', 'Psychology Deep Dive India', 'Psychology Community India', 'Psychology Tips and Tricks India', 'Psychology Channel India', 'Psychology Interviews India', 'Psychology Insights India', 'Mythology Podcast India', 'Mythology Masterclass India']
+[2026-09-30 13:06:08] [INFO] [DRY RUN] Simulating empty Apify batch 23...
+[2026-09-30 13:06:08] [INFO] Batch 23 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-09-30 13:06:08] [INFO] Target not yet satisfied. Remaining shortage: 200
+[2026-09-30 13:06:08] [INFO] --- Starting Apify Batch 24 (Shortage: 200) ---
+[2026-09-30 13:06:08] [INFO] Batch 24 queries (10): ['Mythology Case Studies India', 'Mythology Deep Dive India', 'Mythology Community India', 'Mythology Tips and Tricks India', 'Mythology Channel India', 'Mythology Interviews India', 'Mythology Insights India', 'Culinary Arts Podcast India', 'Culinary Arts Masterclass India', 'Culinary Arts Case Studies India']
+[2026-09-30 13:06:08] [INFO] [DRY RUN] Simulating empty Apify batch 24...
+[2026-09-30 13:06:08] [INFO] Batch 24 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-09-30 13:06:08] [INFO] Target not yet satisfied. Remaining shortage: 200
+[2026-09-30 13:06:08] [INFO] --- Starting Apify Batch 25 (Shortage: 200) ---
+[2026-09-30 13:06:08] [INFO] Batch 25 queries (10): ['Culinary Arts Deep Dive India', 'Culinary Arts Community India', 'Culinary Arts Tips and Tricks India', 'Culinary Arts Interviews India', 'Culinary Arts Insights India', 'Table Tennis Podcast India', 'Table Tennis Masterclass India', 'Table Tennis Case Studies India', 'Table Tennis Deep Dive India', 'Table Tennis Community India']
+[2026-09-30 13:06:08] [INFO] [DRY RUN] Simulating empty Apify batch 25...
+[2026-09-30 13:06:08] [INFO] Batch 25 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-09-30 13:06:08] [INFO] Target not yet satisfied. Remaining shortage: 200
+[2026-09-30 13:06:08] [INFO] --- Starting Apify Batch 26 (Shortage: 200) ---
+[2026-09-30 13:06:08] [INFO] Batch 26 queries (10): ['Culinary Arts Channel India', 'Table Tennis Tips and Tricks India', 'Table Tennis Interviews India', 'Table Tennis Insights India', 'Badminton Podcast India', 'Badminton Masterclass India', 'Badminton Case Studies India', 'Badminton Deep Dive India', 'Badminton Community India', 'Badminton Tips and Tricks India']
+[2026-09-30 13:06:08] [INFO] [DRY RUN] Simulating empty Apify batch 26...
+[2026-09-30 13:06:08] [INFO] Batch 26 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-09-30 13:06:08] [INFO] Target not yet satisfied. Remaining shortage: 200
+[2026-09-30 13:06:08] [INFO] --- Starting Apify Batch 27 (Shortage: 200) ---
+[2026-09-30 13:06:08] [INFO] Batch 27 queries (10): ['Table Tennis Channel India', 'Badminton Channel India', 'Badminton Interviews India', 'Badminton Insights India', 'Cricket Analysis Podcast India', 'Cricket Analysis Masterclass India', 'Cricket Analysis Case Studies India', 'Cricket Analysis Deep Dive India', 'Cricket Analysis Community India', 'Cricket Analysis Tips and Tricks India']
+[2026-09-30 13:06:08] [INFO] [DRY RUN] Simulating empty Apify batch 27...
+[2026-09-30 13:06:08] [INFO] Batch 27 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-09-30 13:06:08] [INFO] Target not yet satisfied. Remaining shortage: 200
+[2026-09-30 13:06:08] [INFO] --- Starting Apify Batch 28 (Shortage: 200) ---
+[2026-09-30 13:06:08] [INFO] Batch 28 queries (9): ['Cricket Analysis Channel India', 'Chess Strategy Podcast India', 'Chess Strategy Masterclass India', 'Chess Strategy Case Studies India', 'Chess Strategy Deep Dive India', 'Chess Strategy Community India', 'Chess Strategy Tips and Tricks India', 'Chess Strategy Interviews India', 'Chess Strategy Insights India']
+[2026-09-30 13:06:08] [INFO] [DRY RUN] Simulating empty Apify batch 28...
+[2026-09-30 13:06:08] [INFO] Batch 28 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-09-30 13:06:08] [INFO] Target not yet satisfied. Remaining shortage: 200
+[2026-09-30 13:06:08] [INFO] --- Starting Apify Batch 29 (Shortage: 200) ---
+[2026-09-30 13:06:08] [INFO] Batch 29 queries (3): ['Cricket Analysis Interviews India', 'Cricket Analysis Insights India', 'Chess Strategy Channel India']
+[2026-09-30 13:06:08] [INFO] [DRY RUN] Simulating empty Apify batch 29...
+[2026-09-30 13:06:08] [INFO] Batch 29 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-09-30 13:06:08] [INFO] Target not yet satisfied. Remaining shortage: 200
+[2026-09-30 13:06:08] [INFO] --- Starting Apify Batch 30 (Shortage: 200) ---
+[2026-09-30 13:06:08] [WARNING] No unused niches available in pool. Stopping search.
+[2026-09-30 13:06:08] [INFO] Overnight preparation run complete. Daily email is scheduled for 11:00 AM IST.
