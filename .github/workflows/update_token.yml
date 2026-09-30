@@ -1,0 +1,43 @@
+name: Update Apify Token (Google Form Automation)
+
+on:
+  repository_dispatch:
+    types: [update_apify_token]
+  workflow_dispatch:
+    inputs:
+      token:
+        description: 'New Apify API Token'
+        required: true
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  update-token:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install requests PyNaCl
+
+      - name: Update Secret
+        env:
+          NEW_TOKEN: ${{ github.event.client_payload.new_token || github.event.inputs.token }}
+          GITHUB_PAT: ${{ secrets.GH_SECRET_UPDATE_PAT || secrets.GITHUB_TOKEN }}
+        run: |
+          python scripts/update_github_secret.py \
+            --owner "${{ github.repository_owner }}" \
+            --repo "${{ github.event.repository.name || 'daily-lead-agent' }}" \
+            --secret-name "APIFY_API_TOKEN" \
+            --secret-value "$NEW_TOKEN" \
+            --github-token "$GITHUB_PAT"

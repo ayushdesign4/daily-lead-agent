@@ -1,0 +1,79 @@
+name: Daily Lead Agent - Overnight Run & Delivery
+
+on:
+  schedule:
+    # 19:30 UTC = 01:00 AM IST (Overnight run)
+    - cron: '30 19 * * *'
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'Lead target count'
+        required: false
+        default: '200'
+      force:
+        description: 'Force run ignoring today idempotency check'
+        required: false
+        type: boolean
+        default: false
+      dry_run:
+        description: 'Dry run (simulate without sending emails or consuming credits)'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  run-lead-agent:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Daily Lead Agent
+        env:
+          APIFY_API_TOKEN: ${{ secrets.APIFY_API_TOKEN }}
+          GMAIL_USERNAME: ${{ secrets.GMAIL_USERNAME }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          DELIVERY_EMAIL: ${{ secrets.DELIVERY_EMAIL }}
+          GOOGLE_FORM_URL: ${{ secrets.GOOGLE_FORM_URL }}
+          DAILY_TARGET: ${{ github.event.inputs.target || '200' }}
+        run: |
+          ARGS=""
+          if [ "${{ github.event.inputs.force }}" = "true" ]; then
+            ARGS="$ARGS --force"
+          fi
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+            ARGS="$ARGS --dry-run"
+          fi
+          python -m src.main $ARGS
+
+      - name: Commit and Push Persistent State
+        if: always()
+        run: |
+          git config --global user.name "Daily Lead Agent [Bot]"
+          git config --global user.email "bot@dailyleadagent.local"
+          git add data/ logs/ output/
+          # Only commit if changes were made
+          if ! git diff --cached --quiet; then
+            git commit -m "Auto-update lead agent state [$(date -u +'%Y-%m-%d %H:%M:%S UTC')]"
+            git pull --rebase origin main || true
+            git push origin main
+          else
+            echo "No state changes to commit."
+          fi

@@ -1,0 +1,66 @@
+name: Deliver Leads - 11 AM IST Delivery Check
+
+on:
+  schedule:
+    # 05:15 UTC = 10:45 AM IST (Just before 11:00 AM IST)
+    - cron: '15 5 * * *'
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Force delivery check'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  check-and-deliver:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Verify or Complete Today's Delivery
+        env:
+          APIFY_API_TOKEN: ${{ secrets.APIFY_API_TOKEN }}
+          GMAIL_USERNAME: ${{ secrets.GMAIL_USERNAME }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          DELIVERY_EMAIL: ${{ secrets.DELIVERY_EMAIL }}
+          GOOGLE_FORM_URL: ${{ secrets.GOOGLE_FORM_URL }}
+        run: |
+          # If today's run has already completed and delivered, this safely exits with no duplicate send
+          ARGS=""
+          if [ "${{ github.event.inputs.force }}" = "true" ]; then
+            ARGS="$ARGS --force"
+          fi
+          python -m src.main $ARGS
+
+      - name: Commit and Push Persistent State
+        if: always()
+        run: |
+          git config --global user.name "Daily Lead Agent [Bot]"
+          git config --global user.email "bot@dailyleadagent.local"
+          git add data/ logs/ output/
+          if ! git diff --cached --quiet; then
+            git commit -m "Auto-update state at 11 AM IST check [$(date -u +'%Y-%m-%d %H:%M:%S UTC')]"
+            git pull --rebase origin main || true
+            git push origin main
+          else
+            echo "No changes to commit (already delivered or up to date)."
+          fi

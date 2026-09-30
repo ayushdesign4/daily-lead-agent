@@ -1,0 +1,23 @@
+# Environment variables and secrets
+.env
+.env.local
+*.secret
+
+# Python cache & virtualenvs
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.venv/
+venv/
+env/
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Temporary test files
+tests/tmp/
+*.tmp
