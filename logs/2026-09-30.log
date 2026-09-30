@@ -150,3 +150,10 @@
 [2026-09-30 13:06:08] [INFO] --- Starting Apify Batch 30 (Shortage: 200) ---
 [2026-09-30 13:06:08] [WARNING] No unused niches available in pool. Stopping search.
 [2026-09-30 13:06:08] [INFO] Overnight preparation run complete. Daily email is scheduled for 11:00 AM IST.
+[2026-09-30 13:09:08] [INFO] ============================================================
+[2026-09-30 13:09:08] [INFO] Starting Daily Lead Agent | Run ID: RUN-49D70AE2 | Date: 2026-09-30 IST
+[2026-09-30 13:09:08] [INFO] Target: 5 leads | Mode: prepare | Dry Run: False
+[2026-09-30 13:09:08] [INFO] Starting pending queue size: 0
+[2026-09-30 13:09:08] [INFO] --- Starting Apify Batch 1 (Shortage: 5) ---
+[2026-09-30 13:09:08] [WARNING] No unused niches available in pool. Stopping search.
+[2026-09-30 13:09:08] [INFO] Overnight preparation run complete. Daily email is scheduled for 11:00 AM IST.
