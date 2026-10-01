@@ -1,0 +1,8 @@
+[2026-10-01 23:21:20] [INFO] ============================================================
+[2026-10-01 23:21:20] [INFO] Starting Daily Lead Agent | Run ID: RUN-413A9599 | Date: 2026-10-02 IST
+[2026-10-01 23:21:20] [INFO] Target: 200 leads | Mode: prepare | Dry Run: False
+[2026-10-01 23:21:20] [INFO] Starting pending queue size: 0
+[2026-10-01 23:21:20] [INFO] --- Starting Apify Batch 1 (Shortage: 200) ---
+[2026-10-01 23:21:20] [INFO] Batch 1 queries (10): ['Cricket Batting Techniques', 'Football Skills Drill Analysis', 'Badminton Footwork Training', 'Chess Grandmaster Openings', 'Table Tennis Serve Techniques', 'Swimming Drills for Beginners', 'Martial Arts Self Defense', 'Athletics Sprinting Form', 'Kabaddi Training Workouts', 'Yoga Asanas Flexibility']
+[2026-10-01 23:31:28] [ERROR] Apify actor run timed out in batch 1: Apify run fcjFCVacW1lozYZK1 timed out after 600s without completing successfully (last status: RUNNING).
+[2026-10-01 23:31:28] [INFO] Overnight preparation run complete. Daily email is scheduled for 11:00 AM IST.
