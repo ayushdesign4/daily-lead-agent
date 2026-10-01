@@ -3,3 +3,4 @@ date,status,target,delivered,reason,run_id
 2026-09-30,PREPARED,5,0,Prepared queue with 0 leads.,RUN-49D70AE2
 2026-09-30,PREPARED,5,0,Prepared queue with 0 leads.,RUN-C81BCD0F
 2026-10-01,PREPARED,200,0,Prepared queue with 6 leads.,RUN-002A1F6F
+2026-10-01,COMPLETED,200,6,Delivered 6/200 leads.,RUN-623D2FAC
