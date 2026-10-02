@@ -1,0 +1,25 @@
+[2026-10-02 23:10:16] [INFO] ============================================================
+[2026-10-02 23:10:16] [INFO] Starting Daily Lead Agent | Run ID: RUN-4DE2A68B | Date: 2026-10-03 IST
+[2026-10-02 23:10:16] [INFO] Target: 200 leads | Mode: prepare | Dry Run: False
+[2026-10-02 23:10:16] [INFO] Starting pending queue size: 23
+[2026-10-02 23:10:16] [INFO] --- Starting Apify Batch 1 (Shortage: 177) ---
+[2026-10-02 23:10:16] [INFO] Batch 1 queries (10): ['calisthenics', 'crossfit', 'yoga', 'pilates', 'nutrition', 'diet', 'running', 'marathon', 'powerlifting', 'cardio']
+[2026-10-02 23:25:03] [INFO] Batch 1 Summary: 65 valid emails -> 0 intra-batch dups -> 15 master dups -> 50 genuinely new leads
+[2026-10-02 23:25:03] [INFO] Target not yet satisfied. Remaining shortage: 127
+[2026-10-02 23:25:03] [INFO] --- Starting Apify Batch 2 (Shortage: 127) ---
+[2026-10-02 23:25:03] [INFO] Batch 2 queries (10): ['wellness', 'flexibility', 'mobility', 'physique', 'hypertrophy', 'strength', 'athletics', 'skincare', 'dermatology', 'ayurveda']
+[2026-10-02 23:37:32] [INFO] Batch 2 Summary: 74 valid emails -> 0 intra-batch dups -> 22 master dups -> 52 genuinely new leads
+[2026-10-02 23:37:32] [INFO] Target not yet satisfied. Remaining shortage: 75
+[2026-10-02 23:37:32] [INFO] --- Starting Apify Batch 3 (Shortage: 75) ---
+[2026-10-02 23:37:32] [INFO] Batch 3 queries (10): ['stretching', 'weightloss', 'supplements', 'posture', 'longevity', 'rehab', 'gym', 'workouts', 'aerobics', 'zumba']
+[2026-10-02 23:49:30] [INFO] Batch 3 Summary: 77 valid emails -> 0 intra-batch dups -> 27 master dups -> 50 genuinely new leads
+[2026-10-02 23:49:30] [INFO] Target not yet satisfied. Remaining shortage: 25
+[2026-10-02 23:49:30] [INFO] --- Starting Apify Batch 4 (Shortage: 25) ---
+[2026-10-02 23:49:30] [INFO] Batch 4 queries (10): ['kettlebell', 'triathlon', 'endurance', 'coding', 'programming', 'python', 'javascript', 'typescript', 'react', 'flutter']
+[2026-10-02 23:49:31] [ERROR] Apify credit or authorization failure in batch 4: Apify credits/usage limit reached on run start (HTTP 402): {
+  "error": {
+    "type": "not-enough-usage-to-run-paid-actor",
+    "message": "Your remaining usage of $0.26676 this billing cycle isn't enough for this run. Increase your limit by upgrading to a paid plan at https://console.apify.com/billing/subscription"
+  }
+}
+[2026-10-02 23:49:31] [INFO] Overnight preparation run complete. Daily email is scheduled for 11:00 AM IST.
