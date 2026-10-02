@@ -31,7 +31,7 @@ class ApifyCreditExhaustedError(ApifyError):
 
 
 class ApifyTimeoutError(ApifyError):
-    """Raised when an Apify actor run exceeds the configured polling timeout."""
+    """Raised when an Apify actor run reaches TIMED-OUT status on the Apify platform."""
     pass
 
 
@@ -68,7 +68,7 @@ class ApifyClient:
 
         url = f"{self.BASE_URL}/users/me"
         try:
-            resp = requests.get(url, headers=self._get_headers(), timeout=20)
+            resp = requests.get(url, headers=self._get_headers(), timeout=30)
             if resp.status_code == 401:
                 raise ApifyAuthError(f"Apify authentication failed (HTTP 401): {resp.text}")
             if resp.status_code in (402, 429):
@@ -105,7 +105,6 @@ class ApifyClient:
         if len(queries) > MAX_QUERIES_PER_BATCH:
             queries = queries[:MAX_QUERIES_PER_BATCH]
 
-        # Join queries newline-delimited or as array depending on actor version
         queries_text = "\n".join(queries)
 
         actor_input = {
@@ -126,12 +125,13 @@ class ApifyClient:
     def run_search_batch(
         self,
         queries: List[str],
-        max_wait_seconds: int = 600,
         poll_interval: int = 15,
+        max_wait_seconds: Optional[int] = None,  # retained for backward compatibility, defaults to None (infinite poll)
     ) -> List[Dict[str, Any]]:
         """
         Trigger an Apify search batch with up to 10 queries.
-        Monitors run progress until complete and returns dataset items.
+        Monitors run progress until terminal state (SUCCEEDED, FAILED, ABORTED, TIMED-OUT).
+        No artificial 600s client timeout — polls until Apify completes or reports a terminal status.
         Handles credit exhaustion and rate limits without indefinite retries.
         """
         if not queries:
@@ -172,18 +172,22 @@ class ApifyClient:
         default_dataset_id = run_data.get("defaultDatasetId")
         logger.info(f"Apify run started. Run ID: {run_id}, Dataset ID: {default_dataset_id}")
 
-        # Poll run status
+        # Poll run status until a terminal state is reached on Apify platform
         poll_url = f"{self.BASE_URL}/actor-runs/{run_id}"
         elapsed = 0
-        run_succeeded = False
-        last_status = "UNKNOWN"
 
-        while elapsed < max_wait_seconds:
+        while True:
             time.sleep(poll_interval)
             elapsed += poll_interval
 
+            # Check optional max_wait_seconds if explicitly set by caller for testing
+            if max_wait_seconds is not None and elapsed >= max_wait_seconds:
+                raise ApifyTimeoutError(
+                    f"Apify run {run_id} reached custom max_wait_seconds ({max_wait_seconds}s) limit."
+                )
+
             try:
-                poll_resp = requests.get(poll_url, headers=self._get_headers(), timeout=20)
+                poll_resp = requests.get(poll_url, headers=self._get_headers(), timeout=30)
                 if poll_resp.status_code == 401:
                     raise ApifyAuthError(f"Apify authentication failed while polling: {poll_resp.text}")
                 if poll_resp.status_code in (402, 403, 429):
@@ -191,13 +195,11 @@ class ApifyClient:
                 poll_resp.raise_for_status()
                 current_run = poll_resp.json().get("data", {})
                 status = current_run.get("status")
-                last_status = status
                 status_message = current_run.get("statusMessage", "").lower()
 
                 logger.info(f"Apify run {run_id} status: {status} ({elapsed}s elapsed)")
 
                 if status == "SUCCEEDED":
-                    run_succeeded = True
                     break
                 elif status in ("FAILED", "ABORTED", "TIMED-OUT"):
                     # Check if failure was caused by credits or compute limits
@@ -214,14 +216,6 @@ class ApifyClient:
                 raise
             except requests.RequestException as e:
                 logger.warning(f"Transient error polling Apify run status: {e}")
-
-        if not run_succeeded:
-            logger.error(
-                f"Apify actor run {run_id} did not finish within {max_wait_seconds}s timeout (last status: {last_status})."
-            )
-            raise ApifyTimeoutError(
-                f"Apify run {run_id} timed out after {elapsed}s without completing successfully (last status: {last_status})."
-            )
 
         # Fetch items from dataset ONLY when run succeeded
         return self.fetch_dataset_items(default_dataset_id)

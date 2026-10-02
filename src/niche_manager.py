@@ -10,197 +10,95 @@ logger = logging.getLogger(__name__)
 # Query Template specified in section 3 & 23 of the specification
 QUERY_TEMPLATE = 'site:youtube.com "{niche}" "Business Inquiries" "gmail.com" India'
 
-# Curated seed niches specifically tailored for high-volume YouTube thumbnail outreach
-# 17 categories x 10 distinct niches = 170 curated niches
+# Curated single-word niches tailored for high-volume YouTube outreach.
+# STRICT RULE: Every niche must be exactly ONE WORD.
 SEED_NICHES = [
-    # 1. Personal Finance & Wealth
-    "Personal Finance India",
-    "Mutual Funds Guide",
-    "Stock Market for Beginners",
-    "Real Estate Investing India",
-    "Crypto and Web3 India",
-    "Income Tax Saving Tips",
-    "Credit Cards & Cashback",
-    "Early Retirement FIRE India",
-    "Small Business Loans",
-    "Gold and Commodity Trading",
-    # 2. Fitness & Health
-    "Calisthenics Home Workout",
-    "Bodybuilding Transformation",
-    "Yoga & Meditation Practice",
-    "Indian Diet and Nutrition",
-    "Fat Loss Workout Routine",
-    "Powerlifting & Strength Training",
-    "Marathon & Running Training",
-    "Gym Workout for Beginners",
-    "Healthy Meal Prep India",
-    "Post-Pregnancy Fitness",
-    # 3. Travel & Exploration
-    "Solo Traveling in India",
-    "Indian Street Food Tour",
-    "Budget Backpacking Asia",
-    "Luxury Hotel Reviews",
-    "Mountain Trekking Himalayas",
-    "Hidden Gems Travel India",
-    "Village Cooking Channel",
-    "Traditional Indian Recipes",
-    "Food Vlogging Delhi Mumbai",
-    "Highway Dhaba Food Exploration",
-    # 4. Consumer Tech & Gadgets
-    "Smartphone Unboxing and Review",
-    "Custom PC Building Guide",
-    "Best Laptops for Students",
-    "Artificial Intelligence Tools",
-    "Home Automation Smart Devices",
-    "Cyber Security Tips India",
-    "Camera Gear for Beginners",
-    "Budget Audio & Headphones",
-    "Smartwatches & Wearables",
-    "Tech Hacks and Shortcuts",
-    # 5. Software Development & Coding
-    "Python Programming Tutorial",
-    "Web Development MERN Stack",
-    "Data Science and Machine Learning",
-    "DevOps and Cloud Computing",
-    "Flutter Mobile App Development",
-    "Full Stack Developer Roadmap",
-    "Leetcode DSA Solutions",
-    "Cybersecurity Ethical Hacking",
-    "Frontend UI UX Design",
-    "Backend System Design",
-    # 6. Business, Career & Startups
-    "Indian Startup Case Studies",
-    "E-commerce Business Model",
-    "Freelancing Tips India",
-    "Digital Marketing Strategy",
-    "Campus Placement Interview Prep",
-    "MBA Career Guidance",
-    "Resumes and Portfolio Building",
-    "Sales and Negotiation Skills",
-    "Export Import Business India",
-    "Franchise Business Opportunities",
-    # 7. Productivity & Self-Improvement
-    "Time Management Techniques",
-    "Book Summaries in Hindi",
-    "Daily Routine and Habits",
-    "Public Speaking & Communication",
-    "Focus and Deep Work",
-    "Study Motivation for Students",
-    "Mental Health & Wellness",
-    "Speed Reading & Note Taking",
-    "Overcoming Procrastination",
-    "Journaling and Mindfulness",
-    # 8. Gaming & Esports
-    "PC Gaming Benchmarks",
-    "Battlegrounds Mobile India BGMI",
-    "GTA 5 Roleplay Series",
-    "Minecraft Survival Guide",
-    "Valorant Strategy and Highlights",
-    "Esports Tournament Coverage",
-    "Mobile Gaming Live Stream",
-    "Story Mode Games Walkthrough",
-    "Gaming Setup Room Tour",
-    "Indie Game Reviews",
-    # 9. Filmmaking, Design & Creative Arts
-    "Video Editing in Premiere Pro",
-    "Cinematic Smartphone Filmmaking",
-    "Portrait Photography Tips",
-    "YouTube Studio Lighting Setup",
-    "Photoshop Thumbnail Design Tutorial",
-    "DaVinci Resolve Color Grading",
-    "Audio Recording for Creators",
-    "Drone Flying and Cinematography",
-    "Motion Graphics After Effects",
-    "Street Photography India",
-    # 10. Automotive & Mobility
-    "Electric Vehicle Reviews India",
-    "New Car Buying Guide",
-    "Superbike Touring and Vlogs",
-    "Car Detailing and Care",
-    "Off-Road 4x4 Adventures",
-    "Used Car Inspection Tips",
-    "Automotive Tech and Engines",
-    "Motorcycle Maintenance Guide",
-    "Scooter and Commuter Bikes",
-    "Commercial Trucks and Buses",
-    # 11. Education & Exam Preparation
-    "UPSC Civil Services Preparation",
-    "SSC CGL Exam Strategy",
-    "Bank PO Exam Preparation",
-    "NEET Biology Lectures",
-    "IIT JEE Physics Preparation",
-    "CAT Exam Quantitative Aptitude",
-    "History & Geopolitics Analysis",
-    "Current Affairs Analysis India",
-    "English Speaking Spoken Course",
-    "Science Experiments at Home",
-    # 12. Lifestyle, Fashion & Culture
-    "Men Fashion and Grooming",
-    "Home Interior Decor Ideas",
-    "Gardening and Urban Farming",
-    "Sneakerhead Collection India",
-    "Guitar Lessons for Beginners",
-    "Magic Tricks and Mentalism",
-    "Longform Interview Podcasts",
-    "Board Games and Hobbies",
-    "Carpentry and DIY Woodworking",
-    "Pet Care and Dog Training",
-    # 13. Deep Tech, AI & Robotics (New curated additions to ensure 150+)
-    "Generative AI Tools & Workflows",
-    "Robotics Projects Arduino",
-    "Cloud Architecture AWS GCP",
-    "Prompt Engineering Guide",
-    "Microservices Distributed Systems",
-    "Blockchain Smart Contract Solidity",
-    "Data Engineering Apache Spark",
-    "Linux System Administration",
-    "Computer Networking CCNA",
-    "Mobile App Monetization",
-    # 14. Advanced Investing & Markets
-    "Options Trading Hedging Strategies",
-    "Swing Trading Price Action",
-    "Index Funds SIP Strategy",
-    "Fundamental Analysis Stocks",
-    "Technical Analysis Candlesticks",
-    "Real Estate Commercial Property",
-    "Angel Investing Startups",
-    "Commodity Crude Oil Trading",
-    "Forex Currency Trading India",
-    "Bonds and Fixed Income Debt",
-    # 15. Sports & Athletics
-    "Cricket Batting Techniques",
-    "Football Skills Drill Analysis",
-    "Badminton Footwork Training",
-    "Chess Grandmaster Openings",
-    "Table Tennis Serve Techniques",
-    "Swimming Drills for Beginners",
-    "Martial Arts Self Defense",
-    "Athletics Sprinting Form",
-    "Kabaddi Training Workouts",
-    "Yoga Asanas Flexibility",
-    # 16. Hobbies, Arts & Crafts
-    "Oil Painting Portrait Drawing",
-    "Resin Art DIY Crafts",
-    "Pottery & Clay Sculpting",
-    "Calligraphy Handwriting Practice",
-    "Baking Pastries & Sourdough",
-    "Terrarium Aquascaping Design",
-    "Organic Kitchen Terrace Garden",
-    "Origami Paper Folding Art",
-    "Knitting & Embroidery Basics",
-    "Wood Carving Craft Tutorials",
-    # 17. Podcasting, Media & Entertainment
-    "Comedy Standup Open Mic",
-    "Hindi Storytelling Narratives",
-    "Filmmaking Behind the Scenes",
-    "Voice Acting and Dubbing",
-    "Sound Design and Foley",
-    "Music Production Beat Making",
-    "Songwriting Lyrics Workshop",
-    "Electronic Music DJ Mixing",
-    "Indian Classical Music Vocal",
-    "Guitar Fingerstyle Acoustic",
+    # Mindset, Motivation & Personal Growth
+    "mindset", "motivation", "discipline", "productivity", "habits", "focus", "success",
+    "meditation", "stoicism", "resilience", "inspiration", "growth", "ambition", "journaling",
+    "mindfulness", "confidence", "struggle", "purpose", "leadership", "wisdom", "solitude",
+    "grit", "gratitude", "manifestation", "positivity", "selfcare", "clarity", "affirmations",
+    # Fitness, Health & Nutrition
+    "fitness", "bodybuilding", "calisthenics", "crossfit", "yoga", "pilates", "nutrition",
+    "diet", "running", "marathon", "powerlifting", "cardio", "wellness", "flexibility",
+    "mobility", "physique", "hypertrophy", "strength", "athletics", "stretching", "skincare",
+    "dermatology", "ayurveda", "weightloss", "supplements", "posture", "longevity", "rehab",
+    "gym", "workouts", "aerobics", "zumba", "kettlebell", "triathlon", "endurance",
+    # Software, Coding & Computing
+    "coding", "programming", "python", "javascript", "typescript", "react", "flutter",
+    "golang", "rust", "devops", "linux", "cybersecurity", "hacking", "networking",
+    "database", "backend", "frontend", "fullstack", "algorithms", "leetcode", "docker",
+    "kubernetes", "microservices", "cloud", "automation", "solidity", "blockchain",
+    "webdev", "sysadmin", "computers", "software", "technology", "debugging", "compilers",
+    # AI, Machine Learning & Data Science
+    "ai", "deeplearning", "machinelearning", "datascience", "analytics", "vision",
+    "nlp", "chatgpt", "prompting", "agents", "neural", "bigdata", "statistics",
+    "transformers", "generative", "robotics", "llms", "synthetics", "genai",
+    # Business, Entrepreneurship & Careers
+    "business", "entrepreneurship", "startups", "freelancing", "marketing", "sales",
+    "copywriting", "branding", "ecommerce", "dropshipping", "consulting", "management",
+    "interviews", "resumes", "negotiation", "advertising", "agency", "careers",
+    "retention", "monetization", "outsourcing", "solopreneur", "b2b", "crowdfunding",
+    # Finance, Wealth & Investing
+    "finance", "wealth", "investing", "stocks", "trading", "crypto", "bitcoin",
+    "ethereum", "forex", "budgeting", "banking", "accounting", "taxation", "dividends",
+    "mutualfunds", "commodities", "gold", "cryptocurrency", "economics", "fintech",
+    "venture", "arbitrage", "derivatives", "options", "equities", "pensions",
+    # Gaming & Esports
+    "gaming", "gameplay", "esports", "minecraft", "valorant", "bgmi", "pubg",
+    "roblox", "fortnite", "gta", "streaming", "speedrun", "playthrough", "walkthrough",
+    "retrogaming", "cosplay", "gamers", "playstation", "xbox", "nintendo", "anime", "manga",
+    # Creative Arts, Media, Video & Audio
+    "design", "illustration", "animation", "blender", "photoshop", "premiere",
+    "filmmaking", "cinematography", "photography", "vlogging", "podcasts", "storytelling",
+    "voiceover", "audio", "sound", "music", "singing", "guitar", "piano", "drumming",
+    "beats", "djing", "rap", "production", "calligraphy", "origami", "woodworking",
+    "pottery", "painting", "sketching", "sculpting", "crafts", "typography", "cinema",
+    "lighting", "acting", "theater", "screenwriting", "directing", "broadcasting",
+    # Travel, Food & Outdoor Living
+    "travel", "backpacking", "hiking", "trekking", "camping", "biking", "food",
+    "cooking", "baking", "recipes", "streetfood", "dining", "culinary", "restaurant",
+    "pastry", "sourdough", "cocktails", "gardening", "aquascaping", "farming",
+    "pets", "dogs", "cats", "aquarium", "homesteading", "survival", "bushcraft",
+    "wildlife", "nature", "foraging", "hydroponics", "permaculture", "botany",
+    # Sports & Athletics
+    "cricket", "football", "badminton", "tennis", "swimming", "boxing", "mma",
+    "wrestling", "karate", "taekwondo", "judo", "chess", "basketball", "volleyball",
+    "tabletennis", "cycling", "skating", "sprinting", "archery", "golf", "motorsport",
+    "climbing", "bouldering", "surfing", "diving", "kayaking", "rowing", "sailing",
+    # Automotive & Mobility
+    "cars", "supercars", "motorcycles", "superbikes", "automotive", "tuning",
+    "offroading", "racing", "drifting", "evs", "restoration", "aviation", "planes", "drones",
+    # Education, Sciences & Humanities
+    "physics", "chemistry", "biology", "mathematics", "astronomy", "astrophysics",
+    "history", "geopolitics", "geography", "philosophy", "psychology", "sociology",
+    "literature", "linguistics", "grammar", "vocabulary", "science", "experiment",
+    "neuroscience", "genetics", "biochemistry", "anthropology", "archaeology", "ecology",
+    # Lifestyle, Entertainment & Culture
+    "fashion", "styling", "grooming", "streetwear", "sneakers", "movies",
+    "comedy", "standup", "magic", "illusion", "mentalism", "unboxing", "critique",
+    "reviews", "lifestyle", "parenting", "relationships", "dating", "marriage",
+    "minimalism", "interior", "architecture", "decor", "thrifting", "perfumes",
+    "watches", "jewelry", "satire", "parody", "improv", "ventriloquism", "acrobatics",
+    # Specialized Crafts & Hobbies
+    "carpentry", "blacksmithing", "leathercraft", "barista", "coffee", "brewing",
+    "fermentation", "metallurgy", "woodcraft", "sewing", "embroidery", "quilting",
+    "weaving", "crochet", "ceramics", "glassblowing", "gemology", "macrame",
+    "woodturning", "lapidary", "enameling", "pyrography", "quilling", "tatting",
+    "bonsai", "beekeeping", "entomology", "mycology", "horticulture", "viticulture",
+    "mixology", "gastronomy", "charcuterie", "chocolatier", "patisserie", "confectionery",
+    "roasting", "grilling", "smoking", "sommelier", "cartography", "cryptography"
 ]
+
+
+def is_valid_one_word_niche(niche: str) -> bool:
+    """Validate that niche string contains strictly one single word."""
+    if not niche or not isinstance(niche, str):
+        return False
+    stripped = niche.strip()
+    if not stripped or len(stripped.split()) != 1:
+        return False
+    return bool(re.match(r"^[A-Za-z0-9_-]+$", stripped))
 
 
 def normalize_niche(niche: str) -> str:
@@ -210,37 +108,47 @@ def normalize_niche(niche: str) -> str:
     - trim spaces
     - collapse repeated whitespace
     - strip punctuation where practical
-    Example: '  TECH   REVIEWS  ' -> 'tech reviews'
+    Example: '  MOTIVATION  ' -> 'motivation'
     """
     text = niche.strip().lower()
-    # Replace punctuation (except alphanumeric and spaces) with spaces
     text = re.sub(r"[^\w\s]", " ", text)
-    # Collapse multiple whitespaces
     text = re.sub(r"\s+", " ", text).strip()
     return text
 
 
 def are_niches_semantically_too_close(niche1: str, niche2: str) -> bool:
     """
-    Check if two niches have severe word overlap (e.g. 'Stock Market' vs 'Stock Market Trading')
+    Check if two niches have severe overlap (e.g. 'coding' vs 'code',
+    'investing' vs 'invest', or legacy multi-word overlap)
     to avoid burning query slots on redundant creator pools.
     """
-    tokens1 = set(normalize_niche(niche1).split())
-    tokens2 = set(normalize_niche(niche2).split())
+    n1 = normalize_niche(niche1)
+    n2 = normalize_niche(niche2)
+    if not n1 or not n2:
+        return False
+    if n1 == n2:
+        return True
 
-    # Stopwords that shouldn't inflate overlap
+    # Multi-word token overlap check (for historical / multi-word niches)
+    tokens1 = set(n1.split())
+    tokens2 = set(n2.split())
     stopwords = {"and", "in", "for", "the", "of", "india", "guide", "tips", "channel"}
     core1 = tokens1 - stopwords
     core2 = tokens2 - stopwords
+    if core1 and core2:
+        intersection = core1 & core2
+        smaller_len = min(len(core1), len(core2))
+        if len(intersection) >= smaller_len and smaller_len >= 2:
+            return True
 
-    if not core1 or not core2:
-        return False
+    # Single-word stem/prefix overlap check
+    shorter, longer = (n1, n2) if len(n1) <= len(n2) else (n2, n1)
+    if len(shorter) >= 4 and longer.startswith(shorter[:4]):
+        return True
 
-    intersection = core1 & core2
-    smaller_len = min(len(core1), len(core2))
-
-    # If the smaller niche is almost a subset of the larger niche
-    if len(intersection) >= smaller_len and smaller_len >= 2:
+    stem1 = re.sub(r"(ing|ers|er|s|ed|e)$", "", n1)
+    stem2 = re.sub(r"(ing|ers|er|s|ed|e)$", "", n2)
+    if len(stem1) >= 3 and stem1 == stem2:
         return True
 
     return False
@@ -261,15 +169,19 @@ class NicheManager:
         """
         Select up to `count` fresh, unused niches that do not overlap with
         each other or historically used niches.
+        EVERY SELECTED NICHE IS STRICTLY ONE WORD.
         Returns list of (niche_name, formatted_query).
         """
         used_set = self.get_used_normalized_niches()
         selected: List[str] = []
 
-        # 1. Search through curated seed pool first
+        # 1. Search through curated single-word seed pool first
         for candidate in SEED_NICHES:
             if len(selected) >= count:
                 break
+            if not is_valid_one_word_niche(candidate):
+                continue
+
             norm = normalize_niche(candidate)
             if norm in used_set:
                 continue
@@ -280,69 +192,57 @@ class NicheManager:
 
             selected.append(candidate)
 
-        # 2. If curated pool is exhausted or running low, dynamically generate fresh vertical variations
+        # 2. If curated pool is exhausted or running low, dynamically generate fresh single-word niches
         if len(selected) < count:
-            modifiers = [
-                "Masterclass", "Case Studies", "Deep Dive", "Tutorials",
-                "Breakdown", "Tips and Tricks", "Channel", "Interviews",
-                "Insights", "Roadmap", "Analysis", "Behind the Scenes",
-                "Strategies", "Stories", "Podcast", "Discussions"
+            prefixes = [
+                "micro", "macro", "neuro", "cyber", "bio", "astro", "crypto",
+                "retro", "hyper", "meta", "techno", "eco", "omni", "ultra", "pro"
             ]
-            base_topics = [
-                "Architecture", "Real Estate", "Fintech", "Health Tech", "SaaS Growth",
-                "Anime Analysis", "Standup Comedy", "Music Production", "DJing",
-                "Astronomy", "Philosophy", "Psychology", "Mythology", "Culinary Arts",
-                "Table Tennis", "Badminton", "Cricket Analysis", "Chess Strategy",
-                "Mechanical Keyboards", "Aquascaping", "Organic Farming", "Terrace Gardening",
-                "Video Editing", "Motion Graphics", "3D Animation", "Cyber Security",
-                "Ethical Hacking", "Cloud Computing", "Prompt Engineering", "Data Science",
-                "Options Trading", "Mutual Funds", "Income Tax", "Stock Market",
-                "Home Workouts", "Calisthenics", "Keto Diet", "Marathon Training",
-                "Motorcycle Touring", "Electric Vehicles", "Car Detailing", "Off-Roading",
-                "UPSC Preparation", "SSC Exam", "Banking Exam", "NEET Biology",
-                "IIT JEE Physics", "CAT Exam", "Spoken English", "Public Speaking",
-                "Time Management", "Book Summaries", "Freelancing", "Digital Marketing",
-                "E-commerce", "Dropshipping", "Resumes Building", "Interview Prep"
+            stems = [
+                "tech", "finance", "fitness", "coding", "gaming", "design", "media",
+                "science", "art", "craft", "music", "health", "space", "sports",
+                "logic", "trade", "robotics", "optics", "analytics", "motion",
+                "vlog", "audio", "cinema", "growth", "skills", "market"
             ]
 
-            for topic in base_topics:
+            for prefix in prefixes:
                 if len(selected) >= count:
                     break
-                for mod in modifiers:
+                for stem in stems:
                     if len(selected) >= count:
                         break
-                    candidate = f"{topic} {mod} India"
+                    candidate = f"{prefix}{stem}"
+                    if not is_valid_one_word_niche(candidate):
+                        continue
                     norm = normalize_niche(candidate)
                     if norm not in used_set and not any(are_niches_semantically_too_close(candidate, s) for s in selected):
                         selected.append(candidate)
 
-        # 3. Dynamic Infinite Fallback: Programmatic combinations if all above are ever exhausted
+        # 3. Dynamic Infinite Fallback: Single-word creator vertical generator
         if len(selected) < count:
             disciplines = [
-                "Tech", "Design", "Finance", "Fitness", "Coding", "Marketing",
-                "Business", "Creative", "Filmmaking", "Gaming", "Education", "Travel"
+                "creator", "vlogger", "streamer", "coder", "gamer", "builder",
+                "hustler", "trader", "maker", "stylist", "coach", "tutor"
             ]
-            formats = [
-                "Explainer", "Showcase", "Playbook", "Guide", "Crash Course",
-                "Review Hub", "Workshop", "Tips Hub", "Mastery", "Secrets"
-            ]
-            for disc in disciplines:
-                if len(selected) >= count:
-                    break
-                for fmt in formats:
+            counter = 1
+            while len(selected) < count and counter < 1000:
+                for disc in disciplines:
                     if len(selected) >= count:
                         break
-                    candidate = f"Creator {disc} {fmt} India"
+                    candidate = f"{disc}{counter}"
                     norm = normalize_niche(candidate)
                     if norm not in used_set and not any(are_niches_semantically_too_close(candidate, s) for s in selected):
                         selected.append(candidate)
+                counter += 1
 
         result: List[Tuple[str, str]] = []
         for niche in selected:
+            # Enforce strict single-word rule
+            assert is_valid_one_word_niche(niche), f"Niche '{niche}' must be exactly one word"
             query = QUERY_TEMPLATE.format(niche=niche)
             result.append((niche, query))
 
-        logger.info(f"Selected {len(result)} fresh niches for current batch")
+        logger.info(f"Selected {len(result)} fresh one-word niches for current batch")
         return result
 
     def record_batch_as_used(self, batch_niches: List[Tuple[str, str]], date_str: Optional[str] = None) -> None:

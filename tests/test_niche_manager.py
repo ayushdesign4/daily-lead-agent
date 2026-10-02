@@ -3,6 +3,7 @@
 import pytest
 from src.niche_manager import (
     normalize_niche,
+    is_valid_one_word_niche,
     are_niches_semantically_too_close,
     NicheManager,
     SEED_NICHES,
@@ -11,18 +12,66 @@ from src.niche_manager import (
 from src.state_manager import StateManager
 
 
+def test_is_valid_one_word_niche():
+    # Valid one word niches
+    assert is_valid_one_word_niche("motivation") is True
+    assert is_valid_one_word_niche("mindset") is True
+    assert is_valid_one_word_niche("coding") is True
+    assert is_valid_one_word_niche("micro-tech") is True
+    assert is_valid_one_word_niche("web_dev") is True
+
+    # Invalid multi-word or empty niches
+    assert is_valid_one_word_niche("") is False
+    assert is_valid_one_word_niche("personal finance") is False
+    assert is_valid_one_word_niche("real estate") is False
+    assert is_valid_one_word_niche("video editing") is False
+    assert is_valid_one_word_niche("cricket analysis") is False
+    assert is_valid_one_word_niche("prompt engineering") is False
+    assert is_valid_one_word_niche("  motivation tips  ") is False
+
+
+def test_seed_niches_all_strictly_one_word():
+    """Ensure every single seed niche is strictly one word and there are 300+ entries."""
+    assert len(SEED_NICHES) >= 300
+    for niche in SEED_NICHES:
+        assert is_valid_one_word_niche(niche), f"Seed niche '{niche}' is not a valid one-word niche"
+
+
 def test_normalize_niche():
+    assert normalize_niche("  Motivation  ") == "motivation"
+    assert normalize_niche("MOTIVATION") == "motivation"
+    assert normalize_niche("mindset") == "mindset"
     assert normalize_niche("  Tech   Reviews  ") == "tech reviews"
     assert normalize_niche("Tech-Reviews!") == "tech reviews"
-    assert normalize_niche("Personal Finance...") == "personal finance"
-    assert normalize_niche("STOCK   TRADING") == "stock trading"
+
+
+def test_case_insensitivity_in_deduplication(tmp_path):
+    """Case variants of the same niche (e.g. Motivation, motivation, MOTIVATION) must be treated as the same."""
+    state = StateManager(tmp_path / "m.csv", tmp_path / "q.csv", tmp_path / "n.csv", tmp_path / "r.csv")
+    niche_mgr = NicheManager(state)
+
+    state.record_used_niches([
+        {"niche": "Motivation", "date_used": "2026-09-29", "query_text": "q1"},
+        {"niche": "MINDSET", "date_used": "2026-09-29", "query_text": "q2"},
+    ])
+
+    used_set = niche_mgr.get_used_normalized_niches()
+    assert "motivation" in used_set
+    assert "mindset" in used_set
+
+    # Batch selection must not pick motivation or mindset even if cased differently
+    batch = niche_mgr.select_batch_niches(count=10)
+    batch_names = [b[0].lower() for b in batch]
+    assert "motivation" not in batch_names
+    assert "mindset" not in batch_names
 
 
 def test_semantic_overlap():
     assert are_niches_semantically_too_close("Stock Market", "Stock Market Trading") is True
-    assert are_niches_semantically_too_close("Yoga Meditation Practice", "Meditation Practice") is True
-    assert are_niches_semantically_too_close("Tech Reviews", "Cooking Recipes") is False
-    assert are_niches_semantically_too_close("Fitness Workout", "Real Estate Investing") is False
+    assert are_niches_semantically_too_close("investing", "invest") is True
+    assert are_niches_semantically_too_close("trading", "trade") is True
+    assert are_niches_semantically_too_close("fitness", "coding") is False
+    assert are_niches_semantically_too_close("motivation", "mindset") is False
 
 
 def test_niche_batch_selection_and_persistence(tmp_path):
@@ -39,11 +88,14 @@ def test_niche_batch_selection_and_persistence(tmp_path):
     batch1 = niche_mgr.select_batch_niches(count=5)
     assert len(batch1) == 5
 
-    # Check query format
+    # Check query format and ensure strictly one-word niches
     for name, query in batch1:
+        assert is_valid_one_word_niche(name)
+        assert len(name.split()) == 1
         expected = QUERY_TEMPLATE.format(niche=name)
         assert query == expected
         assert "site:youtube.com" in query
+        assert f'"{name}"' in query
         assert '"Business Inquiries"' in query
         assert '"gmail.com"' in query
         assert "India" in query
@@ -68,11 +120,12 @@ def test_fresh_repository_empty_used_niches(tmp_path):
     assert len(niche_mgr.get_used_normalized_niches()) == 0
     batch = niche_mgr.select_batch_niches(count=10)
     assert len(batch) == 10
-    # Curated pool should contain at least 150+ niches
-    assert len(SEED_NICHES) >= 150
-    # All selected should come from curated seed niches
+    # Curated pool should contain at least 300+ niches
+    assert len(SEED_NICHES) >= 300
+    # All selected should come from curated seed niches and be one word
     seed_norms = {normalize_niche(s) for s in SEED_NICHES}
     for name, query in batch:
+        assert is_valid_one_word_niche(name)
         assert normalize_niche(name) in seed_norms
 
 
@@ -95,11 +148,12 @@ def test_partially_used_niche_pool(tmp_path):
 
     used_norms = {normalize_niche(n["niche"]) for n in used_sample}
     for name, _ in batch:
+        assert is_valid_one_word_niche(name)
         assert normalize_niche(name) not in used_norms
 
 
 def test_all_curated_niches_used_dynamic_generation_fallback(tmp_path):
-    """All curated niches used -> dynamic generation/fallback works and provides fresh niches."""
+    """All curated niches used -> dynamic generation/fallback produces strictly one-word niches."""
     state = StateManager(tmp_path / "m.csv", tmp_path / "q.csv", tmp_path / "n.csv", tmp_path / "r.csv")
     niche_mgr = NicheManager(state)
 
@@ -118,6 +172,9 @@ def test_all_curated_niches_used_dynamic_generation_fallback(tmp_path):
 
     used_norms = {normalize_niche(s) for s in SEED_NICHES}
     for name, query in batch:
+        # Strictly one word
+        assert is_valid_one_word_niche(name), f"Dynamic niche '{name}' is not one word"
+        assert len(name.split()) == 1
         # None of the dynamic niches should match any used curated niche
         assert normalize_niche(name) not in used_norms
         assert "site:youtube.com" in query

@@ -5,8 +5,9 @@ from unittest.mock import MagicMock
 from pathlib import Path
 
 from src.main import DailyLeadAgent
-from src.state_manager import StateManager
-from src.apify_client import ApifyClient, ApifyCreditExhaustedError, ApifyTimeoutError
+from src.state_manager import StateManager, get_today_ist_date
+from src.apify_client import ApifyClient, ApifyCreditExhaustedError, ApifyTimeoutError, ApifyError
+from src.niche_manager import is_valid_one_word_niche
 from src.delivery import DeliveryManager
 
 
@@ -487,7 +488,7 @@ def test_delivery_receipt_prevents_duplicate_send_if_subsequent_state_fails(test
     delivered = agent.run(force=True, mode="deliver")
     assert delivered == 20
     assert mock_delivery.send_daily_leads.call_count == 1
-    assert state.has_delivery_receipt("2026-09-30") is True
+    assert state.has_delivery_receipt(get_today_ist_date()) is True
 
     # Now simulate that daily_runs.csv was somehow wiped or failed to save status
     state.initialize_files()
@@ -502,4 +503,84 @@ def test_delivery_receipt_prevents_duplicate_send_if_subsequent_state_fails(test
     # State was successfully reconciled
     runs = state.load_daily_runs()
     assert any(r.get("status") in ("COMPLETED", "SENT") for r in runs)
+
+
+def test_batch_failure_resilience_recovers_in_next_batch(test_env):
+    """
+    Requirement 5:
+    If an Apify batch times out or encounters a transient error, the agent must NOT terminate.
+    It should log the error, preserve previous leads, and continue to the next fresh batch
+    with unused niches until the daily target is reached.
+    """
+    state = test_env["state"]
+    mock_apify = test_env["apify"]
+    mock_delivery = test_env["delivery"]
+
+    # Batch 1 times out; Batch 2 succeeds with 25 valid leads
+    batch_2_dataset = [
+        {"snippet": f"Contact for collaboration: creator_batch2_{i}@gmail.com"}
+        for i in range(25)
+    ]
+    mock_apify.run_search_batch.side_effect = [
+        ApifyTimeoutError("Platform timed out on batch 1"),
+        batch_2_dataset,
+    ]
+
+    agent = DailyLeadAgent(
+        target=20,
+        dry_run=False,
+        state_manager=state,
+        apify_client=mock_apify,
+        delivery_manager=mock_delivery,
+    )
+
+    delivered = agent.run(force=True, mode="all")
+    assert delivered == 20
+    # 2 batches were triggered on Apify
+    assert mock_apify.run_search_batch.call_count == 2
+    # Target was satisfied despite batch 1 failure
+    assert len(state.load_master_leads()) == 25
+    assert len(state.load_queue()) == 5
+    mock_delivery.send_daily_leads.assert_called_once()
+
+
+def test_orchestrator_only_selects_and_records_one_word_niches(test_env):
+    """
+    Requirement 1 & 3:
+    Every niche selected and persisted by the orchestrator must be strictly ONE WORD.
+    No multi-word phrases.
+    """
+    state = test_env["state"]
+    mock_apify = test_env["apify"]
+    mock_delivery = test_env["delivery"]
+
+    mock_dataset = [
+        {"snippet": f"Contact: creator_{i}@gmail.com"}
+        for i in range(10)
+    ]
+    mock_apify.run_search_batch.return_value = mock_dataset
+
+    agent = DailyLeadAgent(
+        target=10,
+        dry_run=False,
+        state_manager=state,
+        apify_client=mock_apify,
+        delivery_manager=mock_delivery,
+    )
+
+    delivered = agent.run(force=True, mode="all")
+    assert delivered == 10
+
+    # Inspect used_niches.csv
+    used_niches = state.load_used_niches()
+    assert len(used_niches) > 0
+    for row in used_niches:
+        niche = row["niche"]
+        assert is_valid_one_word_niche(niche), f"Recorded niche '{niche}' is not a valid one-word niche"
+        assert len(niche.split()) == 1, f"Recorded niche '{niche}' has more than one word"
+        # Check query template
+        query = row["query_text"]
+        assert f'"{niche}"' in query
+        assert "site:youtube.com" in query
+
 

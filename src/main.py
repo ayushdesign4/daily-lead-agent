@@ -96,6 +96,7 @@ class DailyLeadAgent:
         deduplicator = Deduplicator(master_leads)
 
         batches_run = 0
+        consecutive_failures = 0
         credit_exhausted = False
         exhaustion_reason = ""
 
@@ -170,6 +171,9 @@ class DailyLeadAgent:
                     for email in genuinely_new_emails:
                         deduplicator.master_emails.add(email)
 
+                # Reset consecutive failure counter on successful batch run
+                consecutive_failures = 0
+
                 # Recalculate shortage based on updated queue size
                 current_queue_size = self.queue_manager.get_queue_size()
                 shortage = max(0, self.target - current_queue_size)
@@ -185,12 +189,18 @@ class DailyLeadAgent:
                 exhaustion_reason = str(e)
                 logger.error(f"Apify credit or authorization failure in batch {batches_run}: {e}")
                 break
-            except ApifyTimeoutError as e:
-                logger.error(f"Apify actor run timed out in batch {batches_run}: {e}")
-                break
-            except ApifyError as e:
-                logger.error(f"Apify error in batch {batches_run}: {e}")
-                break
+            except (ApifyTimeoutError, ApifyError) as e:
+                consecutive_failures += 1
+                logger.error(
+                    f"Batch {batches_run} encountered error ({type(e).__name__}): {e}. "
+                    f"Preserving existing leads and continuing to next batch with fresh niches."
+                )
+                # Mark attempted niches as used so next batch picks fresh ones
+                self.niche_manager.record_batch_as_used(batch_niches, date_str)
+                if consecutive_failures >= 5:
+                    logger.error("Reached maximum consecutive batch failures (5). Stopping search.")
+                    break
+                continue
 
         return credit_exhausted, exhaustion_reason, batches_run
 
