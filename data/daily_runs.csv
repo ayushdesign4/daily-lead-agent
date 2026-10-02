@@ -6,3 +6,4 @@ date,status,target,delivered,reason,run_id
 2026-10-01,COMPLETED,200,6,Delivered 6/200 leads.,RUN-623D2FAC
 2026-10-02,PREPARED,200,0,Prepared queue with 0 leads.,RUN-413A9599
 2026-10-02,PREPARED,10,0,Prepared queue with 142 leads.,RUN-EBB184C4
+2026-10-02,COMPLETED,200,200,Delivered 200/200 leads.,RUN-7E3DE6F1

@@ -15,3 +15,17 @@
 [2026-10-02 05:15:46] [INFO] Batch 1 Summary: 142 valid emails -> 0 intra-batch dups -> 0 master dups -> 142 genuinely new leads
 [2026-10-02 05:15:46] [INFO] Target satisfied in queue (142 available). Stopping Apify immediately.
 [2026-10-02 05:15:46] [INFO] Overnight preparation run complete. Daily email is scheduled for 11:00 AM IST.
+[2026-10-02 11:07:44] [INFO] ============================================================
+[2026-10-02 11:07:44] [INFO] Starting Daily Lead Agent | Run ID: RUN-7E3DE6F1 | Date: 2026-10-02 IST
+[2026-10-02 11:07:44] [INFO] Target: 200 leads | Mode: deliver | Dry Run: False
+[2026-10-02 11:07:44] [INFO] Starting pending queue size: 142
+[2026-10-02 11:07:44] [INFO] --- Starting Apify Batch 1 (Shortage: 58) ---
+[2026-10-02 11:07:44] [INFO] Batch 1 queries (10): ['inspiration', 'growth', 'ambition', 'journaling', 'mindfulness', 'confidence', 'struggle', 'purpose', 'leadership', 'wisdom']
+[2026-10-02 11:17:10] [INFO] Batch 1 Summary: 54 valid emails -> 0 intra-batch dups -> 10 master dups -> 44 genuinely new leads
+[2026-10-02 11:17:10] [INFO] Target not yet satisfied. Remaining shortage: 14
+[2026-10-02 11:17:10] [INFO] --- Starting Apify Batch 2 (Shortage: 14) ---
+[2026-10-02 11:17:10] [INFO] Batch 2 queries (10): ['solitude', 'grit', 'gratitude', 'manifestation', 'positivity', 'selfcare', 'clarity', 'affirmations', 'fitness', 'bodybuilding']
+[2026-10-02 11:26:05] [INFO] Batch 2 Summary: 54 valid emails -> 0 intra-batch dups -> 17 master dups -> 37 genuinely new leads
+[2026-10-02 11:26:05] [INFO] Target satisfied in queue (223 available). Stopping Apify immediately.
+[2026-10-02 11:26:07] [INFO] Run RUN-7E3DE6F1 finished. Status: COMPLETED | Delivered: 200/200 | Queue Remaining: 23
+[2026-10-02 11:26:07] [INFO] ============================================================
