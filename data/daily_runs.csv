@@ -14,3 +14,4 @@ date,status,target,delivered,reason,run_id
   }
 }",RUN-4DE2A68B
 2026-10-03,COMPLETED,200,200,Delivered 200/200 leads.,RUN-3C67B5FC
+2026-10-04,PREPARED,200,0,Prepared queue with 236 leads.,RUN-6B2BE978
