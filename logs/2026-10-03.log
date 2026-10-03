@@ -23,3 +23,13 @@
   }
 }
 [2026-10-02 23:49:31] [INFO] Overnight preparation run complete. Daily email is scheduled for 11:00 AM IST.
+[2026-10-03 10:25:54] [INFO] ============================================================
+[2026-10-03 10:25:54] [INFO] Starting Daily Lead Agent | Run ID: RUN-3C67B5FC | Date: 2026-10-03 IST
+[2026-10-03 10:25:54] [INFO] Target: 200 leads | Mode: deliver | Dry Run: False
+[2026-10-03 10:25:54] [INFO] Starting pending queue size: 175
+[2026-10-03 10:25:54] [INFO] --- Starting Apify Batch 1 (Shortage: 25) ---
+[2026-10-03 10:25:54] [INFO] Batch 1 queries (10): ['kettlebell', 'triathlon', 'endurance', 'coding', 'programming', 'python', 'javascript', 'typescript', 'react', 'flutter']
+[2026-10-03 10:36:22] [INFO] Batch 1 Summary: 98 valid emails -> 0 intra-batch dups -> 14 master dups -> 84 genuinely new leads
+[2026-10-03 10:36:22] [INFO] Target satisfied in queue (259 available). Stopping Apify immediately.
+[2026-10-03 10:36:24] [INFO] Run RUN-3C67B5FC finished. Status: COMPLETED | Delivered: 200/200 | Queue Remaining: 59
+[2026-10-03 10:36:24] [INFO] ============================================================
