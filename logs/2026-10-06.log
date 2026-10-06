@@ -14,3 +14,18 @@
   }
 }
 [2026-10-06 01:11:14] [INFO] Overnight preparation run complete. Daily email is scheduled for 11:00 AM IST.
+[2026-10-06 12:03:11] [INFO] ============================================================
+[2026-10-06 12:03:11] [INFO] Starting Daily Lead Agent | Run ID: RUN-E07608CF | Date: 2026-10-06 IST
+[2026-10-06 12:03:11] [INFO] Target: 200 leads | Mode: deliver | Dry Run: False
+[2026-10-06 12:03:11] [INFO] Starting pending queue size: 81
+[2026-10-06 12:03:11] [INFO] --- Starting Apify Batch 1 (Shortage: 119) ---
+[2026-10-06 12:03:11] [INFO] Batch 1 queries (10): ['banking', 'accounting', 'taxation', 'dividends', 'mutualfunds', 'commodities', 'gold', 'cryptocurrency', 'economics', 'fintech']
+[2026-10-06 12:03:11] [ERROR] Apify credit or authorization failure in batch 1: Apify credits/usage limit reached on run start (HTTP 403): {
+  "error": {
+    "type": "platform-feature-disabled",
+    "message": "Monthly usage hard limit exceeded"
+  }
+}
+[2026-10-06 12:03:11] [WARNING] Sending credit exhaustion alert email to administrator...
+[2026-10-06 12:03:16] [INFO] Run RUN-E07608CF finished. Status: PARTIAL_CREDIT_LIMIT | Delivered: 81/200 | Queue Remaining: 0
+[2026-10-06 12:03:16] [INFO] ============================================================

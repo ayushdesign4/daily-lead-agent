@@ -24,3 +24,9 @@ date,status,target,delivered,reason,run_id
     ""message"": ""Monthly usage hard limit exceeded""
   }
 }",RUN-3CD6C351
+2026-10-06,PARTIAL_CREDIT_LIMIT,200,81,"Delivered 81/200 leads. Credit limit: Apify credits/usage limit reached on run start (HTTP 403): {
+  ""error"": {
+    ""type"": ""platform-feature-disabled"",
+    ""message"": ""Monthly usage hard limit exceeded""
+  }
+}",RUN-E07608CF
