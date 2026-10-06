@@ -1,0 +1,16 @@
+[2026-10-06 00:54:55] [INFO] ============================================================
+[2026-10-06 00:54:55] [INFO] Starting Daily Lead Agent | Run ID: RUN-3CD6C351 | Date: 2026-10-06 IST
+[2026-10-06 00:54:55] [INFO] Target: 200 leads | Mode: prepare | Dry Run: False
+[2026-10-06 00:54:55] [INFO] Starting pending queue size: 81
+[2026-10-06 00:54:55] [INFO] --- Starting Apify Batch 1 (Shortage: 119) ---
+[2026-10-06 00:54:55] [INFO] Batch 1 queries (10): ['finance', 'wealth', 'investing', 'stocks', 'trading', 'crypto', 'bitcoin', 'ethereum', 'forex', 'budgeting']
+[2026-10-06 01:11:13] [ERROR] Batch 1 encountered error (ApifyError): Apify run C9yAi0ozu16mRRPLL finished with status ABORTED: processed 10 queries on 156 pages. extracted: 1330 organicresults, 104 relatedqueries, 156 itemspushed. Preserving existing leads and continuing to next batch with fresh niches.
+[2026-10-06 01:11:13] [INFO] --- Starting Apify Batch 2 (Shortage: 119) ---
+[2026-10-06 01:11:13] [INFO] Batch 2 queries (10): ['banking', 'accounting', 'taxation', 'dividends', 'mutualfunds', 'commodities', 'gold', 'cryptocurrency', 'economics', 'fintech']
+[2026-10-06 01:11:14] [ERROR] Apify credit or authorization failure in batch 2: Apify credits/usage limit reached on run start (HTTP 403): {
+  "error": {
+    "type": "platform-feature-disabled",
+    "message": "Monthly usage hard limit exceeded"
+  }
+}
+[2026-10-06 01:11:14] [INFO] Overnight preparation run complete. Daily email is scheduled for 11:00 AM IST.
