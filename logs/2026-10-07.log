@@ -1,0 +1,21 @@
+[2026-10-06 23:11:38] [INFO] ============================================================
+[2026-10-06 23:11:38] [INFO] Starting Daily Lead Agent | Run ID: RUN-8C946AA3 | Date: 2026-10-07 IST
+[2026-10-06 23:11:38] [INFO] Target: 200 leads | Mode: prepare | Dry Run: False
+[2026-10-06 23:11:38] [INFO] Starting pending queue size: 0
+[2026-10-06 23:11:38] [INFO] --- Starting Apify Batch 1 (Shortage: 200) ---
+[2026-10-06 23:11:38] [INFO] Batch 1 queries (10): ['banking', 'accounting', 'taxation', 'dividends', 'mutualfunds', 'commodities', 'gold', 'cryptocurrency', 'economics', 'fintech']
+[2026-10-06 23:36:05] [INFO] Batch 1 Summary: 69 valid emails -> 0 intra-batch dups -> 31 master dups -> 38 genuinely new leads
+[2026-10-06 23:36:05] [INFO] Target not yet satisfied. Remaining shortage: 162
+[2026-10-06 23:36:05] [INFO] --- Starting Apify Batch 2 (Shortage: 162) ---
+[2026-10-06 23:36:05] [INFO] Batch 2 queries (10): ['venture', 'arbitrage', 'derivatives', 'options', 'equities', 'pensions', 'gaming', 'gameplay', 'esports', 'minecraft']
+[2026-10-06 23:54:10] [INFO] Batch 2 Summary: 113 valid emails -> 0 intra-batch dups -> 37 master dups -> 76 genuinely new leads
+[2026-10-06 23:54:10] [INFO] Target not yet satisfied. Remaining shortage: 86
+[2026-10-06 23:54:10] [INFO] --- Starting Apify Batch 3 (Shortage: 86) ---
+[2026-10-06 23:54:10] [INFO] Batch 3 queries (10): ['valorant', 'bgmi', 'pubg', 'roblox', 'fortnite', 'gta', 'streaming', 'speedrun', 'playthrough', 'walkthrough']
+[2026-10-07 00:24:15] [INFO] Batch 3 Summary: 90 valid emails -> 0 intra-batch dups -> 20 master dups -> 70 genuinely new leads
+[2026-10-07 00:24:15] [INFO] Target not yet satisfied. Remaining shortage: 16
+[2026-10-07 00:24:15] [INFO] --- Starting Apify Batch 4 (Shortage: 16) ---
+[2026-10-07 00:24:15] [INFO] Batch 4 queries (10): ['retrogaming', 'cosplay', 'gamers', 'playstation', 'xbox', 'nintendo', 'anime', 'manga', 'design', 'illustration']
+[2026-10-07 00:42:20] [INFO] Batch 4 Summary: 88 valid emails -> 0 intra-batch dups -> 29 master dups -> 59 genuinely new leads
+[2026-10-07 00:42:20] [INFO] Target satisfied in queue (243 available). Stopping Apify immediately.
+[2026-10-07 00:42:20] [INFO] Overnight preparation run complete. Daily email is scheduled for 11:00 AM IST.

@@ -30,3 +30,4 @@ date,status,target,delivered,reason,run_id
     ""message"": ""Monthly usage hard limit exceeded""
   }
 }",RUN-E07608CF
+2026-10-07,PREPARED,200,0,Prepared queue with 243 leads.,RUN-8C946AA3
