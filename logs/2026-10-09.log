@@ -1,0 +1,13 @@
+[2026-10-08 23:51:39] [INFO] ============================================================
+[2026-10-08 23:51:39] [INFO] Starting Daily Lead Agent | Run ID: RUN-1CAFB286 | Date: 2026-10-09 IST
+[2026-10-08 23:51:39] [INFO] Target: 200 leads | Mode: prepare | Dry Run: False
+[2026-10-08 23:51:39] [INFO] Starting pending queue size: 76
+[2026-10-08 23:51:39] [INFO] --- Starting Apify Batch 1 (Shortage: 124) ---
+[2026-10-08 23:51:39] [INFO] Batch 1 queries (10): ['rap', 'production', 'calligraphy', 'origami', 'woodworking', 'pottery', 'painting', 'sketching', 'sculpting', 'crafts']
+[2026-10-08 23:51:40] [ERROR] Apify credit or authorization failure in batch 1: Apify credits/usage limit reached on run start (HTTP 402): {
+  "error": {
+    "type": "not-enough-usage-to-run-paid-actor",
+    "message": "Your remaining usage of $0.040481 this billing cycle isn't enough for this run. Increase your limit by upgrading to a paid plan at https://console.apify.com/billing/subscription"
+  }
+}
+[2026-10-08 23:51:40] [INFO] Overnight preparation run complete. Daily email is scheduled for 11:00 AM IST.
