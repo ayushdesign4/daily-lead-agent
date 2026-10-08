@@ -1,0 +1,13 @@
+[2026-10-07 23:41:37] [INFO] ============================================================
+[2026-10-07 23:41:37] [INFO] Starting Daily Lead Agent | Run ID: RUN-00D95BB9 | Date: 2026-10-08 IST
+[2026-10-07 23:41:37] [INFO] Target: 200 leads | Mode: prepare | Dry Run: False
+[2026-10-07 23:41:37] [INFO] Starting pending queue size: 43
+[2026-10-07 23:41:37] [INFO] --- Starting Apify Batch 1 (Shortage: 157) ---
+[2026-10-07 23:41:37] [INFO] Batch 1 queries (10): ['animation', 'blender', 'photoshop', 'premiere', 'filmmaking', 'cinematography', 'vlogging', 'podcasts', 'storytelling', 'voiceover']
+[2026-10-08 00:26:05] [INFO] Batch 1 Summary: 171 valid emails -> 0 intra-batch dups -> 46 master dups -> 125 genuinely new leads
+[2026-10-08 00:26:05] [INFO] Target not yet satisfied. Remaining shortage: 32
+[2026-10-08 00:26:05] [INFO] --- Starting Apify Batch 2 (Shortage: 32) ---
+[2026-10-08 00:26:05] [INFO] Batch 2 queries (10): ['photography', 'audio', 'sound', 'music', 'singing', 'guitar', 'piano', 'drumming', 'beats', 'djing']
+[2026-10-08 00:54:49] [INFO] Batch 2 Summary: 152 valid emails -> 0 intra-batch dups -> 44 master dups -> 108 genuinely new leads
+[2026-10-08 00:54:49] [INFO] Target satisfied in queue (276 available). Stopping Apify immediately.
+[2026-10-08 00:54:49] [INFO] Overnight preparation run complete. Daily email is scheduled for 11:00 AM IST.
