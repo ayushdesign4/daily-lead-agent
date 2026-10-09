@@ -11,3 +11,17 @@
   }
 }
 [2026-10-08 23:51:40] [INFO] Overnight preparation run complete. Daily email is scheduled for 11:00 AM IST.
+[2026-10-09 11:55:29] [INFO] ============================================================
+[2026-10-09 11:55:29] [INFO] Starting Daily Lead Agent | Run ID: RUN-F4147E46 | Date: 2026-10-09 IST
+[2026-10-09 11:55:29] [INFO] Target: 200 leads | Mode: deliver | Dry Run: False
+[2026-10-09 11:55:29] [INFO] Starting pending queue size: 76
+[2026-10-09 11:55:29] [INFO] --- Starting Apify Batch 1 (Shortage: 124) ---
+[2026-10-09 11:55:29] [INFO] Batch 1 queries (10): ['rap', 'production', 'calligraphy', 'origami', 'woodworking', 'pottery', 'painting', 'sketching', 'sculpting', 'crafts']
+[2026-10-09 12:24:25] [INFO] Batch 1 Summary: 125 valid emails -> 0 intra-batch dups -> 31 master dups -> 94 genuinely new leads
+[2026-10-09 12:24:25] [INFO] Target not yet satisfied. Remaining shortage: 30
+[2026-10-09 12:24:25] [INFO] --- Starting Apify Batch 2 (Shortage: 30) ---
+[2026-10-09 12:24:25] [INFO] Batch 2 queries (10): ['typography', 'cinema', 'lighting', 'acting', 'theater', 'screenwriting', 'directing', 'broadcasting', 'travel', 'backpacking']
+[2026-10-09 13:08:06] [INFO] Batch 2 Summary: 136 valid emails -> 0 intra-batch dups -> 36 master dups -> 100 genuinely new leads
+[2026-10-09 13:08:06] [INFO] Target satisfied in queue (270 available). Stopping Apify immediately.
+[2026-10-09 13:08:07] [INFO] Run RUN-F4147E46 finished. Status: COMPLETED | Delivered: 200/200 | Queue Remaining: 70
+[2026-10-09 13:08:07] [INFO] ============================================================
