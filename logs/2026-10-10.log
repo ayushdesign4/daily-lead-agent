@@ -1,0 +1,17 @@
+[2026-10-09 23:24:53] [INFO] ============================================================
+[2026-10-09 23:24:53] [INFO] Starting Daily Lead Agent | Run ID: RUN-7492A89E | Date: 2026-10-10 IST
+[2026-10-09 23:24:53] [INFO] Target: 200 leads | Mode: prepare | Dry Run: False
+[2026-10-09 23:24:53] [INFO] Starting pending queue size: 70
+[2026-10-09 23:24:53] [INFO] --- Starting Apify Batch 1 (Shortage: 130) ---
+[2026-10-09 23:24:53] [INFO] Batch 1 queries (10): ['hiking', 'trekking', 'camping', 'biking', 'food', 'cooking', 'baking', 'recipes', 'streetfood', 'dining']
+[2026-10-09 23:51:58] [INFO] Batch 1 Summary: 75 valid emails -> 0 intra-batch dups -> 31 master dups -> 44 genuinely new leads
+[2026-10-09 23:51:58] [INFO] Target not yet satisfied. Remaining shortage: 86
+[2026-10-09 23:51:58] [INFO] --- Starting Apify Batch 2 (Shortage: 86) ---
+[2026-10-09 23:51:58] [INFO] Batch 2 queries (10): ['culinary', 'restaurant', 'pastry', 'sourdough', 'cocktails', 'gardening', 'aquascaping', 'farming', 'pets', 'dogs']
+[2026-10-10 00:27:13] [INFO] Batch 2 Summary: 85 valid emails -> 0 intra-batch dups -> 25 master dups -> 60 genuinely new leads
+[2026-10-10 00:27:13] [INFO] Target not yet satisfied. Remaining shortage: 26
+[2026-10-10 00:27:13] [INFO] --- Starting Apify Batch 3 (Shortage: 26) ---
+[2026-10-10 00:27:13] [INFO] Batch 3 queries (10): ['cats', 'aquarium', 'homesteading', 'survival', 'bushcraft', 'wildlife', 'nature', 'foraging', 'hydroponics', 'permaculture']
+[2026-10-10 01:06:57] [INFO] Batch 3 Summary: 98 valid emails -> 0 intra-batch dups -> 38 master dups -> 60 genuinely new leads
+[2026-10-10 01:06:57] [INFO] Target satisfied in queue (234 available). Stopping Apify immediately.
+[2026-10-10 01:06:57] [INFO] Overnight preparation run complete. Daily email is scheduled for 11:00 AM IST.
