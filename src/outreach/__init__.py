@@ -1,0 +1,1 @@
+"""Verified outreach pipeline module."""

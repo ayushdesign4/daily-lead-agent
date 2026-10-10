@@ -2,6 +2,9 @@
 .env
 .env.local
 *.secret
+*accounts*.json
+*accounts*.txt
+outreach_accounts.json
 
 # Python cache & virtualenvs
 __pycache__/

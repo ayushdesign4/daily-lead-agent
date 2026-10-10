@@ -1,0 +1,88 @@
+name: Verified Outreach Pipeline
+
+on:
+  schedule:
+    # 06:00 UTC = 11:30 AM IST (Starts after the 11:00 AM IST lead delivery)
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Run in dry-run mode (no credits used, no emails sent)'
+        required: false
+        type: boolean
+        default: true
+      force:
+        description: 'Force execution even if completed today'
+        required: false
+        type: boolean
+        default: false
+      manual_file:
+        description: 'Optional path to manual lead file (e.g. output/leads_2026-10-01.txt)'
+        required: false
+        type: string
+        default: ''
+
+concurrency:
+  group: outreach-pipeline-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  outreach:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Execute Verified Outreach Pipeline
+        env:
+          QEV_API_KEY_1: ${{ secrets.QEV_API_KEY_1 }}
+          QEV_API_KEY_2: ${{ secrets.QEV_API_KEY_2 }}
+          OUTREACH_ACCOUNTS_JSON: ${{ secrets.OUTREACH_ACCOUNTS_JSON }}
+          GMAIL_USERNAME: ${{ secrets.GMAIL_USERNAME }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          DELIVERY_EMAIL: ${{ secrets.DELIVERY_EMAIL }}
+        run: |
+          ARGS=""
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+              ARGS="$ARGS --dry-run"
+            fi
+            if [ "${{ github.event.inputs.force }}" = "true" ]; then
+              ARGS="$ARGS --force"
+            fi
+            if [ -n "${{ github.event.inputs.manual_file }}" ]; then
+              ARGS="$ARGS --file ${{ github.event.inputs.manual_file }}"
+            fi
+          fi
+          python -m src.outreach.orchestrator $ARGS
+
+      - name: Commit and Push Persistent State
+        if: always()
+        run: |
+          git config --global user.name "Daily Lead Agent [Bot]"
+          git config --global user.email "bot@dailyleadagent.local"
+          git add data/ logs/
+          if ! git diff --cached --quiet; then
+            git commit -m "Auto-update outreach pipeline state [$(date -u +'%Y-%m-%d %H:%M:%S UTC')]"
+            git pull --rebase origin main || true
+            git push origin main || echo "Failed to push state"
+          else
+            echo "No state changes to commit."
+          fi
