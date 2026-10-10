@@ -57,6 +57,13 @@ def test_full_dry_run_end_to_end_sequence(tmp_path):
         for i in range(200):
             f.write(f"test_creator_{i:03d}@youtube.com\n")
 
+    # Seed 200 leads in queue so delivery satisfies 200 target instantly without scraping
+    seeded = [
+        {"email": f"test_creator_{i:03d}@youtube.com", "date_added": today_str, "source_niche": "Tech", "source_run_id": "PREV"}
+        for i in range(200)
+    ]
+    lead_state.add_to_queue(seeded)
+
     mock_delivery = MagicMock(spec=DeliveryManager)
     mock_delivery.generate_lead_file.return_value = test_lead_file
     mock_delivery.send_daily_leads.return_value = True
