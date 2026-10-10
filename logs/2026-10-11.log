@@ -1,0 +1,21 @@
+[2026-10-10 22:50:20] [INFO] ============================================================
+[2026-10-10 22:50:20] [INFO] Starting Daily Lead Agent | Run ID: RUN-A0F447F0 | Date: 2026-10-11 IST
+[2026-10-10 22:50:20] [INFO] Target: 200 leads | Mode: prepare | Dry Run: False
+[2026-10-10 22:50:20] [INFO] Starting pending queue size: 34
+[2026-10-10 22:50:20] [INFO] --- Starting Apify Batch 1 (Shortage: 166) ---
+[2026-10-10 22:50:20] [INFO] Batch 1 queries (10): ['botany', 'cricket', 'football', 'badminton', 'tennis', 'swimming', 'boxing', 'mma', 'wrestling', 'karate']
+[2026-10-10 23:09:19] [INFO] Batch 1 Summary: 92 valid emails -> 0 intra-batch dups -> 35 master dups -> 57 genuinely new leads
+[2026-10-10 23:09:19] [INFO] Target not yet satisfied. Remaining shortage: 109
+[2026-10-10 23:09:19] [INFO] --- Starting Apify Batch 2 (Shortage: 109) ---
+[2026-10-10 23:09:19] [INFO] Batch 2 queries (10): ['taekwondo', 'judo', 'chess', 'basketball', 'volleyball', 'tabletennis', 'cycling', 'skating', 'sprinting', 'archery']
+[2026-10-10 23:25:31] [INFO] Batch 2 Summary: 90 valid emails -> 0 intra-batch dups -> 38 master dups -> 52 genuinely new leads
+[2026-10-10 23:25:31] [INFO] Target not yet satisfied. Remaining shortage: 57
+[2026-10-10 23:25:31] [INFO] --- Starting Apify Batch 3 (Shortage: 57) ---
+[2026-10-10 23:25:31] [INFO] Batch 3 queries (10): ['golf', 'motorsport', 'climbing', 'bouldering', 'surfing', 'diving', 'kayaking', 'rowing', 'sailing', 'cars']
+[2026-10-10 23:25:31] [ERROR] Apify credit or authorization failure in batch 3: Apify credits/usage limit reached on run start (HTTP 402): {
+  "error": {
+    "type": "not-enough-usage-to-run-paid-actor",
+    "message": "Your remaining usage of $0.156243 this billing cycle isn't enough for this run. Increase your limit by upgrading to a paid plan at https://console.apify.com/billing/subscription"
+  }
+}
+[2026-10-10 23:25:31] [INFO] Overnight preparation run complete. Daily email is scheduled for 11:00 AM IST.
