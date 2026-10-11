@@ -1,2 +1,3 @@
 campaign_id,date,source_message_id,attachment_hash,status,leads_parsed,unique_leads,verified_valid,verified_invalid,verified_risky,verified_unknown,deferred_count,batches_planned,batches_sent,updated_at
 CAMP-9bcd8cb92e-2026-10-10,2026-10-10,<6aca1d91.fb72d079.7c6ec.d2ce@mx.google.com>,9bcd8cb92e686def3a16f8f5bf61c13e1ed20f51304211fc9ffd1fcad0e1ea7a,COMPLETED,0,0,0,0,0,0,0,9,9,2026-10-10
+CAMP-6586bceb07-2026-10-11,2026-10-11,<6acb7234.b97a138d.3a19a0.3392@mx.google.com>,6586bceb07ce0c2011d80e4b862ff5aaa3d35568f26a693cf667ee03f7df0882,PARTIALLY_SENT,0,0,0,0,0,0,0,9,8,2026-10-11
