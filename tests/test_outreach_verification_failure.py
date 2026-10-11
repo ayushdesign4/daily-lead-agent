@@ -248,3 +248,83 @@ def test_no_secret_leakage_in_checkpoint_or_alert(tmp_path):
     content = checkpoint.read_text(encoding="utf-8")
     assert secret_key not in content
     assert "SUPER_SECRET" not in content
+
+
+def test_rotation_alert_email_details_and_recipient():
+    """Verify rotation alert is sent to DELIVERY_EMAIL (ayushdesign291@gmail.com) with form URL and settings link."""
+    from src.outreach.orchestrator import OutreachPipeline
+    from unittest.mock import MagicMock, patch
+
+    pipeline = OutreachPipeline(
+        dry_run=False,
+        form_url="https://forms.gle/mail7testform",
+    )
+
+    with patch("src.outreach.orchestrator.GMAIL_USERNAME", "testsender@gmail.com"):
+        with patch("src.outreach.orchestrator.GMAIL_APP_PASSWORD", "apppass123"):
+            with patch("src.outreach.orchestrator.smtplib.SMTP_SSL") as mock_smtp:
+                mock_server = MagicMock()
+                mock_smtp.return_value.__enter__.return_value = mock_server
+
+                success = pipeline.send_rotation_alert(
+                    campaign_id="CAMP-ALERT-TEST",
+                    reason="quota_exhausted",
+                    date_str="2026-10-11",
+                    total_leads=200,
+                    verified_valid_count=50,
+                    unresolved_count=150,
+                )
+
+                assert success is True
+                assert mock_server.send_message.call_count == 1
+                sent_msg = mock_server.send_message.call_args[0][0]
+
+                # Recipient must be DELIVERY_EMAIL (ayushdesign291@gmail.com)
+                assert sent_msg["To"] == "ayushdesign291@gmail.com"
+                assert "[ACTION REQUIRED] Mail7 API Key Rotation Needed" in sent_msg["Subject"]
+
+                payload = sent_msg.get_payload()[0].get_payload(decode=True).decode("utf-8")
+                assert "https://forms.gle/mail7testform" in payload
+                assert "https://github.com/ayushdesign4/daily-lead-agent/settings/secrets/actions" in payload
+                assert "MAIL7_API_KEY" in payload
+
+
+def test_update_github_secret_script_for_mail7():
+    """Verify scripts/update_github_secret.py updates MAIL7_API_KEY successfully via libsodium encryption."""
+    from scripts.update_github_secret import update_github_secret
+    from nacl import public
+    import base64
+
+    # Generate real libsodium keypair for test
+    sk = public.PrivateKey.generate()
+    pk_b64 = base64.b64encode(sk.public_key.encode()).decode("utf-8")
+
+    mock_key_resp = MagicMock()
+    mock_key_resp.status_code = 200
+    mock_key_resp.json.return_value = {
+        "key": pk_b64,
+        "key_id": "test_key_id_123"
+    }
+
+    mock_put_resp = MagicMock()
+    mock_put_resp.status_code = 201
+
+    with patch("scripts.update_github_secret.requests.get", return_value=mock_key_resp) as mock_get:
+        with patch("scripts.update_github_secret.requests.put", return_value=mock_put_resp) as mock_put:
+            ok = update_github_secret(
+                owner="ayushdesign4",
+                repo="daily-lead-agent",
+                secret_name="MAIL7_API_KEY",
+                secret_value="mk_live_sample_token_xyz",
+                github_token="ghp_mock_pat_token",
+            )
+            assert ok is True
+            mock_get.assert_called_once()
+            mock_put.assert_called_once()
+
+            put_url = mock_put.call_args[0][0]
+            assert "actions/secrets/MAIL7_API_KEY" in put_url
+            payload = mock_put.call_args[1]["json"]
+            assert payload["key_id"] == "test_key_id_123"
+            assert "encrypted_value" in payload
+

@@ -1,0 +1,49 @@
+name: Update Mail7 API Key (Google Form / Dispatch Automation)
+
+on:
+  repository_dispatch:
+    types: [update_mail7_key]
+  workflow_dispatch:
+    inputs:
+      token:
+        description: 'New Mail7 API Key'
+        required: true
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  update-mail7-key:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install requests PyNaCl
+
+      - name: Mask Token
+        env:
+          NEW_TOKEN: ${{ github.event.client_payload.new_token || github.event.inputs.token }}
+        run: |
+          echo "::add-mask::$NEW_TOKEN"
+
+      - name: Update Secret
+        env:
+          NEW_TOKEN: ${{ github.event.client_payload.new_token || github.event.inputs.token }}
+          GITHUB_PAT: ${{ secrets.GH_SECRET_UPDATE_PAT || secrets.GITHUB_TOKEN }}
+        run: |
+          python scripts/update_github_secret.py \
+            --owner "${{ github.repository_owner }}" \
+            --repo "${{ github.event.repository.name || 'daily-lead-agent' }}" \
+            --secret-name "MAIL7_API_KEY" \
+            --secret-value "$NEW_TOKEN" \
+            --github-token "$GITHUB_PAT"

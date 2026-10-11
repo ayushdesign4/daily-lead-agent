@@ -37,7 +37,7 @@ APIFY_API_TOKEN: Optional[str] = os.getenv("APIFY_API_TOKEN")
 # Gmail SMTP Settings
 GMAIL_USERNAME: Optional[str] = os.getenv("GMAIL_USERNAME")
 GMAIL_APP_PASSWORD: Optional[str] = os.getenv("GMAIL_APP_PASSWORD")
-DELIVERY_EMAIL: Optional[str] = os.getenv("DELIVERY_EMAIL") or GMAIL_USERNAME
+DELIVERY_EMAIL: Optional[str] = os.getenv("DELIVERY_EMAIL") or "ayushdesign291@gmail.com" or GMAIL_USERNAME
 SMTP_HOST = os.getenv("SMTP_HOST", "smtp.gmail.com")
 SMTP_PORT = int(os.getenv("SMTP_PORT", "465"))
 

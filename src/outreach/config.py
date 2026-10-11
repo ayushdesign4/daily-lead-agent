@@ -37,4 +37,4 @@ LEAD_DELIVERY_FROM: Optional[str] = os.getenv("LEAD_DELIVERY_FROM") or GMAIL_USE
 LEAD_EMAIL_SUBJECT_PATTERN: str = os.getenv("LEAD_EMAIL_SUBJECT_PATTERN", r"^Daily New Leads — (\d{4}-\d{2}-\d{2})")
 
 # Notification destination
-NOTIFICATION_RECIPIENT: str = os.getenv("OUTREACH_NOTIFICATION_EMAIL") or DELIVERY_EMAIL or GMAIL_USERNAME or OUTREACH_TO_EMAIL
+NOTIFICATION_RECIPIENT: str = os.getenv("OUTREACH_NOTIFICATION_EMAIL") or os.getenv("DELIVERY_EMAIL") or DELIVERY_EMAIL or "ayushdesign291@gmail.com"
