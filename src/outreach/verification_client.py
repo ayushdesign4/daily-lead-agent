@@ -99,13 +99,34 @@ class QuickEmailVerifier:
                         account_id=account_id,
                         reason="unauthorized_api_key",
                     )
-                if resp.status_code in (402, 429):
-                    logger.warning(f"Credit or rate limit reached on {account_id}: HTTP {resp.status_code}")
+                if resp.status_code == 402:
+                    logger.warning(f"Credit limit reached on {account_id}: HTTP 402 (Payment Required)")
                     return VerificationResult(
                         email=email,
                         status="verification_error",
                         account_id=account_id,
                         reason="quota_exhausted",
+                    )
+                if resp.status_code == 429:
+                    retry_after_header = resp.headers.get("Retry-After", "2")
+                    try:
+                        retry_after = int(retry_after_header)
+                    except ValueError:
+                        retry_after = 2
+                    remaining_hdr = resp.headers.get("X-QEV-Remaining-Credits", "unknown")
+                    logger.warning(
+                        f"Rate limit reached on {account_id}: HTTP 429 (Too Many Requests). "
+                        f"Remaining credits header: {remaining_hdr}. Backing off for {retry_after}s "
+                        f"(attempt {attempt + 1}/{max_retries})..."
+                    )
+                    if attempt < max_retries - 1:
+                        time.sleep(retry_after)
+                        continue
+                    return VerificationResult(
+                        email=email,
+                        status="verification_error",
+                        account_id=account_id,
+                        reason="rate_limited",
                     )
                 resp.raise_for_status()
                 data = resp.json()

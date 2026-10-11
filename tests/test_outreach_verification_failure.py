@@ -129,3 +129,30 @@ def test_never_cache_verification_errors(tmp_path):
     assert ledger.get_cached_result("valid@test.com") is not None
     assert ledger.get_cached_result("invalid@test.com") is not None
     assert ledger.get_cached_result("error@test.com") is None
+
+
+def test_verify_single_email_rate_limit_429_retries_with_backoff(tmp_path):
+    ledger = QuotaLedger(
+        ledger_file=tmp_path / "ledger.csv",
+        cache_file=tmp_path / "cache.csv"
+    )
+    verifier = QuickEmailVerifier(key_1="test_key_1", key_2="test_key_2", ledger=ledger)
+
+    mock_resp_429 = MagicMock()
+    mock_resp_429.status_code = 429
+    mock_resp_429.headers = {"Retry-After": "3", "X-QEV-Remaining-Credits": "49"}
+
+    mock_resp_success = MagicMock()
+    mock_resp_success.status_code = 200
+    mock_resp_success.json.return_value = {"result": "valid", "reason": "accepted_email"}
+
+    with patch("src.outreach.verification_client.requests.get") as mock_get:
+        mock_get.side_effect = [mock_resp_429, mock_resp_success]
+        with patch("src.outreach.verification_client.time.sleep") as mock_sleep:
+            res = verifier.verify_single_email("test@example.com", "test_key_1", "account_1", max_retries=2)
+
+    assert res.status == "valid"
+    assert res.reason == "accepted_email"
+    assert mock_get.call_count == 2
+    mock_sleep.assert_called_once_with(3)
+
