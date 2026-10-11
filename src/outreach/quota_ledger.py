@@ -131,7 +131,7 @@ class QuotaLedger:
             for row in reader:
                 if row.get("email", "").strip().lower() == norm_email:
                     # Do not treat cached errors as definitive
-                    if row.get("status") in ("valid", "invalid", "risky"):
+                    if row.get("status") in ("valid", "invalid", "risky", "unknown"):
                         return row
         return None
 
@@ -169,7 +169,7 @@ class QuotaLedger:
         seen_emails = {r.get("email", "").lower() for r in existing}
         for rec in records:
             # Only cache definitive results; never cache transient errors or quota exhaustion
-            if rec.get("status") in ("valid", "invalid", "risky"):
+            if rec.get("status") in ("valid", "invalid", "risky", "unknown"):
                 if rec.get("email", "").lower() not in seen_emails:
                     existing.append(rec)
                     seen_emails.add(rec.get("email", "").lower())

@@ -1,6 +1,7 @@
 """Campaign state machine and persistent ledger for outreach pipeline idempotency."""
 
 import csv
+import json
 import logging
 from pathlib import Path
 from typing import Dict, List, Optional, Any
@@ -211,3 +212,52 @@ class CampaignState:
         if updated:
             atomic_write_csv(self.batches_file, BATCH_HEADERS, all_batches)
             logger.info(f"Campaign {campaign_id} batch {batch_index} status -> {status}")
+
+    def get_checkpoint_path(self, campaign_id: str) -> Path:
+        safe_id = "".join(c if c.isalnum() or c in ("-", "_") else "_" for c in campaign_id)
+        return self.state_file.parent / f"checkpoint_{safe_id}.json"
+
+    def save_checkpoint(
+        self,
+        campaign_id: str,
+        checkpoint_data: Dict[str, Any],
+    ) -> Path:
+        """
+        Persist a resumable checkpoint containing non-sensitive campaign and lead progress.
+        NEVER stores API keys or passwords.
+        """
+        sanitized = {
+            k: v for k, v in checkpoint_data.items()
+            if not any(x in k.lower() for x in ("key", "secret", "password", "token"))
+        }
+        path = self.get_checkpoint_path(campaign_id)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        temp_path = path.with_suffix(".tmp")
+        with open(temp_path, "w", encoding="utf-8") as f:
+            json.dump(sanitized, f, indent=2)
+        temp_path.replace(path)
+        logger.info(f"Saved resumable campaign checkpoint for {campaign_id} at {path}")
+        return path
+
+    def load_checkpoint(self, campaign_id: str) -> Optional[Dict[str, Any]]:
+        path = self.get_checkpoint_path(campaign_id)
+        if not path.exists():
+            return None
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception as e:
+            logger.warning(f"Failed to load checkpoint for {campaign_id}: {e}")
+            return None
+
+    def clear_checkpoint(self, campaign_id: str) -> bool:
+        path = self.get_checkpoint_path(campaign_id)
+        if path.exists():
+            try:
+                path.unlink()
+                logger.info(f"Cleared checkpoint for {campaign_id}")
+                return True
+            except Exception as e:
+                logger.warning(f"Could not delete checkpoint file {path}: {e}")
+        return False
+

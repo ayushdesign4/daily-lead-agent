@@ -52,8 +52,8 @@ jobs:
 
       - name: Execute Verified Outreach Pipeline
         env:
-          QEV_API_KEY_1: ${{ secrets.QEV_API_KEY_1 }}
-          QEV_API_KEY_2: ${{ secrets.QEV_API_KEY_2 }}
+          MAIL7_API_KEY: ${{ secrets.MAIL7_API_KEY }}
+          MAIL7_ROTATION_FORM_URL: ${{ vars.MAIL7_ROTATION_FORM_URL }}
           OUTREACH_ACCOUNTS_JSON: ${{ secrets.OUTREACH_ACCOUNTS_JSON }}
           GMAIL_USERNAME: ${{ secrets.GMAIL_USERNAME }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}

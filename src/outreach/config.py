@@ -13,7 +13,14 @@ OUTREACH_SUPPRESSIONS_FILE = DATA_DIR / "outreach_suppressions.csv"
 VERIFICATION_LEDGER_FILE = DATA_DIR / "verification_ledger.csv"
 VERIFICATION_CACHE_FILE = DATA_DIR / "verification_cache.csv"
 
-# Verifier API keys
+# Mail7 Verifier settings
+MAIL7_API_KEY: Optional[str] = os.getenv("MAIL7_API_KEY")
+MAIL7_API_BASE_URL: str = os.getenv("MAIL7_API_BASE_URL", "https://mail7.net")
+MAIL7_BULK_ENDPOINT: str = f"{MAIL7_API_BASE_URL.rstrip('/')}/api/validate-bulk"
+MAIL7_ROTATION_FORM_URL: Optional[str] = os.getenv("MAIL7_ROTATION_FORM_URL")
+GITHUB_SECRETS_SETTINGS_URL: str = "https://github.com/ayushdesign4/daily-lead-agent/settings/secrets/actions"
+
+# Backward compatibility / legacy stubs
 QEV_API_KEY_1: Optional[str] = os.getenv("QEV_API_KEY_1")
 QEV_API_KEY_2: Optional[str] = os.getenv("QEV_API_KEY_2")
 QEV_API_BASE_URL: str = os.getenv("QEV_API_BASE_URL", "https://api.quickemailverification.com/v1/verify")

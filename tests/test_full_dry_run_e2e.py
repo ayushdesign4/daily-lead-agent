@@ -107,10 +107,9 @@ def test_full_dry_run_end_to_end_sequence(tmp_path):
     assert outreach_summary["leads_parsed"] == 200
     assert outreach_summary["unique_count"] == 200
 
-    # STAGE 4: Verification Partitioning
-    assert outreach_summary["verified_a_count"] == 100
-    assert outreach_summary["verified_b_count"] == 100
-    assert outreach_summary["deferred_count"] == 0
+    # STAGE 4: Verification (Mail7 single bulk)
+    assert outreach_summary["unresolved_submitted"] == 200
+    assert outreach_summary["valid_count"] == 200
 
     # STAGE 5: 9-Way Balanced Distribution & BCC Addressing
     batches = outreach_summary["batches"]

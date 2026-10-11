@@ -1,116 +1,262 @@
-"""Tests for verification partitioning, QEV API response mapping, and quota enforcement."""
+"""Tests for Mail7 bulk email verification client: single request, mapping, rate-limits, and quota safety."""
 
 import pytest
-from unittest.mock import patch, MagicMock
-from src.outreach.verification_client import QuickEmailVerifier, VerificationResult
+import requests
+from unittest.mock import MagicMock, patch
+from src.outreach.verification_client import Mail7Verifier, VerificationResult
 from src.outreach.quota_ledger import QuotaLedger
 
 
-def test_partitioning_two_disjoint_batches_max_100(tmp_path):
-    ledger = QuotaLedger(tmp_path / "l.csv", tmp_path / "c.csv", max_daily_quota_per_key=100)
-    verifier = QuickEmailVerifier(key_1="key_a", key_2="key_b", ledger=ledger)
-
-    # 250 unique emails
-    emails = [f"creator_{i}@domain.com" for i in range(250)]
-
-    batch_a, batch_b, deferred = verifier.plan_and_partition(emails, "2026-10-10")
-
-    # Max 100 per account
-    assert len(batch_a) == 100
-    assert len(batch_b) == 100
-    assert deferred == 50  # 250 - 200 = 50 deferred
-
-    # Disjoint check: no email in both batches
-    set_a, set_b = set(batch_a), set(batch_b)
-    assert len(set_a.intersection(set_b)) == 0
+@pytest.fixture
+def test_ledger(tmp_path):
+    return QuotaLedger(
+        ledger_file=tmp_path / "ledger.csv",
+        cache_file=tmp_path / "cache.csv"
+    )
 
 
-def test_partitioning_with_partial_quota(tmp_path):
-    ledger = QuotaLedger(tmp_path / "l.csv", tmp_path / "c.csv", max_daily_quota_per_key=100)
-    # Account A already used 60 today (40 remaining)
-    ledger.record_usage("account_1", 60, "2026-10-10")
-    # Account B already used 90 today (10 remaining)
-    ledger.record_usage("account_2", 90, "2026-10-10")
+def test_200_emails_one_bulk_request(test_ledger):
+    """Test requirement J.1 & J.4: 200 emails use exactly ONE bulk API request with correct headers and multipart field."""
+    verifier = Mail7Verifier(api_key="mk_live_testkey123", ledger=test_ledger)
 
-    verifier = QuickEmailVerifier(key_1="k1", key_2="k2", ledger=ledger)
+    emails = [f"lead_{i:03d}@example.com" for i in range(200)]
 
-    emails = [f"creator_{i}@domain.com" for i in range(100)]
-    batch_a, batch_b, deferred = verifier.plan_and_partition(emails, "2026-10-10")
-
-    assert len(batch_a) == 40
-    assert len(batch_b) == 10
-    assert deferred == 50
-
-
-@patch("requests.get")
-def test_response_mapping_policy(mock_get, tmp_path):
-    ledger = QuotaLedger(tmp_path / "l.csv", tmp_path / "c.csv")
-    verifier = QuickEmailVerifier(key_1="k1", key_2="k2", ledger=ledger)
-
-    # Case 1: Strictly Valid
-    resp_valid = MagicMock()
-    resp_valid.status_code = 200
-    resp_valid.json.return_value = {
-        "result": "valid",
-        "reason": "accepted_email",
-        "disposable": False,
-        "accept_all": False,
+    mock_resp = MagicMock()
+    mock_resp.status_code = 200
+    mock_resp.json.return_value = {
+        "total": 200,
+        "results": [
+            {"email": e, "valid": True, "status": "Valid", "details": "Email exists"}
+            for e in emails
+        ]
     }
 
-    # Case 2: Disposable (Risky)
-    resp_disposable = MagicMock()
-    resp_disposable.status_code = 200
-    resp_disposable.json.return_value = {
-        "result": "valid",
-        "reason": "accepted_email",
-        "disposable": True,
-        "accept_all": False,
+    with patch("src.outreach.verification_client.requests.post", return_value=mock_resp) as mock_post:
+        results, err = verifier.verify_bulk(emails)
+
+    assert err is None
+    assert len(results) == 200
+    assert all(r.is_deliverable for r in results)
+
+    # Exactly ONE HTTP request made
+    assert mock_post.call_count == 1
+    call_args, call_kwargs = mock_post.call_args
+
+    # Correct endpoint
+    assert "https://mail7.net/api/validate-bulk" in call_args[0]
+    # Correct auth header
+    assert call_kwargs["headers"]["X-API-Key"] == "mk_live_testkey123"
+    # Correct multipart form field 'emails'
+    files = call_kwargs["files"]
+    assert "emails" in files
+    payload_emails = files["emails"][1].split("\n")
+    assert len(payload_emails) == 200
+    assert payload_emails[0] == "lead_000@example.com"
+    assert payload_emails[-1] == "lead_199@example.com"
+
+
+def test_cached_results_excluded_from_bulk_payload(test_ledger):
+    """Test requirement J.2 & J.14: Definitive cached results are excluded from the bulk payload."""
+    # Pre-cache 20 leads
+    pre_cached = [
+        {"email": f"cached_{i}@example.com", "account_id": "mail7", "status": "valid", "date_verified": "2026-10-10", "raw_result": "ok"}
+        for i in range(20)
+    ]
+    test_ledger.cache_verification_results(pre_cached)
+
+    verifier = Mail7Verifier(api_key="mk_live_testkey123", ledger=test_ledger)
+
+    # Submit 30 leads (20 cached + 10 new)
+    all_emails = [f"cached_{i}@example.com" for i in range(20)] + [f"new_{i}@example.com" for i in range(10)]
+
+    mock_resp = MagicMock()
+    mock_resp.status_code = 200
+    mock_resp.json.return_value = {
+        "total": 10,
+        "results": [
+            {"email": f"new_{i}@example.com", "valid": True, "status": "Valid", "details": "ok"}
+            for i in range(10)
+        ]
     }
 
-    # Case 3: Accept All / Catch-all (Risky)
-    resp_accept_all = MagicMock()
-    resp_accept_all.status_code = 200
-    resp_accept_all.json.return_value = {
-        "result": "valid",
-        "reason": "accepted_email",
-        "disposable": False,
-        "accept_all": True,
+    with patch("src.outreach.verification_client.requests.post", return_value=mock_resp) as mock_post:
+        results, err = verifier.verify_bulk(all_emails)
+
+    assert err is None
+    assert len(results) == 30
+    assert mock_post.call_count == 1
+
+    # Payload must only contain the 10 unresolved addresses
+    files = mock_post.call_args[1]["files"]
+    submitted = files["emails"][1].split("\n")
+    assert len(submitted) == 10
+    assert all(e.startswith("new_") for e in submitted)
+
+
+def test_all_cached_makes_zero_requests(test_ledger):
+    """When all emails are resolved in cache, zero HTTP requests are made."""
+    test_ledger.cache_verification_results([
+        {"email": "cached@test.com", "account_id": "mail7", "status": "valid", "date_verified": "2026-10-10", "raw_result": "ok"}
+    ])
+    verifier = Mail7Verifier(api_key="mk_live_testkey123", ledger=test_ledger)
+
+    with patch("src.outreach.verification_client.requests.post") as mock_post:
+        results, err = verifier.verify_bulk(["cached@test.com"])
+
+    assert err is None
+    assert len(results) == 1
+    assert results[0].status == "valid"
+    assert results[0].account_id == "cache"
+    assert mock_post.call_count == 0
+
+
+def test_mail7_result_mapping_valid_not_valid_unknown(test_ledger):
+    """Test requirement J.5: Valid, Not Valid, and Unknown status mapping per Mail7 specification."""
+    verifier = Mail7Verifier(api_key="mk_live_testkey123", ledger=test_ledger)
+    emails = ["valid@test.com", "invalid@test.com", "unknown@test.com"]
+
+    mock_resp = MagicMock()
+    mock_resp.status_code = 200
+    mock_resp.json.return_value = {
+        "total": 3,
+        "results": [
+            {"email": "valid@test.com", "valid": True, "status": "Valid", "details": "Accepted"},
+            {"email": "invalid@test.com", "valid": False, "status": "Not Valid", "details": "Mailbox not found"},
+            {"email": "unknown@test.com", "valid": None, "status": "Unknown", "details": "Catch-all server"},
+        ]
     }
 
-    # Case 4: Invalid
-    resp_invalid = MagicMock()
-    resp_invalid.status_code = 200
-    resp_invalid.json.return_value = {
-        "result": "invalid",
-        "reason": "rejected_email",
+    with patch("src.outreach.verification_client.requests.post", return_value=mock_resp):
+        results, err = verifier.verify_bulk(emails)
+
+    assert err is None
+    r_map = {r.email: r for r in results}
+
+    assert r_map["valid@test.com"].status == "valid"
+    assert r_map["valid@test.com"].is_deliverable is True
+
+    assert r_map["invalid@test.com"].status == "invalid"
+    assert r_map["invalid@test.com"].is_deliverable is False
+
+    assert r_map["unknown@test.com"].status == "unknown"
+    assert r_map["unknown@test.com"].is_deliverable is False
+
+
+def test_out_of_order_matching_by_normalized_email(test_ledger):
+    """Test requirement J.6: Out-of-order results are matched by normalized email, never by array index."""
+    verifier = Mail7Verifier(api_key="mk_live_testkey123", ledger=test_ledger)
+    emails = ["first@test.com", "second@test.com", "third@test.com"]
+
+    mock_resp = MagicMock()
+    mock_resp.status_code = 200
+    # Provider returns results in reverse order with uppercase emails
+    mock_resp.json.return_value = {
+        "total": 3,
+        "results": [
+            {"email": "THIRD@TEST.COM", "valid": True, "status": "Valid"},
+            {"email": "FIRST@TEST.COM", "valid": False, "status": "Not Valid"},
+            {"email": "SECOND@TEST.COM", "valid": None, "status": "Unknown"},
+        ]
     }
 
-    # Case 5: Unknown
-    resp_unknown = MagicMock()
-    resp_unknown.status_code = 200
-    resp_unknown.json.return_value = {
-        "result": "unknown",
-        "reason": "no_connect",
+    with patch("src.outreach.verification_client.requests.post", return_value=mock_resp):
+        results, err = verifier.verify_bulk(emails)
+
+    assert err is None
+    r_map = {r.email: r for r in results}
+    assert r_map["first@test.com"].status == "invalid"
+    assert r_map["second@test.com"].status == "unknown"
+    assert r_map["third@test.com"].status == "valid"
+
+
+def test_missing_duplicate_unexpected_bulk_results(test_ledger):
+    """Test requirement J.7: Detect missing, duplicate, and unexpected addresses safely."""
+    verifier = Mail7Verifier(api_key="mk_live_testkey123", ledger=test_ledger)
+    emails = ["expected_1@test.com", "expected_2@test.com", "missing@test.com"]
+
+    mock_resp = MagicMock()
+    mock_resp.status_code = 200
+    mock_resp.json.return_value = {
+        "total": 3,
+        "results": [
+            {"email": "expected_1@test.com", "valid": True, "status": "Valid"},
+            {"email": "expected_1@test.com", "valid": True, "status": "Valid"},  # duplicate
+            {"email": "unexpected@test.com", "valid": True, "status": "Valid"},  # unexpected
+            {"email": "expected_2@test.com", "valid": False, "status": "Not Valid"},
+            # missing@test.com is omitted
+        ]
     }
 
-    mock_get.side_effect = [resp_valid, resp_disposable, resp_accept_all, resp_invalid, resp_unknown]
+    with patch("src.outreach.verification_client.requests.post", return_value=mock_resp):
+        results, err = verifier.verify_bulk(emails)
 
-    r1 = verifier.verify_single_email("c1@test.com", "k1", "account_1")
-    assert r1.status == "valid"
-    assert r1.is_deliverable is True
+    r_map = {r.email: r for r in results}
+    assert r_map["expected_1@test.com"].status == "valid"
+    assert r_map["expected_2@test.com"].status == "invalid"
+    # Missing address must be flagged as verification_error, not marked invalid
+    assert r_map["missing@test.com"].status == "verification_error"
+    assert r_map["missing@test.com"].reason == "missing_from_bulk_response"
 
-    r2 = verifier.verify_single_email("c2@test.com", "k1", "account_1")
-    assert r2.status == "risky"
-    assert r2.is_deliverable is False
 
-    r3 = verifier.verify_single_email("c3@test.com", "k1", "account_1")
-    assert r3.status == "risky"
-    assert r3.is_deliverable is False
+def test_rate_limit_429_honors_retry_after(test_ledger):
+    """Test requirement J.8: Honors HTTP 429 Retry-After header with bounded backoff and succeeds on retry."""
+    sleep_calls = []
+    fake_sleep = lambda s: sleep_calls.append(s)
 
-    r4 = verifier.verify_single_email("c4@test.com", "k1", "account_1")
-    assert r4.status == "invalid"
-    assert r4.is_deliverable is False
+    verifier = Mail7Verifier(
+        api_key="mk_live_testkey123",
+        ledger=test_ledger,
+        sleep_func=fake_sleep,
+        random_func=lambda a, b: 0.5,
+    )
 
-    r5 = verifier.verify_single_email("c5@test.com", "k1", "account_1")
-    assert r5.status == "unknown"
-    assert r5.is_deliverable is False
+    resp_429 = MagicMock()
+    resp_429.status_code = 429
+    resp_429.headers = {"Retry-After": "4"}
+
+    resp_200 = MagicMock()
+    resp_200.status_code = 200
+    resp_200.json.return_value = {
+        "total": 1,
+        "results": [{"email": "retry@test.com", "valid": True, "status": "Valid"}]
+    }
+
+    with patch("src.outreach.verification_client.requests.post", side_effect=[resp_429, resp_200]) as mock_post:
+        results, err = verifier.verify_bulk(["retry@test.com"])
+
+    assert err is None
+    assert results[0].status == "valid"
+    assert mock_post.call_count == 2
+    # Slept retry_after (4) + jitter (0.5) = 4.5
+    assert len(sleep_calls) == 1
+    assert sleep_calls[0] == 4.5
+
+
+def test_unauthorized_key_401_and_403(test_ledger):
+    """Test requirement J.9: 401 and 403 unauthorized keys halt immediately without retry."""
+    verifier = Mail7Verifier(api_key="bad_key", ledger=test_ledger)
+
+    resp_401 = MagicMock()
+    resp_401.status_code = 401
+
+    with patch("src.outreach.verification_client.requests.post", return_value=resp_401) as mock_post:
+        results, err = verifier.verify_bulk(["test@example.com"])
+
+    assert err == "unauthorized_api_key"
+    assert mock_post.call_count == 1
+    assert results[0].status == "verification_error"
+
+
+def test_monthly_quota_exhaustion_stops_immediately(test_ledger):
+    """Test requirement J.10: HTTP 402 or 403 quota exhaustion stops immediately without retry."""
+    verifier = Mail7Verifier(api_key="key", ledger=test_ledger)
+
+    resp_402 = MagicMock()
+    resp_402.status_code = 402
+
+    with patch("src.outreach.verification_client.requests.post", return_value=resp_402) as mock_post:
+        results, err = verifier.verify_bulk(["test@example.com"])
+
+    assert err == "quota_exhausted"
+    assert mock_post.call_count == 1
+    assert results[0].status == "verification_error"
