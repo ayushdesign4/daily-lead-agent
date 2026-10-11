@@ -95,8 +95,33 @@ class QuotaLedger:
         logger.info(f"Updated usage for {account_id} on {date_str}: {new_total}/{self.max_daily_quota}")
         return new_total
 
+    def mark_account_exhausted(self, account_id: str, date_str: Optional[str] = None) -> None:
+        """Mark account as having 0 remaining quota for the given date."""
+        if not date_str:
+            date_str = get_today_ist_date()
+
+        rows: List[Dict[str, str]] = []
+        found = False
+        if self.ledger_file.exists():
+            with open(self.ledger_file, "r", encoding="utf-8") as f:
+                for row in csv.DictReader(f):
+                    if row.get("date") == date_str and row.get("account_id") == account_id:
+                        found = True
+                        row["count_used"] = str(self.max_daily_quota)
+                    rows.append(row)
+
+        if not found:
+            rows.append({
+                "date": date_str,
+                "account_id": account_id,
+                "count_used": str(self.max_daily_quota),
+            })
+
+        atomic_write_csv(self.ledger_file, LEDGER_HEADERS, rows)
+        logger.warning(f"Account {account_id} marked as fully exhausted on {date_str} (0 remaining)")
+
     def get_cached_result(self, email: str) -> Optional[Dict[str, str]]:
-        """Return cached verification result if previously checked."""
+        """Return cached verification result if previously checked with definitive status."""
         norm_email = email.strip().lower()
         if not self.cache_file.exists():
             return None
@@ -105,11 +130,33 @@ class QuotaLedger:
             reader = csv.DictReader(f)
             for row in reader:
                 if row.get("email", "").strip().lower() == norm_email:
-                    return row
+                    # Do not treat cached errors as definitive
+                    if row.get("status") in ("valid", "invalid", "risky"):
+                        return row
         return None
 
+    def purge_error_results(self) -> int:
+        """Purge any transient verification_error entries from cache file."""
+        if not self.cache_file.exists():
+            return 0
+
+        clean_rows: List[Dict[str, str]] = []
+        purged = 0
+        with open(self.cache_file, "r", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                if row.get("status") == "verification_error":
+                    purged += 1
+                else:
+                    clean_rows.append(row)
+
+        if purged > 0:
+            atomic_write_csv(self.cache_file, CACHE_HEADERS, clean_rows)
+            logger.info(f"Purged {purged} transient error entries from verification cache.")
+        return purged
+
     def cache_verification_results(self, records: List[Dict[str, str]]) -> None:
-        """Store newly verified results in persistent cache."""
+        """Store newly verified results in persistent cache. Only caches definitive outcomes."""
         if not records:
             return
 
@@ -121,8 +168,10 @@ class QuotaLedger:
 
         seen_emails = {r.get("email", "").lower() for r in existing}
         for rec in records:
-            if rec.get("email", "").lower() not in seen_emails:
-                existing.append(rec)
-                seen_emails.add(rec.get("email", "").lower())
+            # Only cache definitive results; never cache transient errors or quota exhaustion
+            if rec.get("status") in ("valid", "invalid", "risky"):
+                if rec.get("email", "").lower() not in seen_emails:
+                    existing.append(rec)
+                    seen_emails.add(rec.get("email", "").lower())
 
         atomic_write_csv(self.cache_file, CACHE_HEADERS, existing)

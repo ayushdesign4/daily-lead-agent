@@ -2,6 +2,7 @@
 
 import os
 import sys
+import time
 import logging
 import argparse
 from pathlib import Path
@@ -315,11 +316,26 @@ class OutreachPipeline:
 
             # Idempotency check: skip already SENT batches
             prev_status = existing_batches.get(idx)
-            if prev_status == "SENT":
-                logger.info(f"Batch #{idx} ({account_obj.email}) already SENT. Skipping.")
-                b["status"] = "SENT"
+            if prev_status in ("SENT", "SKIPPED_EMPTY"):
+                logger.info(f"Batch #{idx} ({account_obj.email}) already {prev_status}. Skipping to prevent duplicate send.")
+                b["status"] = prev_status
                 sent_count += 1
                 continue
+
+            # Safety check: if batch requires review, require explicit reconciliation (--force) before retrying
+            if prev_status == "FAILED_REQUIRES_REVIEW" and not force:
+                logger.warning(
+                    f"Batch #{idx} ({account_obj.email}) previously failed with uncertain status (FAILED_REQUIRES_REVIEW). "
+                    "Skipping automatic retry until delivery is reconciled (pass force=True to retry after reconciliation)."
+                )
+                b["status"] = "FAILED_REQUIRES_REVIEW"
+                b["error"] = "Requires manual delivery reconciliation before retrying."
+                has_failure = True
+                continue
+
+            # Inter-batch pacing to avoid rapid SMTP TLS handshakes from same IP
+            if not self.dry_run and idx > 0:
+                time.sleep(1.5)
 
             success, batch_status, error_msg = sender_service.send_batch(
                 account=account_obj,

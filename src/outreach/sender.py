@@ -1,6 +1,8 @@
 """Secure multi-account SMTP outreach sender with BCC-only and strict idempotency."""
 
 import json
+import time
+import socket
 import smtplib
 import logging
 from email.mime.text import MIMEText
@@ -121,9 +123,10 @@ class OutreachSender:
         subject: str,
         body_text: str,
         bcc_recipients: List[str],
+        max_retries: int = 3,
     ) -> Tuple[bool, str, Optional[str]]:
         """
-        Transmit outreach email to assigned batch recipients via BCC.
+        Transmit outreach email to assigned batch recipients via BCC with stage-aware retry.
         Returns (success: bool, status: str, error_message: Optional[str]).
         Status values: 'SENT', 'FAILED_REQUIRES_REVIEW', 'SKIPPED_EMPTY'
         """
@@ -147,23 +150,84 @@ class OutreachSender:
             )
             return True, "SENT", None
 
-        try:
-            logger.info(f"Connecting to SMTP {SMTP_HOST}:{SMTP_PORT} as {account.email}...")
-            with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT, timeout=30) as server:
+        for attempt in range(max_retries):
+            stage = "CONNECTING"
+            server = None
+            try:
+                logger.info(
+                    f"Connecting to SMTP {SMTP_HOST}:{SMTP_PORT} as {account.email} "
+                    f"(attempt {attempt + 1}/{max_retries})..."
+                )
+                server = smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT, timeout=30)
+
+                stage = "AUTHENTICATING"
                 server.login(account.email, account.app_password)
+
+                stage = "TRANSMITTING"
                 # Use sendmail to specify envelope recipients explicitly without exposing BCC in headers
                 server.sendmail(account.email, envelope_recipients, msg.as_string())
+                server.quit()
 
-            logger.info(
-                f"Successfully sent batch from {account.email} to {len(bcc_recipients)} BCC recipients."
-            )
-            return True, "SENT", None
-        except smtplib.SMTPAuthenticationError as e:
-            logger.error(f"Authentication failed for sender account {account.email}: {type(e).__name__}")
-            return False, "FAILED_REQUIRES_REVIEW", f"SMTPAuthenticationError: {type(e).__name__}"
-        except smtplib.SMTPException as e:
-            logger.error(f"SMTP error transmitting batch for {account.email}: {type(e).__name__}")
-            return False, "FAILED_REQUIRES_REVIEW", f"SMTPException: {type(e).__name__}"
-        except Exception as e:
-            logger.error(f"Unexpected connection error for {account.email}: {type(e).__name__}")
-            return False, "FAILED_REQUIRES_REVIEW", f"UnexpectedException: {type(e).__name__}"
+                logger.info(
+                    f"Successfully sent batch from {account.email} to {len(bcc_recipients)} BCC recipients."
+                )
+                return True, "SENT", None
+
+            except smtplib.SMTPAuthenticationError as e:
+                logger.error(f"Authentication failed for sender account {account.email}: {type(e).__name__}")
+                if server:
+                    try:
+                        server.close()
+                    except Exception:
+                        pass
+                return False, "FAILED_REQUIRES_REVIEW", f"SMTPAuthenticationError: {type(e).__name__}"
+
+            except (smtplib.SMTPServerDisconnected, ConnectionResetError, TimeoutError, socket.error, OSError) as e:
+                if server:
+                    try:
+                        server.close()
+                    except Exception:
+                        pass
+
+                if stage in ("CONNECTING", "AUTHENTICATING"):
+                    logger.warning(
+                        f"Transient connection drop at stage '{stage}' for {account.email} "
+                        f"(attempt {attempt + 1}/{max_retries}): {type(e).__name__}: {e}"
+                    )
+                    if attempt < max_retries - 1:
+                        backoff = 2 * (attempt + 1)
+                        logger.info(f"Retrying connection for {account.email} in {backoff} seconds...")
+                        time.sleep(backoff)
+                        continue
+                    else:
+                        logger.error(f"Max connection retries exceeded for {account.email} at stage '{stage}'.")
+                        return False, "FAILED_REQUIRES_REVIEW", f"PreTransmissionDisconnect: {type(e).__name__}"
+                else:
+                    # Disconnect occurred during TRANSMITTING - delivery status is uncertain
+                    logger.error(
+                        f"Disconnect occurred during message transmission for {account.email}. "
+                        f"Delivery state is uncertain; preserving FAILED_REQUIRES_REVIEW to avoid duplicate send."
+                    )
+                    return False, "FAILED_REQUIRES_REVIEW", f"UncertainDelivery: {type(e).__name__}"
+
+            except smtplib.SMTPException as e:
+                if server:
+                    try:
+                        server.close()
+                    except Exception:
+                        pass
+                logger.error(f"SMTP error at stage '{stage}' for {account.email}: {type(e).__name__}: {e}")
+                err_prefix = "UncertainDelivery" if stage == "TRANSMITTING" else "SMTPException"
+                return False, "FAILED_REQUIRES_REVIEW", f"{err_prefix}: {type(e).__name__}"
+
+            except Exception as e:
+                if server:
+                    try:
+                        server.close()
+                    except Exception:
+                        pass
+                logger.error(f"Unexpected error at stage '{stage}' for {account.email}: {type(e).__name__}: {e}")
+                err_prefix = "UncertainDelivery" if stage == "TRANSMITTING" else "UnexpectedException"
+                return False, "FAILED_REQUIRES_REVIEW", f"{err_prefix}: {type(e).__name__}"
+
+        return False, "FAILED_REQUIRES_REVIEW", "MaxRetriesExceeded"

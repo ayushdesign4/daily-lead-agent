@@ -62,9 +62,10 @@ class QuickEmailVerifier:
         self,
         email: str,
         api_key: str,
-        account_id: str
+        account_id: str,
+        max_retries: int = 2,
     ) -> VerificationResult:
-        """Verify a single email using QEV API endpoint."""
+        """Verify a single email using QEV API endpoint with bounded retry for transient network issues."""
         if self.dry_run:
             logger.info(f"[DRY RUN] Simulating verification for {email} via {account_id}")
             return VerificationResult(
@@ -87,62 +88,90 @@ class QuickEmailVerifier:
             )
 
         params = {"email": email, "apikey": api_key}
-        try:
-            resp = requests.get(self.base_url, params=params, timeout=15)
-            if resp.status_code == 401:
-                logger.error(f"Unauthorized QEV API key for {account_id}")
-                return VerificationResult(
-                    email=email,
-                    status="verification_error",
-                    account_id=account_id,
-                    reason="unauthorized_api_key",
-                )
-            if resp.status_code in (402, 429):
-                logger.warning(f"Credit or rate limit reached on {account_id}: HTTP {resp.status_code}")
-                return VerificationResult(
-                    email=email,
-                    status="verification_error",
-                    account_id=account_id,
-                    reason="quota_exhausted",
-                )
-            resp.raise_for_status()
-            data = resp.json()
+        for attempt in range(max_retries):
+            try:
+                resp = requests.get(self.base_url, params=params, timeout=15)
+                if resp.status_code == 401:
+                    logger.error(f"Unauthorized QEV API key for {account_id}")
+                    return VerificationResult(
+                        email=email,
+                        status="verification_error",
+                        account_id=account_id,
+                        reason="unauthorized_api_key",
+                    )
+                if resp.status_code in (402, 429):
+                    logger.warning(f"Credit or rate limit reached on {account_id}: HTTP {resp.status_code}")
+                    return VerificationResult(
+                        email=email,
+                        status="verification_error",
+                        account_id=account_id,
+                        reason="quota_exhausted",
+                    )
+                resp.raise_for_status()
+                data = resp.json()
 
-            # QEV schema mapping
-            qev_result = str(data.get("result", "")).lower()
-            reason = str(data.get("reason", "")).lower()
-            disposable = bool(data.get("disposable") is True or str(data.get("disposable")).lower() == "true")
-            accept_all = bool(data.get("accept_all") is True or str(data.get("accept_all")).lower() == "true")
+                # QEV schema mapping
+                qev_result = str(data.get("result", "")).lower()
+                reason = str(data.get("reason", "")).lower()
+                disposable = bool(data.get("disposable") is True or str(data.get("disposable")).lower() == "true")
+                accept_all = bool(data.get("accept_all") is True or str(data.get("accept_all")).lower() == "true")
 
-            if qev_result == "valid":
-                if disposable or accept_all:
-                    status = "risky"
+                if qev_result == "valid":
+                    if disposable or accept_all:
+                        status = "risky"
+                    else:
+                        status = "valid"
+                elif qev_result == "invalid":
+                    status = "invalid"
+                elif qev_result == "unknown":
+                    status = "unknown"
                 else:
-                    status = "valid"
-            elif qev_result == "invalid":
-                status = "invalid"
-            elif qev_result == "unknown":
-                status = "unknown"
-            else:
-                status = "unknown"
+                    status = "unknown"
 
-            return VerificationResult(
-                email=email,
-                status=status,
-                account_id=account_id,
-                reason=reason,
-                disposable=disposable,
-                accept_all=accept_all,
-                raw_response={"result": qev_result, "reason": reason},
-            )
-        except requests.RequestException as e:
-            logger.warning(f"Network/timeout error verifying {email} on {account_id}: {e}")
-            return VerificationResult(
-                email=email,
-                status="verification_error",
-                account_id=account_id,
-                reason=f"request_exception: {type(e).__name__}",
-            )
+                return VerificationResult(
+                    email=email,
+                    status=status,
+                    account_id=account_id,
+                    reason=reason,
+                    disposable=disposable,
+                    accept_all=accept_all,
+                    raw_response={"result": qev_result, "reason": reason},
+                )
+            except (requests.Timeout, requests.ConnectionError) as e:
+                if attempt < max_retries - 1:
+                    logger.info(f"Transient network error verifying {email} on {account_id} (attempt {attempt+1}/{max_retries}), retrying: {e}")
+                    time.sleep(1)
+                    continue
+                logger.warning(f"Network/timeout error verifying {email} on {account_id}: {e}")
+                return VerificationResult(
+                    email=email,
+                    status="verification_error",
+                    account_id=account_id,
+                    reason=f"request_exception: {type(e).__name__}",
+                )
+            except requests.RequestException as e:
+                logger.warning(f"Request exception verifying {email} on {account_id}: {e}")
+                return VerificationResult(
+                    email=email,
+                    status="verification_error",
+                    account_id=account_id,
+                    reason=f"request_exception: {type(e).__name__}",
+                )
+            except Exception as e:
+                logger.error(f"Unexpected parsing exception for {email} on {account_id}: {e}")
+                return VerificationResult(
+                    email=email,
+                    status="verification_error",
+                    account_id=account_id,
+                    reason=f"parsing_exception: {type(e).__name__}",
+                )
+
+        return VerificationResult(
+            email=email,
+            status="verification_error",
+            account_id=account_id,
+            reason="max_retries_exceeded",
+        )
 
     def plan_and_partition(
         self,
@@ -188,6 +217,8 @@ class QuickEmailVerifier:
         """
         Execute verification for two disjoint batches, using cache where available,
         updating daily quota usage atomically.
+        If an account hits quota exhaustion, it halts immediately, marks the account exhausted,
+        and fails over any remaining unverified leads to the second account (subject to second account quota).
         """
         if not date_str:
             date_str = get_today_ist_date()
@@ -195,58 +226,95 @@ class QuickEmailVerifier:
         results: List[VerificationResult] = []
         cache_records_to_save: List[Dict[str, str]] = []
 
-        # Process Batch A
+        # Process Batch A on Account 1
         live_calls_a = 0
+        overflow_from_a: List[str] = []
+        account_1_exhausted = False
+
         for email in batch_a:
             cached = self.ledger.get_cached_result(email)
             if cached:
-                res = VerificationResult(
+                results.append(VerificationResult(
                     email=email,
                     status=cached.get("status", "unknown"),
                     account_id="cache",
                     reason="cached_result",
-                )
-                results.append(res)
+                ))
+                continue
+
+            if account_1_exhausted:
+                overflow_from_a.append(email)
                 continue
 
             res = self.verify_single_email(email, self.key_1 or "", "account_1")
+
+            if res.reason == "quota_exhausted":
+                logger.warning(f"Account 1 quota exhausted at email {email}. Halting Account 1 verification.")
+                account_1_exhausted = True
+                self.ledger.mark_account_exhausted("account_1", date_str)
+                overflow_from_a.append(email)
+                continue
+
             results.append(res)
             live_calls_a += 1
-            cache_records_to_save.append({
-                "email": email,
-                "account_id": "account_1",
-                "status": res.status,
-                "date_verified": date_str,
-                "raw_result": res.reason,
-            })
+            if res.status in ("valid", "invalid", "risky"):
+                cache_records_to_save.append({
+                    "email": email,
+                    "account_id": "account_1",
+                    "status": res.status,
+                    "date_verified": date_str,
+                    "raw_result": res.reason,
+                })
 
         if live_calls_a > 0 and not self.dry_run:
             self.ledger.record_usage("account_1", live_calls_a, date_str)
 
-        # Process Batch B
+        # Build candidate list for Account 2: batch_b plus any overflow from batch_a
+        combined_b = list(batch_b) + overflow_from_a
+        quota_b_remaining = self.ledger.get_remaining_quota("account_2", date_str)
         live_calls_b = 0
-        for email in batch_b:
+        account_2_exhausted = False
+
+        for email in combined_b:
             cached = self.ledger.get_cached_result(email)
             if cached:
-                res = VerificationResult(
+                results.append(VerificationResult(
                     email=email,
                     status=cached.get("status", "unknown"),
                     account_id="cache",
                     reason="cached_result",
-                )
-                results.append(res)
+                ))
+                continue
+
+            if account_2_exhausted or live_calls_b >= quota_b_remaining:
+                logger.warning(f"Cannot verify {email}: Account 2 daily quota limit reached ({live_calls_b}/{quota_b_remaining}).")
+                results.append(VerificationResult(
+                    email=email,
+                    status="verification_error",
+                    account_id="none",
+                    reason="quota_exhausted",
+                ))
                 continue
 
             res = self.verify_single_email(email, self.key_2 or "", "account_2")
+
+            if res.reason == "quota_exhausted":
+                logger.warning(f"Account 2 quota exhausted at email {email}. Halting Account 2 verification.")
+                account_2_exhausted = True
+                self.ledger.mark_account_exhausted("account_2", date_str)
+                results.append(res)
+                continue
+
             results.append(res)
             live_calls_b += 1
-            cache_records_to_save.append({
-                "email": email,
-                "account_id": "account_2",
-                "status": res.status,
-                "date_verified": date_str,
-                "raw_result": res.reason,
-            })
+            if res.status in ("valid", "invalid", "risky"):
+                cache_records_to_save.append({
+                    "email": email,
+                    "account_id": "account_2",
+                    "status": res.status,
+                    "date_verified": date_str,
+                    "raw_result": res.reason,
+                })
 
         if live_calls_b > 0 and not self.dry_run:
             self.ledger.record_usage("account_2", live_calls_b, date_str)
