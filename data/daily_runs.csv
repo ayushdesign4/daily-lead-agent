@@ -55,3 +55,4 @@ date,status,target,delivered,reason,run_id
     ""message"": ""Your remaining usage of $0.156243 this billing cycle isn't enough for this run. Increase your limit by upgrading to a paid plan at https://console.apify.com/billing/subscription""
   }
 }",RUN-685E3AA4
+2026-10-12,PREPARED,200,0,Prepared queue with 237 leads.,RUN-1544DF73

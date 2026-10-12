@@ -1,0 +1,17 @@
+[2026-10-11 23:04:49] [INFO] ============================================================
+[2026-10-11 23:04:49] [INFO] Starting Daily Lead Agent | Run ID: RUN-1544DF73 | Date: 2026-10-12 IST
+[2026-10-11 23:04:49] [INFO] Target: 200 leads | Mode: prepare | Dry Run: False
+[2026-10-11 23:04:49] [INFO] Starting pending queue size: 0
+[2026-10-11 23:04:49] [INFO] --- Starting Apify Batch 1 (Shortage: 200) ---
+[2026-10-11 23:04:49] [INFO] Batch 1 queries (10): ['golf', 'motorsport', 'climbing', 'bouldering', 'surfing', 'diving', 'kayaking', 'rowing', 'sailing', 'cars']
+[2026-10-11 23:21:56] [INFO] Batch 1 Summary: 100 valid emails -> 0 intra-batch dups -> 32 master dups -> 68 genuinely new leads
+[2026-10-11 23:21:56] [INFO] Target not yet satisfied. Remaining shortage: 132
+[2026-10-11 23:21:56] [INFO] --- Starting Apify Batch 2 (Shortage: 132) ---
+[2026-10-11 23:21:56] [INFO] Batch 2 queries (10): ['supercars', 'motorcycles', 'automotive', 'tuning', 'offroading', 'racing', 'drifting', 'evs', 'restoration', 'aviation']
+[2026-10-11 23:42:20] [INFO] Batch 2 Summary: 134 valid emails -> 0 intra-batch dups -> 49 master dups -> 85 genuinely new leads
+[2026-10-11 23:42:20] [INFO] Target not yet satisfied. Remaining shortage: 47
+[2026-10-11 23:42:20] [INFO] --- Starting Apify Batch 3 (Shortage: 47) ---
+[2026-10-11 23:42:20] [INFO] Batch 3 queries (10): ['superbikes', 'planes', 'drones', 'physics', 'chemistry', 'biology', 'mathematics', 'astronomy', 'history', 'geopolitics']
+[2026-10-12 00:13:05] [INFO] Batch 3 Summary: 168 valid emails -> 0 intra-batch dups -> 84 master dups -> 84 genuinely new leads
+[2026-10-12 00:13:05] [INFO] Target satisfied in queue (237 available). Stopping Apify immediately.
+[2026-10-12 00:13:05] [INFO] Overnight preparation run complete. Daily email is scheduled for 11:00 AM IST.
