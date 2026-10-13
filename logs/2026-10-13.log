@@ -1,0 +1,21 @@
+[2026-10-13 01:33:21] [INFO] ============================================================
+[2026-10-13 01:33:21] [INFO] Starting Daily Lead Agent | Run ID: RUN-884A8444 | Date: 2026-10-13 IST
+[2026-10-13 01:33:21] [INFO] Target: 200 leads | Mode: prepare | Dry Run: False
+[2026-10-13 01:33:21] [INFO] Starting pending queue size: 37
+[2026-10-13 01:33:21] [INFO] --- Starting Apify Batch 1 (Shortage: 163) ---
+[2026-10-13 01:33:21] [INFO] Batch 1 queries (10): ['astrophysics', 'geography', 'philosophy', 'psychology', 'sociology', 'literature', 'linguistics', 'grammar', 'vocabulary', 'science']
+[2026-10-13 02:04:34] [INFO] Batch 1 Summary: 94 valid emails -> 0 intra-batch dups -> 54 master dups -> 40 genuinely new leads
+[2026-10-13 02:04:34] [INFO] Target not yet satisfied. Remaining shortage: 123
+[2026-10-13 02:04:34] [INFO] --- Starting Apify Batch 2 (Shortage: 123) ---
+[2026-10-13 02:04:34] [INFO] Batch 2 queries (10): ['experiment', 'neuroscience', 'genetics', 'biochemistry', 'anthropology', 'archaeology', 'ecology', 'fashion', 'styling', 'grooming']
+[2026-10-13 02:34:15] [INFO] Batch 2 Summary: 97 valid emails -> 0 intra-batch dups -> 43 master dups -> 54 genuinely new leads
+[2026-10-13 02:34:15] [INFO] Target not yet satisfied. Remaining shortage: 69
+[2026-10-13 02:34:15] [INFO] --- Starting Apify Batch 3 (Shortage: 69) ---
+[2026-10-13 02:34:15] [INFO] Batch 3 queries (10): ['streetwear', 'sneakers', 'movies', 'comedy', 'standup', 'magic', 'illusion', 'mentalism', 'unboxing', 'critique']
+[2026-10-13 03:07:59] [INFO] Batch 3 Summary: 86 valid emails -> 0 intra-batch dups -> 37 master dups -> 49 genuinely new leads
+[2026-10-13 03:07:59] [INFO] Target not yet satisfied. Remaining shortage: 20
+[2026-10-13 03:07:59] [INFO] --- Starting Apify Batch 4 (Shortage: 20) ---
+[2026-10-13 03:07:59] [INFO] Batch 4 queries (10): ['reviews', 'lifestyle', 'parenting', 'relationships', 'dating', 'marriage', 'minimalism', 'interior', 'architecture', 'decor']
+[2026-10-13 03:39:27] [INFO] Batch 4 Summary: 123 valid emails -> 0 intra-batch dups -> 51 master dups -> 72 genuinely new leads
+[2026-10-13 03:39:27] [INFO] Target satisfied in queue (252 available). Stopping Apify immediately.
+[2026-10-13 03:39:27] [INFO] Overnight preparation run complete. Daily email is scheduled for 11:00 AM IST.
