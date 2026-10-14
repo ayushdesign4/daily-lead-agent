@@ -1,0 +1,25 @@
+[2026-10-13 23:22:51] [INFO] ============================================================
+[2026-10-13 23:22:51] [INFO] Starting Daily Lead Agent | Run ID: RUN-35589EF5 | Date: 2026-10-14 IST
+[2026-10-13 23:22:51] [INFO] Target: 200 leads | Mode: prepare | Dry Run: False
+[2026-10-13 23:22:51] [INFO] Starting pending queue size: 52
+[2026-10-13 23:22:51] [INFO] --- Starting Apify Batch 1 (Shortage: 148) ---
+[2026-10-13 23:22:51] [INFO] Batch 1 queries (10): ['thrifting', 'perfumes', 'watches', 'jewelry', 'satire', 'parody', 'improv', 'ventriloquism', 'acrobatics', 'carpentry']
+[2026-10-13 23:45:00] [INFO] Batch 1 Summary: 77 valid emails -> 0 intra-batch dups -> 23 master dups -> 54 genuinely new leads
+[2026-10-13 23:45:00] [INFO] Target not yet satisfied. Remaining shortage: 94
+[2026-10-13 23:45:00] [INFO] --- Starting Apify Batch 2 (Shortage: 94) ---
+[2026-10-13 23:45:00] [INFO] Batch 2 queries (10): ['blacksmithing', 'leathercraft', 'barista', 'coffee', 'brewing', 'fermentation', 'metallurgy', 'woodcraft', 'sewing', 'embroidery']
+[2026-10-14 00:21:15] [INFO] Batch 2 Summary: 62 valid emails -> 0 intra-batch dups -> 21 master dups -> 41 genuinely new leads
+[2026-10-14 00:21:15] [INFO] Target not yet satisfied. Remaining shortage: 53
+[2026-10-14 00:21:15] [INFO] --- Starting Apify Batch 3 (Shortage: 53) ---
+[2026-10-14 00:21:15] [INFO] Batch 3 queries (10): ['quilting', 'weaving', 'crochet', 'ceramics', 'glassblowing', 'gemology', 'macrame', 'woodturning', 'lapidary', 'enameling']
+[2026-10-14 00:48:40] [INFO] Batch 3 Summary: 38 valid emails -> 0 intra-batch dups -> 9 master dups -> 29 genuinely new leads
+[2026-10-14 00:48:40] [INFO] Target not yet satisfied. Remaining shortage: 24
+[2026-10-14 00:48:40] [INFO] --- Starting Apify Batch 4 (Shortage: 24) ---
+[2026-10-14 00:48:40] [INFO] Batch 4 queries (10): ['pyrography', 'quilling', 'tatting', 'bonsai', 'beekeeping', 'entomology', 'mycology', 'horticulture', 'viticulture', 'mixology']
+[2026-10-14 01:06:48] [INFO] Batch 4 Summary: 27 valid emails -> 0 intra-batch dups -> 11 master dups -> 16 genuinely new leads
+[2026-10-14 01:06:48] [INFO] Target not yet satisfied. Remaining shortage: 8
+[2026-10-14 01:06:48] [INFO] --- Starting Apify Batch 5 (Shortage: 8) ---
+[2026-10-14 01:06:48] [INFO] Batch 5 queries (10): ['gastronomy', 'charcuterie', 'chocolatier', 'patisserie', 'confectionery', 'roasting', 'grilling', 'smoking', 'sommelier', 'cartography']
+[2026-10-14 01:30:42] [INFO] Batch 5 Summary: 54 valid emails -> 0 intra-batch dups -> 16 master dups -> 38 genuinely new leads
+[2026-10-14 01:30:42] [INFO] Target satisfied in queue (230 available). Stopping Apify immediately.
+[2026-10-14 01:30:42] [INFO] Overnight preparation run complete. Daily email is scheduled for 11:00 AM IST.
