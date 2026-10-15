@@ -139,3 +139,225 @@
   }
 }
 [2026-10-15 02:22:38] [INFO] Overnight preparation run complete. Daily email is scheduled for 11:00 AM IST.
+[2026-10-15 09:57:51] [INFO] ============================================================
+[2026-10-15 09:57:51] [INFO] Starting Daily Lead Agent | Run ID: RUN-C682DEE8 | Date: 2026-10-15 IST
+[2026-10-15 09:57:51] [INFO] Target: 200 leads | Mode: deliver | Dry Run: False
+[2026-10-15 09:57:51] [INFO] Starting pending queue size: 107
+[2026-10-15 09:57:51] [INFO] --- Starting Apify Batch 1 (Shortage: 93) ---
+[2026-10-15 09:57:51] [INFO] Batch 1 queries (10): ['omnifitness', 'ultrafinance', 'profitness', 'proscience', 'proart', 'procraft', 'promusic', 'prohealth', 'prologic', 'protrade']
+[2026-10-15 10:22:47] [INFO] Batch 1 Summary: 10 valid emails -> 0 intra-batch dups -> 6 master dups -> 4 genuinely new leads
+[2026-10-15 10:22:47] [INFO] Target not yet satisfied. Remaining shortage: 89
+[2026-10-15 10:22:47] [INFO] --- Starting Apify Batch 2 (Shortage: 89) ---
+[2026-10-15 10:22:47] [INFO] Batch 2 queries (10): ['omnicoding', 'ultrafitness', 'prospace', 'prorobotics', 'prooptics', 'proanalytics', 'promotion', 'provlog', 'procinema', 'progrowth']
+[2026-10-15 10:52:44] [INFO] Batch 2 Summary: 21 valid emails -> 0 intra-batch dups -> 11 master dups -> 10 genuinely new leads
+[2026-10-15 10:52:44] [INFO] Target not yet satisfied. Remaining shortage: 79
+[2026-10-15 10:52:44] [INFO] --- Starting Apify Batch 3 (Shortage: 79) ---
+[2026-10-15 10:52:44] [INFO] Batch 3 queries (10): ['omnigaming', 'ultracoding', 'prosports', 'proaudio', 'promarket', 'creator1', 'vlogger1', 'streamer1', 'coder1', 'gamer1']
+[2026-10-15 11:24:42] [INFO] Batch 3 Summary: 14 valid emails -> 0 intra-batch dups -> 7 master dups -> 7 genuinely new leads
+[2026-10-15 11:24:42] [INFO] Target not yet satisfied. Remaining shortage: 72
+[2026-10-15 11:24:42] [INFO] --- Starting Apify Batch 4 (Shortage: 72) ---
+[2026-10-15 11:24:42] [INFO] Batch 4 queries (10): ['omnidesign', 'ultragaming', 'proskills', 'builder1', 'hustler1', 'trader1', 'maker1', 'stylist1', 'coach1', 'tutor1']
+[2026-10-15 11:29:44] [INFO] Batch 4 Summary: 2 valid emails -> 0 intra-batch dups -> 1 master dups -> 1 genuinely new leads
+[2026-10-15 11:29:44] [INFO] Target not yet satisfied. Remaining shortage: 71
+[2026-10-15 11:29:44] [INFO] --- Starting Apify Batch 5 (Shortage: 71) ---
+[2026-10-15 11:29:44] [INFO] Batch 5 queries (10): ['omnimedia', 'ultradesign', 'creator2', 'vlogger2', 'streamer2', 'coder2', 'gamer2', 'builder2', 'hustler2', 'trader2']
+[2026-10-15 11:41:04] [INFO] Batch 5 Summary: 2 valid emails -> 0 intra-batch dups -> 0 master dups -> 2 genuinely new leads
+[2026-10-15 11:41:04] [INFO] Target not yet satisfied. Remaining shortage: 69
+[2026-10-15 11:41:04] [INFO] --- Starting Apify Batch 6 (Shortage: 69) ---
+[2026-10-15 11:41:04] [INFO] Batch 6 queries (10): ['omniscience', 'ultramedia', 'maker2', 'stylist2', 'coach2', 'tutor2', 'creator3', 'vlogger3', 'streamer3', 'coder3']
+[2026-10-15 11:42:20] [INFO] Batch 6 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-10-15 11:42:20] [INFO] Target not yet satisfied. Remaining shortage: 69
+[2026-10-15 11:42:20] [INFO] --- Starting Apify Batch 7 (Shortage: 69) ---
+[2026-10-15 11:42:20] [INFO] Batch 7 queries (10): ['omniart', 'ultrascience', 'gamer3', 'builder3', 'hustler3', 'trader3', 'maker3', 'stylist3', 'coach3', 'tutor3']
+[2026-10-15 11:57:11] [INFO] Batch 7 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-10-15 11:57:11] [INFO] Target not yet satisfied. Remaining shortage: 69
+[2026-10-15 11:57:11] [INFO] --- Starting Apify Batch 8 (Shortage: 69) ---
+[2026-10-15 11:57:11] [INFO] Batch 8 queries (10): ['omnicraft', 'ultraart', 'creator4', 'vlogger4', 'streamer4', 'coder4', 'gamer4', 'builder4', 'hustler4', 'trader4']
+[2026-10-15 12:07:46] [INFO] Batch 8 Summary: 2 valid emails -> 0 intra-batch dups -> 0 master dups -> 2 genuinely new leads
+[2026-10-15 12:07:46] [INFO] Target not yet satisfied. Remaining shortage: 67
+[2026-10-15 12:07:46] [INFO] --- Starting Apify Batch 9 (Shortage: 67) ---
+[2026-10-15 12:07:46] [INFO] Batch 9 queries (10): ['omnimusic', 'ultracraft', 'maker4', 'stylist4', 'coach4', 'tutor4', 'creator5', 'vlogger5', 'streamer5', 'coder5']
+[2026-10-15 12:10:48] [INFO] Batch 9 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-10-15 12:10:48] [INFO] Target not yet satisfied. Remaining shortage: 67
+[2026-10-15 12:10:48] [INFO] --- Starting Apify Batch 10 (Shortage: 67) ---
+[2026-10-15 12:10:48] [INFO] Batch 10 queries (10): ['omnihealth', 'ultramusic', 'gamer5', 'builder5', 'hustler5', 'trader5', 'maker5', 'stylist5', 'coach5', 'tutor5']
+[2026-10-15 12:14:50] [INFO] Batch 10 Summary: 5 valid emails -> 0 intra-batch dups -> 1 master dups -> 4 genuinely new leads
+[2026-10-15 12:14:50] [INFO] Target not yet satisfied. Remaining shortage: 63
+[2026-10-15 12:14:50] [INFO] --- Starting Apify Batch 11 (Shortage: 63) ---
+[2026-10-15 12:14:50] [INFO] Batch 11 queries (10): ['omnispace', 'ultrahealth', 'creator6', 'vlogger6', 'streamer6', 'coder6', 'gamer6', 'builder6', 'hustler6', 'trader6']
+[2026-10-15 12:15:21] [INFO] Batch 11 Summary: 1 valid emails -> 0 intra-batch dups -> 0 master dups -> 1 genuinely new leads
+[2026-10-15 12:15:21] [INFO] Target not yet satisfied. Remaining shortage: 62
+[2026-10-15 12:15:21] [INFO] --- Starting Apify Batch 12 (Shortage: 62) ---
+[2026-10-15 12:15:21] [INFO] Batch 12 queries (10): ['omnisports', 'ultraspace', 'maker6', 'stylist6', 'coach6', 'tutor6', 'creator7', 'vlogger7', 'streamer7', 'coder7']
+[2026-10-15 12:28:12] [INFO] Batch 12 Summary: 2 valid emails -> 0 intra-batch dups -> 2 master dups -> 0 genuinely new leads
+[2026-10-15 12:28:12] [INFO] Target not yet satisfied. Remaining shortage: 62
+[2026-10-15 12:28:12] [INFO] --- Starting Apify Batch 13 (Shortage: 62) ---
+[2026-10-15 12:28:12] [INFO] Batch 13 queries (10): ['omnilogic', 'ultrasports', 'gamer7', 'builder7', 'hustler7', 'trader7', 'maker7', 'stylist7', 'coach7', 'tutor7']
+[2026-10-15 12:29:13] [INFO] Batch 13 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-10-15 12:29:13] [INFO] Target not yet satisfied. Remaining shortage: 62
+[2026-10-15 12:29:13] [INFO] --- Starting Apify Batch 14 (Shortage: 62) ---
+[2026-10-15 12:29:13] [INFO] Batch 14 queries (10): ['omnitrade', 'ultralogic', 'creator8', 'vlogger8', 'streamer8', 'coder8', 'gamer8', 'builder8', 'hustler8', 'trader8']
+[2026-10-15 12:29:44] [INFO] Batch 14 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-10-15 12:29:44] [INFO] Target not yet satisfied. Remaining shortage: 62
+[2026-10-15 12:29:44] [INFO] --- Starting Apify Batch 15 (Shortage: 62) ---
+[2026-10-15 12:29:44] [INFO] Batch 15 queries (10): ['omnirobotics', 'ultratrade', 'maker8', 'stylist8', 'coach8', 'tutor8', 'creator9', 'vlogger9', 'streamer9', 'coder9']
+[2026-10-15 12:38:49] [INFO] Batch 15 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-10-15 12:38:49] [INFO] Target not yet satisfied. Remaining shortage: 62
+[2026-10-15 12:38:49] [INFO] --- Starting Apify Batch 16 (Shortage: 62) ---
+[2026-10-15 12:38:49] [INFO] Batch 16 queries (10): ['omnioptics', 'ultrarobotics', 'gamer9', 'builder9', 'hustler9', 'trader9', 'maker9', 'stylist9', 'coach9', 'tutor9']
+[2026-10-15 12:48:22] [INFO] Batch 16 Summary: 5 valid emails -> 0 intra-batch dups -> 2 master dups -> 3 genuinely new leads
+[2026-10-15 12:48:22] [INFO] Target not yet satisfied. Remaining shortage: 59
+[2026-10-15 12:48:22] [INFO] --- Starting Apify Batch 17 (Shortage: 59) ---
+[2026-10-15 12:48:22] [INFO] Batch 17 queries (10): ['omnianalytics', 'ultraoptics', 'creator10', 'vlogger10', 'streamer10', 'coder10', 'gamer10', 'builder10', 'hustler10', 'trader10']
+[2026-10-15 12:56:27] [INFO] Batch 17 Summary: 1 valid emails -> 0 intra-batch dups -> 0 master dups -> 1 genuinely new leads
+[2026-10-15 12:56:27] [INFO] Target not yet satisfied. Remaining shortage: 58
+[2026-10-15 12:56:27] [INFO] --- Starting Apify Batch 18 (Shortage: 58) ---
+[2026-10-15 12:56:27] [INFO] Batch 18 queries (10): ['omnimotion', 'ultraanalytics', 'maker10', 'stylist10', 'coach10', 'tutor10', 'creator11', 'vlogger11', 'streamer11', 'coder11']
+[2026-10-15 13:10:03] [INFO] Batch 18 Summary: 3 valid emails -> 0 intra-batch dups -> 2 master dups -> 1 genuinely new leads
+[2026-10-15 13:10:03] [INFO] Target not yet satisfied. Remaining shortage: 57
+[2026-10-15 13:10:03] [INFO] --- Starting Apify Batch 19 (Shortage: 57) ---
+[2026-10-15 13:10:03] [INFO] Batch 19 queries (10): ['omnivlog', 'ultramotion', 'gamer11', 'builder11', 'hustler11', 'trader11', 'maker11', 'stylist11', 'coach11', 'tutor11']
+[2026-10-15 13:17:36] [INFO] Batch 19 Summary: 2 valid emails -> 0 intra-batch dups -> 1 master dups -> 1 genuinely new leads
+[2026-10-15 13:17:36] [INFO] Target not yet satisfied. Remaining shortage: 56
+[2026-10-15 13:17:36] [INFO] --- Starting Apify Batch 20 (Shortage: 56) ---
+[2026-10-15 13:17:36] [INFO] Batch 20 queries (10): ['omniaudio', 'ultravlog', 'creator12', 'vlogger12', 'streamer12', 'coder12', 'gamer12', 'builder12', 'hustler12', 'trader12']
+[2026-10-15 13:36:15] [INFO] Batch 20 Summary: 6 valid emails -> 0 intra-batch dups -> 4 master dups -> 2 genuinely new leads
+[2026-10-15 13:36:15] [INFO] Target not yet satisfied. Remaining shortage: 54
+[2026-10-15 13:36:15] [INFO] --- Starting Apify Batch 21 (Shortage: 54) ---
+[2026-10-15 13:36:15] [INFO] Batch 21 queries (10): ['omnicinema', 'ultraaudio', 'maker12', 'stylist12', 'coach12', 'tutor12', 'creator13', 'vlogger13', 'streamer13', 'coder13']
+[2026-10-15 13:43:34] [INFO] Batch 21 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-10-15 13:43:34] [INFO] Target not yet satisfied. Remaining shortage: 54
+[2026-10-15 13:43:34] [INFO] --- Starting Apify Batch 22 (Shortage: 54) ---
+[2026-10-15 13:43:34] [INFO] Batch 22 queries (10): ['omnigrowth', 'ultracinema', 'gamer13', 'builder13', 'hustler13', 'trader13', 'maker13', 'stylist13', 'coach13', 'tutor13']
+[2026-10-15 13:49:07] [INFO] Batch 22 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-10-15 13:49:07] [INFO] Target not yet satisfied. Remaining shortage: 54
+[2026-10-15 13:49:07] [INFO] --- Starting Apify Batch 23 (Shortage: 54) ---
+[2026-10-15 13:49:07] [INFO] Batch 23 queries (10): ['omniskills', 'ultragrowth', 'creator14', 'vlogger14', 'streamer14', 'coder14', 'gamer14', 'builder14', 'hustler14', 'trader14']
+[2026-10-15 13:49:37] [INFO] Batch 23 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-10-15 13:49:37] [INFO] Target not yet satisfied. Remaining shortage: 54
+[2026-10-15 13:49:37] [INFO] --- Starting Apify Batch 24 (Shortage: 54) ---
+[2026-10-15 13:49:37] [INFO] Batch 24 queries (10): ['omnimarket', 'ultraskills', 'maker14', 'stylist14', 'coach14', 'tutor14', 'creator15', 'vlogger15', 'streamer15', 'coder15']
+[2026-10-15 13:56:56] [INFO] Batch 24 Summary: 1 valid emails -> 0 intra-batch dups -> 0 master dups -> 1 genuinely new leads
+[2026-10-15 13:56:56] [INFO] Target not yet satisfied. Remaining shortage: 53
+[2026-10-15 13:56:56] [INFO] --- Starting Apify Batch 25 (Shortage: 53) ---
+[2026-10-15 13:56:56] [INFO] Batch 25 queries (10): ['ultramarket', 'gamer15', 'builder15', 'hustler15', 'trader15', 'maker15', 'stylist15', 'coach15', 'tutor15', 'creator16']
+[2026-10-15 14:02:28] [INFO] Batch 25 Summary: 2 valid emails -> 0 intra-batch dups -> 2 master dups -> 0 genuinely new leads
+[2026-10-15 14:02:28] [INFO] Target not yet satisfied. Remaining shortage: 53
+[2026-10-15 14:02:28] [INFO] --- Starting Apify Batch 26 (Shortage: 53) ---
+[2026-10-15 14:02:28] [INFO] Batch 26 queries (10): ['vlogger16', 'streamer16', 'coder16', 'gamer16', 'builder16', 'hustler16', 'trader16', 'maker16', 'stylist16', 'coach16']
+[2026-10-15 14:15:04] [INFO] Batch 26 Summary: 12 valid emails -> 0 intra-batch dups -> 5 master dups -> 7 genuinely new leads
+[2026-10-15 14:15:04] [INFO] Target not yet satisfied. Remaining shortage: 46
+[2026-10-15 14:15:04] [INFO] --- Starting Apify Batch 27 (Shortage: 46) ---
+[2026-10-15 14:15:04] [INFO] Batch 27 queries (10): ['tutor16', 'creator17', 'vlogger17', 'streamer17', 'coder17', 'gamer17', 'builder17', 'hustler17', 'trader17', 'maker17']
+[2026-10-15 14:23:39] [INFO] Batch 27 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-10-15 14:23:39] [INFO] Target not yet satisfied. Remaining shortage: 46
+[2026-10-15 14:23:39] [INFO] --- Starting Apify Batch 28 (Shortage: 46) ---
+[2026-10-15 14:23:39] [INFO] Batch 28 queries (10): ['stylist17', 'coach17', 'tutor17', 'creator18', 'vlogger18', 'streamer18', 'coder18', 'gamer18', 'builder18', 'hustler18']
+[2026-10-15 14:24:11] [INFO] Batch 28 Summary: 1 valid emails -> 0 intra-batch dups -> 0 master dups -> 1 genuinely new leads
+[2026-10-15 14:24:11] [INFO] Target not yet satisfied. Remaining shortage: 45
+[2026-10-15 14:24:11] [INFO] --- Starting Apify Batch 29 (Shortage: 45) ---
+[2026-10-15 14:24:11] [INFO] Batch 29 queries (10): ['trader18', 'maker18', 'stylist18', 'coach18', 'tutor18', 'creator19', 'vlogger19', 'streamer19', 'coder19', 'gamer19']
+[2026-10-15 14:24:41] [INFO] Batch 29 Summary: 1 valid emails -> 0 intra-batch dups -> 0 master dups -> 1 genuinely new leads
+[2026-10-15 14:24:41] [INFO] Target not yet satisfied. Remaining shortage: 44
+[2026-10-15 14:24:41] [INFO] --- Starting Apify Batch 30 (Shortage: 44) ---
+[2026-10-15 14:24:41] [INFO] Batch 30 queries (10): ['builder19', 'hustler19', 'trader19', 'maker19', 'stylist19', 'coach19', 'tutor19', 'creator20', 'vlogger20', 'streamer20']
+[2026-10-15 14:24:57] [INFO] Batch 30 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-10-15 14:24:57] [INFO] Target not yet satisfied. Remaining shortage: 44
+[2026-10-15 14:24:57] [INFO] --- Starting Apify Batch 31 (Shortage: 44) ---
+[2026-10-15 14:24:57] [INFO] Batch 31 queries (10): ['coder20', 'gamer20', 'builder20', 'hustler20', 'trader20', 'maker20', 'stylist20', 'coach20', 'tutor20', 'creator21']
+[2026-10-15 14:29:45] [INFO] Batch 31 Summary: 1 valid emails -> 0 intra-batch dups -> 0 master dups -> 1 genuinely new leads
+[2026-10-15 14:29:45] [INFO] Target not yet satisfied. Remaining shortage: 43
+[2026-10-15 14:29:45] [INFO] --- Starting Apify Batch 32 (Shortage: 43) ---
+[2026-10-15 14:29:45] [INFO] Batch 32 queries (10): ['vlogger21', 'streamer21', 'coder21', 'gamer21', 'builder21', 'hustler21', 'trader21', 'maker21', 'stylist21', 'coach21']
+[2026-10-15 14:30:15] [INFO] Batch 32 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-10-15 14:30:15] [INFO] Target not yet satisfied. Remaining shortage: 43
+[2026-10-15 14:30:15] [INFO] --- Starting Apify Batch 33 (Shortage: 43) ---
+[2026-10-15 14:30:15] [INFO] Batch 33 queries (10): ['tutor21', 'creator22', 'vlogger22', 'streamer22', 'coder22', 'gamer22', 'builder22', 'hustler22', 'trader22', 'maker22']
+[2026-10-15 14:36:04] [INFO] Batch 33 Summary: 5 valid emails -> 0 intra-batch dups -> 3 master dups -> 2 genuinely new leads
+[2026-10-15 14:36:04] [INFO] Target not yet satisfied. Remaining shortage: 41
+[2026-10-15 14:36:04] [INFO] --- Starting Apify Batch 34 (Shortage: 41) ---
+[2026-10-15 14:36:04] [INFO] Batch 34 queries (10): ['stylist22', 'coach22', 'tutor22', 'creator23', 'vlogger23', 'streamer23', 'coder23', 'gamer23', 'builder23', 'hustler23']
+[2026-10-15 14:36:34] [INFO] Batch 34 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-10-15 14:36:34] [INFO] Target not yet satisfied. Remaining shortage: 41
+[2026-10-15 14:36:34] [INFO] --- Starting Apify Batch 35 (Shortage: 41) ---
+[2026-10-15 14:36:34] [INFO] Batch 35 queries (10): ['trader23', 'maker23', 'stylist23', 'coach23', 'tutor23', 'creator24', 'vlogger24', 'streamer24', 'coder24', 'gamer24']
+[2026-10-15 14:36:50] [INFO] Batch 35 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-10-15 14:36:50] [INFO] Target not yet satisfied. Remaining shortage: 41
+[2026-10-15 14:36:50] [INFO] --- Starting Apify Batch 36 (Shortage: 41) ---
+[2026-10-15 14:36:50] [INFO] Batch 36 queries (10): ['builder24', 'hustler24', 'trader24', 'maker24', 'stylist24', 'coach24', 'tutor24', 'creator25', 'vlogger25', 'streamer25']
+[2026-10-15 14:37:21] [INFO] Batch 36 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-10-15 14:37:21] [INFO] Target not yet satisfied. Remaining shortage: 41
+[2026-10-15 14:37:21] [INFO] --- Starting Apify Batch 37 (Shortage: 41) ---
+[2026-10-15 14:37:21] [INFO] Batch 37 queries (10): ['coder25', 'gamer25', 'builder25', 'hustler25', 'trader25', 'maker25', 'stylist25', 'coach25', 'tutor25', 'creator26']
+[2026-10-15 14:37:37] [INFO] Batch 37 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-10-15 14:37:37] [INFO] Target not yet satisfied. Remaining shortage: 41
+[2026-10-15 14:37:37] [INFO] --- Starting Apify Batch 38 (Shortage: 41) ---
+[2026-10-15 14:37:37] [INFO] Batch 38 queries (10): ['vlogger26', 'streamer26', 'coder26', 'gamer26', 'builder26', 'hustler26', 'trader26', 'maker26', 'stylist26', 'coach26']
+[2026-10-15 14:37:52] [INFO] Batch 38 Summary: 1 valid emails -> 0 intra-batch dups -> 0 master dups -> 1 genuinely new leads
+[2026-10-15 14:37:52] [INFO] Target not yet satisfied. Remaining shortage: 40
+[2026-10-15 14:37:52] [INFO] --- Starting Apify Batch 39 (Shortage: 40) ---
+[2026-10-15 14:37:52] [INFO] Batch 39 queries (10): ['tutor26', 'creator27', 'vlogger27', 'streamer27', 'coder27', 'gamer27', 'builder27', 'hustler27', 'trader27', 'maker27']
+[2026-10-15 14:38:08] [INFO] Batch 39 Summary: 1 valid emails -> 0 intra-batch dups -> 1 master dups -> 0 genuinely new leads
+[2026-10-15 14:38:08] [INFO] Target not yet satisfied. Remaining shortage: 40
+[2026-10-15 14:38:08] [INFO] --- Starting Apify Batch 40 (Shortage: 40) ---
+[2026-10-15 14:38:08] [INFO] Batch 40 queries (10): ['stylist27', 'coach27', 'tutor27', 'creator28', 'vlogger28', 'streamer28', 'coder28', 'gamer28', 'builder28', 'hustler28']
+[2026-10-15 14:47:43] [INFO] Batch 40 Summary: 6 valid emails -> 0 intra-batch dups -> 5 master dups -> 1 genuinely new leads
+[2026-10-15 14:47:43] [INFO] Target not yet satisfied. Remaining shortage: 39
+[2026-10-15 14:47:43] [INFO] --- Starting Apify Batch 41 (Shortage: 39) ---
+[2026-10-15 14:47:43] [INFO] Batch 41 queries (10): ['trader28', 'maker28', 'stylist28', 'coach28', 'tutor28', 'creator29', 'vlogger29', 'streamer29', 'coder29', 'gamer29']
+[2026-10-15 14:53:30] [INFO] Batch 41 Summary: 5 valid emails -> 0 intra-batch dups -> 0 master dups -> 5 genuinely new leads
+[2026-10-15 14:53:30] [INFO] Target not yet satisfied. Remaining shortage: 34
+[2026-10-15 14:53:30] [INFO] --- Starting Apify Batch 42 (Shortage: 34) ---
+[2026-10-15 14:53:30] [INFO] Batch 42 queries (10): ['builder29', 'hustler29', 'trader29', 'maker29', 'stylist29', 'coach29', 'tutor29', 'creator30', 'vlogger30', 'streamer30']
+[2026-10-15 14:54:01] [INFO] Batch 42 Summary: 1 valid emails -> 0 intra-batch dups -> 0 master dups -> 1 genuinely new leads
+[2026-10-15 14:54:01] [INFO] Target not yet satisfied. Remaining shortage: 33
+[2026-10-15 14:54:01] [INFO] --- Starting Apify Batch 43 (Shortage: 33) ---
+[2026-10-15 14:54:01] [INFO] Batch 43 queries (10): ['coder30', 'gamer30', 'builder30', 'hustler30', 'trader30', 'maker30', 'stylist30', 'coach30', 'tutor30', 'creator31']
+[2026-10-15 15:03:50] [INFO] Batch 43 Summary: 9 valid emails -> 0 intra-batch dups -> 6 master dups -> 3 genuinely new leads
+[2026-10-15 15:03:51] [INFO] Target not yet satisfied. Remaining shortage: 30
+[2026-10-15 15:03:51] [INFO] --- Starting Apify Batch 44 (Shortage: 30) ---
+[2026-10-15 15:03:51] [INFO] Batch 44 queries (10): ['vlogger31', 'streamer31', 'coder31', 'gamer31', 'builder31', 'hustler31', 'trader31', 'maker31', 'stylist31', 'coach31']
+[2026-10-15 15:14:41] [INFO] Batch 44 Summary: 12 valid emails -> 0 intra-batch dups -> 9 master dups -> 3 genuinely new leads
+[2026-10-15 15:14:41] [INFO] Target not yet satisfied. Remaining shortage: 27
+[2026-10-15 15:14:41] [INFO] --- Starting Apify Batch 45 (Shortage: 27) ---
+[2026-10-15 15:14:41] [INFO] Batch 45 queries (10): ['tutor31', 'creator32', 'vlogger32', 'streamer32', 'coder32', 'gamer32', 'builder32', 'hustler32', 'trader32', 'maker32']
+[2026-10-15 15:15:12] [INFO] Batch 45 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-10-15 15:15:12] [INFO] Target not yet satisfied. Remaining shortage: 27
+[2026-10-15 15:15:12] [INFO] --- Starting Apify Batch 46 (Shortage: 27) ---
+[2026-10-15 15:15:12] [INFO] Batch 46 queries (10): ['stylist32', 'coach32', 'tutor32', 'creator33', 'vlogger33', 'streamer33', 'coder33', 'gamer33', 'builder33', 'hustler33']
+[2026-10-15 15:15:43] [INFO] Batch 46 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-10-15 15:15:43] [INFO] Target not yet satisfied. Remaining shortage: 27
+[2026-10-15 15:15:43] [INFO] --- Starting Apify Batch 47 (Shortage: 27) ---
+[2026-10-15 15:15:43] [INFO] Batch 47 queries (10): ['trader33', 'maker33', 'stylist33', 'coach33', 'tutor33', 'creator34', 'vlogger34', 'streamer34', 'coder34', 'gamer34']
+[2026-10-15 15:21:31] [INFO] Batch 47 Summary: 2 valid emails -> 0 intra-batch dups -> 2 master dups -> 0 genuinely new leads
+[2026-10-15 15:21:31] [INFO] Target not yet satisfied. Remaining shortage: 27
+[2026-10-15 15:21:31] [INFO] --- Starting Apify Batch 48 (Shortage: 27) ---
+[2026-10-15 15:21:31] [INFO] Batch 48 queries (10): ['builder34', 'hustler34', 'trader34', 'maker34', 'stylist34', 'coach34', 'tutor34', 'creator35', 'vlogger35', 'streamer35']
+[2026-10-15 15:22:01] [INFO] Batch 48 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-10-15 15:22:01] [INFO] Target not yet satisfied. Remaining shortage: 27
+[2026-10-15 15:22:01] [INFO] --- Starting Apify Batch 49 (Shortage: 27) ---
+[2026-10-15 15:22:01] [INFO] Batch 49 queries (10): ['coder35', 'gamer35', 'builder35', 'hustler35', 'trader35', 'maker35', 'stylist35', 'coach35', 'tutor35', 'creator36']
+[2026-10-15 15:25:33] [INFO] Batch 49 Summary: 5 valid emails -> 0 intra-batch dups -> 0 master dups -> 5 genuinely new leads
+[2026-10-15 15:25:33] [INFO] Target not yet satisfied. Remaining shortage: 22
+[2026-10-15 15:25:33] [INFO] --- Starting Apify Batch 50 (Shortage: 22) ---
+[2026-10-15 15:25:33] [INFO] Batch 50 queries (10): ['vlogger36', 'streamer36', 'coder36', 'gamer36', 'builder36', 'hustler36', 'trader36', 'maker36', 'stylist36', 'coach36']
+[2026-10-15 15:36:22] [INFO] Batch 50 Summary: 2 valid emails -> 0 intra-batch dups -> 1 master dups -> 1 genuinely new leads
+[2026-10-15 15:36:22] [INFO] Target not yet satisfied. Remaining shortage: 21
+[2026-10-15 15:36:22] [INFO] --- Starting Apify Batch 51 (Shortage: 21) ---
+[2026-10-15 15:36:22] [INFO] Batch 51 queries (10): ['tutor36', 'creator37', 'vlogger37', 'streamer37', 'coder37', 'gamer37', 'builder37', 'hustler37', 'trader37', 'maker37']
+[2026-10-15 15:36:53] [INFO] Batch 51 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-10-15 15:36:53] [INFO] Target not yet satisfied. Remaining shortage: 21
+[2026-10-15 15:36:53] [INFO] --- Starting Apify Batch 52 (Shortage: 21) ---
+[2026-10-15 15:36:53] [INFO] Batch 52 queries (10): ['stylist37', 'coach37', 'tutor37', 'creator38', 'vlogger38', 'streamer38', 'coder38', 'gamer38', 'builder38', 'hustler38']
+[2026-10-15 15:53:00] [INFO] Batch 52 Summary: 5 valid emails -> 0 intra-batch dups -> 5 master dups -> 0 genuinely new leads
+[2026-10-15 15:53:00] [INFO] Target not yet satisfied. Remaining shortage: 21
+[2026-10-15 15:53:00] [INFO] --- Starting Apify Batch 53 (Shortage: 21) ---
+[2026-10-15 15:53:00] [INFO] Batch 53 queries (10): ['trader38', 'maker38', 'stylist38', 'coach38', 'tutor38', 'creator39', 'vlogger39', 'streamer39', 'coder39', 'gamer39']
+[2026-10-15 15:53:45] [INFO] Batch 53 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-10-15 15:53:45] [INFO] Target not yet satisfied. Remaining shortage: 21
+[2026-10-15 15:53:45] [INFO] --- Starting Apify Batch 54 (Shortage: 21) ---
+[2026-10-15 15:53:45] [INFO] Batch 54 queries (10): ['builder39', 'hustler39', 'trader39', 'maker39', 'stylist39', 'coach39', 'tutor39', 'creator40', 'vlogger40', 'streamer40']
+[2026-10-15 15:54:46] [INFO] Batch 54 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-10-15 15:54:46] [INFO] Target not yet satisfied. Remaining shortage: 21
+[2026-10-15 15:54:46] [INFO] --- Starting Apify Batch 55 (Shortage: 21) ---
+[2026-10-15 15:54:46] [INFO] Batch 55 queries (10): ['coder40', 'gamer40', 'builder40', 'hustler40', 'trader40', 'maker40', 'stylist40', 'coach40', 'tutor40', 'creator41']
