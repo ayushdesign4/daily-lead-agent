@@ -1,0 +1,141 @@
+[2026-10-14 22:31:04] [INFO] ============================================================
+[2026-10-14 22:31:04] [INFO] Starting Daily Lead Agent | Run ID: RUN-912E097A | Date: 2026-10-15 IST
+[2026-10-14 22:31:04] [INFO] Target: 200 leads | Mode: prepare | Dry Run: False
+[2026-10-14 22:31:04] [INFO] Starting pending queue size: 30
+[2026-10-14 22:31:04] [INFO] --- Starting Apify Batch 1 (Shortage: 170) ---
+[2026-10-14 22:31:04] [INFO] Batch 1 queries (10): ['cryptography', 'microtech', 'macrotech', 'neurotech', 'cybertech', 'biotech', 'biofinance', 'biocoding', 'biogaming', 'biodesign']
+[2026-10-14 22:37:56] [INFO] Batch 1 Summary: 21 valid emails -> 0 intra-batch dups -> 10 master dups -> 11 genuinely new leads
+[2026-10-14 22:37:56] [INFO] Target not yet satisfied. Remaining shortage: 159
+[2026-10-14 22:37:56] [INFO] --- Starting Apify Batch 2 (Shortage: 159) ---
+[2026-10-14 22:37:56] [INFO] Batch 2 queries (10): ['microfinance', 'macrofinance', 'neurofinance', 'cyberfinance', 'biofitness', 'biomedia', 'bioscience', 'bioart', 'biocraft', 'biohealth']
+[2026-10-14 22:47:06] [INFO] Batch 2 Summary: 4 valid emails -> 0 intra-batch dups -> 4 master dups -> 0 genuinely new leads
+[2026-10-14 22:47:06] [INFO] Target not yet satisfied. Remaining shortage: 159
+[2026-10-14 22:47:06] [INFO] --- Starting Apify Batch 3 (Shortage: 159) ---
+[2026-10-14 22:47:06] [INFO] Batch 3 queries (10): ['microfitness', 'macrofitness', 'neurofitness', 'cyberfitness', 'biomusic', 'biospace', 'biologic', 'biotrade', 'biorobotics', 'biooptics']
+[2026-10-14 22:50:55] [INFO] Batch 3 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-10-14 22:50:55] [INFO] Target not yet satisfied. Remaining shortage: 159
+[2026-10-14 22:50:55] [INFO] --- Starting Apify Batch 4 (Shortage: 159) ---
+[2026-10-14 22:50:55] [INFO] Batch 4 queries (10): ['microcoding', 'macrocoding', 'neurocoding', 'cybercoding', 'biosports', 'bioanalytics', 'biomotion', 'biovlog', 'biocinema', 'biogrowth']
+[2026-10-14 22:59:18] [INFO] Batch 4 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-10-14 22:59:18] [INFO] Target not yet satisfied. Remaining shortage: 159
+[2026-10-14 22:59:18] [INFO] --- Starting Apify Batch 5 (Shortage: 159) ---
+[2026-10-14 22:59:18] [INFO] Batch 5 queries (10): ['microgaming', 'macrogaming', 'neurogaming', 'cybergaming', 'bioaudio', 'bioskills', 'biomarket', 'astrotech', 'cryptotech', 'retrotech']
+[2026-10-14 22:59:34] [INFO] Batch 5 Summary: 2 valid emails -> 0 intra-batch dups -> 0 master dups -> 2 genuinely new leads
+[2026-10-14 22:59:34] [INFO] Target not yet satisfied. Remaining shortage: 157
+[2026-10-14 22:59:34] [INFO] --- Starting Apify Batch 6 (Shortage: 157) ---
+[2026-10-14 22:59:34] [INFO] Batch 6 queries (10): ['microdesign', 'macrodesign', 'neurodesign', 'cyberdesign', 'astrofinance', 'cryptofinance', 'retrofinance', 'hypertech', 'metatech', 'technotech']
+[2026-10-14 23:10:14] [INFO] Batch 6 Summary: 3 valid emails -> 0 intra-batch dups -> 1 master dups -> 2 genuinely new leads
+[2026-10-14 23:10:14] [INFO] Target not yet satisfied. Remaining shortage: 155
+[2026-10-14 23:10:14] [INFO] --- Starting Apify Batch 7 (Shortage: 155) ---
+[2026-10-14 23:10:14] [INFO] Batch 7 queries (10): ['micromedia', 'macromedia', 'neuromedia', 'cybermedia', 'astrofitness', 'cryptofitness', 'retrofitness', 'hyperfinance', 'metafinance', 'technofinance']
+[2026-10-14 23:14:18] [INFO] Batch 7 Summary: 1 valid emails -> 0 intra-batch dups -> 1 master dups -> 0 genuinely new leads
+[2026-10-14 23:14:18] [INFO] Target not yet satisfied. Remaining shortage: 155
+[2026-10-14 23:14:18] [INFO] --- Starting Apify Batch 8 (Shortage: 155) ---
+[2026-10-14 23:14:18] [INFO] Batch 8 queries (10): ['microscience', 'macroscience', 'neuroart', 'cyberscience', 'astrocoding', 'cryptocoding', 'retrocoding', 'hyperfitness', 'metafitness', 'technofitness']
+[2026-10-14 23:17:37] [INFO] Batch 8 Summary: 1 valid emails -> 0 intra-batch dups -> 0 master dups -> 1 genuinely new leads
+[2026-10-14 23:17:37] [INFO] Target not yet satisfied. Remaining shortage: 154
+[2026-10-14 23:17:37] [INFO] --- Starting Apify Batch 9 (Shortage: 154) ---
+[2026-10-14 23:17:37] [INFO] Batch 9 queries (10): ['microart', 'macroart', 'neurocraft', 'cyberart', 'astrogaming', 'cryptogaming', 'retrodesign', 'hypercoding', 'metacoding', 'technocoding']
+[2026-10-14 23:28:17] [INFO] Batch 9 Summary: 1 valid emails -> 0 intra-batch dups -> 0 master dups -> 1 genuinely new leads
+[2026-10-14 23:28:17] [INFO] Target not yet satisfied. Remaining shortage: 153
+[2026-10-14 23:28:17] [INFO] --- Starting Apify Batch 10 (Shortage: 153) ---
+[2026-10-14 23:28:17] [INFO] Batch 10 queries (10): ['microcraft', 'macrocraft', 'neuromusic', 'cybercraft', 'astrodesign', 'cryptodesign', 'retromedia', 'hypergaming', 'metagaming', 'technogaming']
+[2026-10-14 23:34:53] [INFO] Batch 10 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-10-14 23:34:53] [INFO] Target not yet satisfied. Remaining shortage: 153
+[2026-10-14 23:34:53] [INFO] --- Starting Apify Batch 11 (Shortage: 153) ---
+[2026-10-14 23:34:53] [INFO] Batch 11 queries (10): ['micromusic', 'macromusic', 'neurohealth', 'cybermusic', 'astromedia', 'cryptomedia', 'retroscience', 'hyperdesign', 'metadesign', 'technodesign']
+[2026-10-14 23:53:25] [INFO] Batch 11 Summary: 5 valid emails -> 0 intra-batch dups -> 4 master dups -> 1 genuinely new leads
+[2026-10-14 23:53:25] [INFO] Target not yet satisfied. Remaining shortage: 152
+[2026-10-14 23:53:25] [INFO] --- Starting Apify Batch 12 (Shortage: 152) ---
+[2026-10-14 23:53:25] [INFO] Batch 12 queries (10): ['microhealth', 'macrohealth', 'neurospace', 'cyberhealth', 'astroscience', 'cryptoscience', 'retroart', 'hypermedia', 'metamedia', 'technomedia']
+[2026-10-15 00:00:32] [INFO] Batch 12 Summary: 1 valid emails -> 0 intra-batch dups -> 1 master dups -> 0 genuinely new leads
+[2026-10-15 00:00:32] [INFO] Target not yet satisfied. Remaining shortage: 152
+[2026-10-15 00:00:32] [INFO] --- Starting Apify Batch 13 (Shortage: 152) ---
+[2026-10-15 00:00:32] [INFO] Batch 13 queries (10): ['microspace', 'macrospace', 'neurosports', 'cyberspace', 'astroart', 'cryptoart', 'retrocraft', 'hyperscience', 'metascience', 'technoscience']
+[2026-10-15 00:02:05] [INFO] Batch 13 Summary: 8 valid emails -> 0 intra-batch dups -> 0 master dups -> 8 genuinely new leads
+[2026-10-15 00:02:05] [INFO] Target not yet satisfied. Remaining shortage: 144
+[2026-10-15 00:02:05] [INFO] --- Starting Apify Batch 14 (Shortage: 144) ---
+[2026-10-15 00:02:05] [INFO] Batch 14 queries (10): ['microsports', 'macrosports', 'neurologic', 'cybersports', 'astrocraft', 'cryptocraft', 'retromusic', 'hyperart', 'metaart', 'technoart']
+[2026-10-15 00:08:27] [INFO] Batch 14 Summary: 4 valid emails -> 0 intra-batch dups -> 2 master dups -> 2 genuinely new leads
+[2026-10-15 00:08:27] [INFO] Target not yet satisfied. Remaining shortage: 142
+[2026-10-15 00:08:27] [INFO] --- Starting Apify Batch 15 (Shortage: 142) ---
+[2026-10-15 00:08:27] [INFO] Batch 15 queries (10): ['micrologic', 'macrologic', 'neurotrade', 'cyberlogic', 'astromusic', 'cryptomusic', 'retrohealth', 'hypercraft', 'metacraft', 'technocraft']
+[2026-10-15 00:11:00] [INFO] Batch 15 Summary: 2 valid emails -> 0 intra-batch dups -> 2 master dups -> 0 genuinely new leads
+[2026-10-15 00:11:00] [INFO] Target not yet satisfied. Remaining shortage: 142
+[2026-10-15 00:11:00] [INFO] --- Starting Apify Batch 16 (Shortage: 142) ---
+[2026-10-15 00:11:00] [INFO] Batch 16 queries (10): ['microtrade', 'macrotrade', 'neurorobotics', 'cybertrade', 'astrohealth', 'cryptohealth', 'retrospace', 'hypermusic', 'metamusic', 'technomusic']
+[2026-10-15 00:19:53] [INFO] Batch 16 Summary: 6 valid emails -> 0 intra-batch dups -> 1 master dups -> 5 genuinely new leads
+[2026-10-15 00:19:53] [INFO] Target not yet satisfied. Remaining shortage: 137
+[2026-10-15 00:19:53] [INFO] --- Starting Apify Batch 17 (Shortage: 137) ---
+[2026-10-15 00:19:53] [INFO] Batch 17 queries (10): ['microrobotics', 'macrorobotics', 'neurooptics', 'cyberrobotics', 'astrospace', 'cryptospace', 'retrosports', 'hyperhealth', 'metahealth', 'technohealth']
+[2026-10-15 00:27:00] [INFO] Batch 17 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-10-15 00:27:00] [INFO] Target not yet satisfied. Remaining shortage: 137
+[2026-10-15 00:27:00] [INFO] --- Starting Apify Batch 18 (Shortage: 137) ---
+[2026-10-15 00:27:00] [INFO] Batch 18 queries (10): ['microoptics', 'macrooptics', 'neuroanalytics', 'cyberoptics', 'astrosports', 'cryptosports', 'retrologic', 'hyperspace', 'metaspace', 'technospace']
+[2026-10-15 00:32:51] [INFO] Batch 18 Summary: 5 valid emails -> 0 intra-batch dups -> 1 master dups -> 4 genuinely new leads
+[2026-10-15 00:32:51] [INFO] Target not yet satisfied. Remaining shortage: 133
+[2026-10-15 00:32:51] [INFO] --- Starting Apify Batch 19 (Shortage: 133) ---
+[2026-10-15 00:32:51] [INFO] Batch 19 queries (10): ['microanalytics', 'macroanalytics', 'neuromotion', 'cyberanalytics', 'astrologic', 'cryptologic', 'retrotrade', 'hypersports', 'metasports', 'technosports']
+[2026-10-15 00:47:34] [INFO] Batch 19 Summary: 1 valid emails -> 0 intra-batch dups -> 0 master dups -> 1 genuinely new leads
+[2026-10-15 00:47:34] [INFO] Target not yet satisfied. Remaining shortage: 132
+[2026-10-15 00:47:34] [INFO] --- Starting Apify Batch 20 (Shortage: 132) ---
+[2026-10-15 00:47:34] [INFO] Batch 20 queries (10): ['micromotion', 'macromotion', 'neurovlog', 'cybermotion', 'astrotrade', 'cryptotrade', 'retrorobotics', 'hyperlogic', 'metalogic', 'technologic']
+[2026-10-15 00:48:51] [INFO] Batch 20 Summary: 1 valid emails -> 0 intra-batch dups -> 0 master dups -> 1 genuinely new leads
+[2026-10-15 00:48:51] [INFO] Target not yet satisfied. Remaining shortage: 131
+[2026-10-15 00:48:51] [INFO] --- Starting Apify Batch 21 (Shortage: 131) ---
+[2026-10-15 00:48:51] [INFO] Batch 21 queries (10): ['microvlog', 'macrovlog', 'neuroaudio', 'cybervlog', 'astrorobotics', 'cryptorobotics', 'retrooptics', 'hypertrade', 'metatrade', 'technotrade']
+[2026-10-15 00:58:45] [INFO] Batch 21 Summary: 6 valid emails -> 0 intra-batch dups -> 3 master dups -> 3 genuinely new leads
+[2026-10-15 00:58:45] [INFO] Target not yet satisfied. Remaining shortage: 128
+[2026-10-15 00:58:45] [INFO] --- Starting Apify Batch 22 (Shortage: 128) ---
+[2026-10-15 00:58:45] [INFO] Batch 22 queries (10): ['microaudio', 'macroaudio', 'neurocinema', 'cyberaudio', 'astrooptics', 'cryptooptics', 'retroanalytics', 'hyperrobotics', 'metarobotics', 'technorobotics']
+[2026-10-15 01:07:24] [INFO] Batch 22 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-10-15 01:07:24] [INFO] Target not yet satisfied. Remaining shortage: 128
+[2026-10-15 01:07:24] [INFO] --- Starting Apify Batch 23 (Shortage: 128) ---
+[2026-10-15 01:07:24] [INFO] Batch 23 queries (10): ['microcinema', 'macrocinema', 'neurogrowth', 'cybercinema', 'astroanalytics', 'cryptoanalytics', 'retromotion', 'hyperoptics', 'metaoptics', 'technooptics']
+[2026-10-15 01:13:14] [INFO] Batch 23 Summary: 6 valid emails -> 0 intra-batch dups -> 2 master dups -> 4 genuinely new leads
+[2026-10-15 01:13:14] [INFO] Target not yet satisfied. Remaining shortage: 124
+[2026-10-15 01:13:14] [INFO] --- Starting Apify Batch 24 (Shortage: 124) ---
+[2026-10-15 01:13:14] [INFO] Batch 24 queries (10): ['microgrowth', 'macrogrowth', 'neuroskills', 'cybergrowth', 'astromotion', 'cryptomotion', 'retrovlog', 'hyperanalytics', 'metaanalytics', 'technoanalytics']
+[2026-10-15 01:19:51] [INFO] Batch 24 Summary: 1 valid emails -> 0 intra-batch dups -> 0 master dups -> 1 genuinely new leads
+[2026-10-15 01:19:51] [INFO] Target not yet satisfied. Remaining shortage: 123
+[2026-10-15 01:19:51] [INFO] --- Starting Apify Batch 25 (Shortage: 123) ---
+[2026-10-15 01:19:51] [INFO] Batch 25 queries (10): ['microskills', 'macroskills', 'neuromarket', 'cyberskills', 'astrovlog', 'cryptovlog', 'retroaudio', 'hypermotion', 'metamotion', 'technomotion']
+[2026-10-15 01:28:14] [INFO] Batch 25 Summary: 1 valid emails -> 0 intra-batch dups -> 1 master dups -> 0 genuinely new leads
+[2026-10-15 01:28:14] [INFO] Target not yet satisfied. Remaining shortage: 123
+[2026-10-15 01:28:14] [INFO] --- Starting Apify Batch 26 (Shortage: 123) ---
+[2026-10-15 01:28:14] [INFO] Batch 26 queries (10): ['micromarket', 'macromarket', 'cybermarket', 'astroaudio', 'cryptoaudio', 'retrocinema', 'hypervlog', 'metavlog', 'technovlog', 'ecotech']
+[2026-10-15 01:29:31] [INFO] Batch 26 Summary: 2 valid emails -> 0 intra-batch dups -> 1 master dups -> 1 genuinely new leads
+[2026-10-15 01:29:31] [INFO] Target not yet satisfied. Remaining shortage: 122
+[2026-10-15 01:29:31] [INFO] --- Starting Apify Batch 27 (Shortage: 122) ---
+[2026-10-15 01:29:31] [INFO] Batch 27 queries (10): ['astrocinema', 'cryptocinema', 'retrogrowth', 'hyperaudio', 'metaaudio', 'technoaudio', 'ecofinance', 'ecocoding', 'ecogaming', 'ecodesign']
+[2026-10-15 01:33:35] [INFO] Batch 27 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-10-15 01:33:35] [INFO] Target not yet satisfied. Remaining shortage: 122
+[2026-10-15 01:33:35] [INFO] --- Starting Apify Batch 28 (Shortage: 122) ---
+[2026-10-15 01:33:35] [INFO] Batch 28 queries (10): ['astrogrowth', 'cryptogrowth', 'retroskills', 'hypercinema', 'metacinema', 'technocinema', 'ecofitness', 'ecomedia', 'ecoscience', 'ecoart']
+[2026-10-15 01:34:37] [INFO] Batch 28 Summary: 1 valid emails -> 0 intra-batch dups -> 0 master dups -> 1 genuinely new leads
+[2026-10-15 01:34:37] [INFO] Target not yet satisfied. Remaining shortage: 121
+[2026-10-15 01:34:37] [INFO] --- Starting Apify Batch 29 (Shortage: 121) ---
+[2026-10-15 01:34:37] [INFO] Batch 29 queries (10): ['astroskills', 'cryptoskills', 'retromarket', 'hypergrowth', 'metagrowth', 'technogrowth', 'ecocraft', 'ecomusic', 'ecohealth', 'ecospace']
+[2026-10-15 01:35:38] [INFO] Batch 29 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-10-15 01:35:38] [INFO] Target not yet satisfied. Remaining shortage: 121
+[2026-10-15 01:35:38] [INFO] --- Starting Apify Batch 30 (Shortage: 121) ---
+[2026-10-15 01:35:38] [INFO] Batch 30 queries (10): ['astromarket', 'cryptomarket', 'hyperskills', 'metaskills', 'technoskills', 'ecosports', 'ecologic', 'ecotrade', 'ecorobotics', 'ecooptics']
+[2026-10-15 01:47:34] [INFO] Batch 30 Summary: 12 valid emails -> 0 intra-batch dups -> 3 master dups -> 9 genuinely new leads
+[2026-10-15 01:47:34] [INFO] Target not yet satisfied. Remaining shortage: 112
+[2026-10-15 01:47:34] [INFO] --- Starting Apify Batch 31 (Shortage: 112) ---
+[2026-10-15 01:47:34] [INFO] Batch 31 queries (10): ['hypermarket', 'metamarket', 'technomarket', 'ecoanalytics', 'ecomotion', 'ecovlog', 'ecocinema', 'ecogrowth', 'ecoskills', 'omnitech']
+[2026-10-15 02:03:04] [INFO] Batch 31 Summary: 7 valid emails -> 0 intra-batch dups -> 3 master dups -> 4 genuinely new leads
+[2026-10-15 02:03:04] [INFO] Target not yet satisfied. Remaining shortage: 108
+[2026-10-15 02:03:04] [INFO] --- Starting Apify Batch 32 (Shortage: 108) ---
+[2026-10-15 02:03:04] [INFO] Batch 32 queries (10): ['ecoaudio', 'ecomarket', 'omnifinance', 'ultratech', 'protech', 'profinance', 'procoding', 'progaming', 'prodesign', 'promedia']
+[2026-10-15 02:22:37] [INFO] Batch 32 Summary: 26 valid emails -> 0 intra-batch dups -> 11 master dups -> 15 genuinely new leads
+[2026-10-15 02:22:37] [INFO] Target not yet satisfied. Remaining shortage: 93
+[2026-10-15 02:22:37] [INFO] --- Starting Apify Batch 33 (Shortage: 93) ---
+[2026-10-15 02:22:37] [INFO] Batch 33 queries (10): ['omnifitness', 'ultrafinance', 'profitness', 'proscience', 'proart', 'procraft', 'promusic', 'prohealth', 'prologic', 'protrade']
+[2026-10-15 02:22:38] [ERROR] Apify credit or authorization failure in batch 33: Apify credits/usage limit reached on run start (HTTP 402): {
+  "error": {
+    "type": "not-enough-usage-to-run-paid-actor",
+    "message": "Your remaining usage of $0.419082 this billing cycle isn't enough for this run. Increase your limit by upgrading to a paid plan at https://console.apify.com/billing/subscription"
+  }
+}
+[2026-10-15 02:22:38] [INFO] Overnight preparation run complete. Daily email is scheduled for 11:00 AM IST.

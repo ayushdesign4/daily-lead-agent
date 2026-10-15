@@ -61,3 +61,9 @@ date,status,target,delivered,reason,run_id
 2026-10-13,COMPLETED,200,200,Delivered 200/200 leads.,RUN-624F0119
 2026-10-14,PREPARED,200,0,Prepared queue with 230 leads.,RUN-35589EF5
 2026-10-14,COMPLETED,200,200,Delivered 200/200 leads.,RUN-6401EA1D
+2026-10-15,PREPARED_CREDIT_EXHAUSTED,200,0,"Prepared queue with 107 leads. Credit limit: Apify credits/usage limit reached on run start (HTTP 402): {
+  ""error"": {
+    ""type"": ""not-enough-usage-to-run-paid-actor"",
+    ""message"": ""Your remaining usage of $0.419082 this billing cycle isn't enough for this run. Increase your limit by upgrading to a paid plan at https://console.apify.com/billing/subscription""
+  }
+}",RUN-912E097A
