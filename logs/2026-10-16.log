@@ -231,3 +231,9 @@
 [2026-10-16 00:28:03] [INFO] Batch 57 Summary: 1 valid emails -> 0 intra-batch dups -> 0 master dups -> 1 genuinely new leads
 [2026-10-16 00:28:03] [INFO] Target satisfied in queue (200 available). Stopping Apify immediately.
 [2026-10-16 00:28:03] [INFO] Overnight preparation run complete. Daily email is scheduled for 11:00 AM IST.
+[2026-10-16 09:52:26] [INFO] ============================================================
+[2026-10-16 09:52:26] [INFO] Starting Daily Lead Agent | Run ID: RUN-19C34051 | Date: 2026-10-16 IST
+[2026-10-16 09:52:26] [INFO] Target: 200 leads | Mode: deliver | Dry Run: False
+[2026-10-16 09:52:26] [INFO] Starting pending queue size: 200
+[2026-10-16 09:52:27] [INFO] Run RUN-19C34051 finished. Status: COMPLETED | Delivered: 200/200 | Queue Remaining: 0
+[2026-10-16 09:52:27] [INFO] ============================================================
