@@ -1,0 +1,73 @@
+[2026-10-16 22:10:10] [INFO] ============================================================
+[2026-10-16 22:10:10] [INFO] Starting Daily Lead Agent | Run ID: RUN-31F11D81 | Date: 2026-10-17 IST
+[2026-10-16 22:10:10] [INFO] Target: 200 leads | Mode: prepare | Dry Run: False
+[2026-10-16 22:10:10] [INFO] Starting pending queue size: 0
+[2026-10-16 22:10:10] [INFO] --- Starting Apify Batch 1 (Shortage: 200) ---
+[2026-10-16 22:10:10] [INFO] Batch 1 queries (10): ['stylist87', 'coach87', 'tutor87', 'creator88', 'vlogger88', 'streamer88', 'coder88', 'gamer88', 'builder88', 'hustler88']
+[2026-10-16 22:13:30] [INFO] Batch 1 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-10-16 22:13:30] [INFO] Target not yet satisfied. Remaining shortage: 200
+[2026-10-16 22:13:30] [INFO] --- Starting Apify Batch 2 (Shortage: 200) ---
+[2026-10-16 22:13:30] [INFO] Batch 2 queries (10): ['trader88', 'maker88', 'stylist88', 'coach88', 'tutor88', 'creator89', 'vlogger89', 'streamer89', 'coder89', 'gamer89']
+[2026-10-16 22:14:02] [INFO] Batch 2 Summary: 1 valid emails -> 0 intra-batch dups -> 0 master dups -> 1 genuinely new leads
+[2026-10-16 22:14:02] [INFO] Target not yet satisfied. Remaining shortage: 199
+[2026-10-16 22:14:02] [INFO] --- Starting Apify Batch 3 (Shortage: 199) ---
+[2026-10-16 22:14:02] [INFO] Batch 3 queries (10): ['builder89', 'hustler89', 'trader89', 'maker89', 'stylist89', 'coach89', 'tutor89', 'creator90', 'vlogger90', 'streamer90']
+[2026-10-16 22:14:33] [INFO] Batch 3 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-10-16 22:14:33] [INFO] Target not yet satisfied. Remaining shortage: 199
+[2026-10-16 22:14:33] [INFO] --- Starting Apify Batch 4 (Shortage: 199) ---
+[2026-10-16 22:14:33] [INFO] Batch 4 queries (10): ['coder90', 'gamer90', 'builder90', 'hustler90', 'trader90', 'maker90', 'stylist90', 'coach90', 'tutor90', 'creator91']
+[2026-10-16 22:14:50] [INFO] Batch 4 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-10-16 22:14:50] [INFO] Target not yet satisfied. Remaining shortage: 199
+[2026-10-16 22:14:50] [INFO] --- Starting Apify Batch 5 (Shortage: 199) ---
+[2026-10-16 22:14:50] [INFO] Batch 5 queries (10): ['vlogger91', 'streamer91', 'coder91', 'gamer91', 'builder91', 'hustler91', 'trader91', 'maker91', 'stylist91', 'coach91']
+[2026-10-16 22:15:52] [INFO] Batch 5 Summary: 1 valid emails -> 0 intra-batch dups -> 0 master dups -> 1 genuinely new leads
+[2026-10-16 22:15:52] [INFO] Target not yet satisfied. Remaining shortage: 198
+[2026-10-16 22:15:52] [INFO] --- Starting Apify Batch 6 (Shortage: 198) ---
+[2026-10-16 22:15:52] [INFO] Batch 6 queries (10): ['tutor91', 'creator92', 'vlogger92', 'streamer92', 'coder92', 'gamer92', 'builder92', 'hustler92', 'trader92', 'maker92']
+[2026-10-16 22:20:13] [INFO] Batch 6 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-10-16 22:20:13] [INFO] Target not yet satisfied. Remaining shortage: 198
+[2026-10-16 22:20:13] [INFO] --- Starting Apify Batch 7 (Shortage: 198) ---
+[2026-10-16 22:20:13] [INFO] Batch 7 queries (10): ['stylist92', 'coach92', 'tutor92', 'creator93', 'vlogger93', 'streamer93', 'coder93', 'gamer93', 'builder93', 'hustler93']
+[2026-10-16 22:20:44] [INFO] Batch 7 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-10-16 22:20:44] [INFO] Target not yet satisfied. Remaining shortage: 198
+[2026-10-16 22:20:44] [INFO] --- Starting Apify Batch 8 (Shortage: 198) ---
+[2026-10-16 22:20:44] [INFO] Batch 8 queries (10): ['trader93', 'maker93', 'stylist93', 'coach93', 'tutor93', 'creator94', 'vlogger94', 'streamer94', 'coder94', 'gamer94']
+[2026-10-16 22:24:35] [INFO] Batch 8 Summary: 1 valid emails -> 0 intra-batch dups -> 0 master dups -> 1 genuinely new leads
+[2026-10-16 22:24:35] [INFO] Target not yet satisfied. Remaining shortage: 197
+[2026-10-16 22:24:35] [INFO] --- Starting Apify Batch 9 (Shortage: 197) ---
+[2026-10-16 22:24:35] [INFO] Batch 9 queries (10): ['builder94', 'hustler94', 'trader94', 'maker94', 'stylist94', 'coach94', 'tutor94', 'creator95', 'vlogger95', 'streamer95']
+[2026-10-16 22:34:01] [INFO] Batch 9 Summary: 3 valid emails -> 0 intra-batch dups -> 3 master dups -> 0 genuinely new leads
+[2026-10-16 22:34:01] [INFO] Target not yet satisfied. Remaining shortage: 197
+[2026-10-16 22:34:01] [INFO] --- Starting Apify Batch 10 (Shortage: 197) ---
+[2026-10-16 22:34:01] [INFO] Batch 10 queries (10): ['coder95', 'gamer95', 'builder95', 'hustler95', 'trader95', 'maker95', 'stylist95', 'coach95', 'tutor95', 'creator96']
+[2026-10-16 22:40:39] [INFO] Batch 10 Summary: 0 valid emails -> 0 intra-batch dups -> 0 master dups -> 0 genuinely new leads
+[2026-10-16 22:40:39] [INFO] Target not yet satisfied. Remaining shortage: 197
+[2026-10-16 22:40:39] [INFO] --- Starting Apify Batch 11 (Shortage: 197) ---
+[2026-10-16 22:40:39] [INFO] Batch 11 queries (10): ['vlogger96', 'streamer96', 'coder96', 'gamer96', 'builder96', 'hustler96', 'trader96', 'maker96', 'stylist96', 'coach96']
+[2026-10-16 22:44:14] [INFO] Batch 11 Summary: 1 valid emails -> 0 intra-batch dups -> 0 master dups -> 1 genuinely new leads
+[2026-10-16 22:44:14] [INFO] Target not yet satisfied. Remaining shortage: 196
+[2026-10-16 22:44:14] [INFO] --- Starting Apify Batch 12 (Shortage: 196) ---
+[2026-10-16 22:44:14] [INFO] Batch 12 queries (10): ['tutor96', 'creator97', 'vlogger97', 'streamer97', 'coder97', 'gamer97', 'builder97', 'hustler97', 'trader97', 'maker97']
+[2026-10-16 22:54:40] [INFO] Batch 12 Summary: 2 valid emails -> 0 intra-batch dups -> 2 master dups -> 0 genuinely new leads
+[2026-10-16 22:54:40] [INFO] Target not yet satisfied. Remaining shortage: 196
+[2026-10-16 22:54:40] [INFO] --- Starting Apify Batch 13 (Shortage: 196) ---
+[2026-10-16 22:54:40] [INFO] Batch 13 queries (10): ['stylist97', 'coach97', 'tutor97', 'creator98', 'vlogger98', 'streamer98', 'coder98', 'gamer98', 'builder98', 'hustler98']
+[2026-10-16 23:05:39] [INFO] Batch 13 Summary: 10 valid emails -> 0 intra-batch dups -> 6 master dups -> 4 genuinely new leads
+[2026-10-16 23:05:39] [INFO] Target not yet satisfied. Remaining shortage: 192
+[2026-10-16 23:05:39] [INFO] --- Starting Apify Batch 14 (Shortage: 192) ---
+[2026-10-16 23:05:39] [INFO] Batch 14 queries (10): ['trader98', 'maker98', 'stylist98', 'coach98', 'tutor98', 'creator99', 'vlogger99', 'streamer99', 'coder99', 'gamer99']
+[2026-10-16 23:12:17] [INFO] Batch 14 Summary: 1 valid emails -> 0 intra-batch dups -> 0 master dups -> 1 genuinely new leads
+[2026-10-16 23:12:17] [INFO] Target not yet satisfied. Remaining shortage: 191
+[2026-10-16 23:12:17] [INFO] --- Starting Apify Batch 15 (Shortage: 191) ---
+[2026-10-16 23:12:17] [INFO] Batch 15 queries (10): ['builder99', 'hustler99', 'trader99', 'maker99', 'stylist99', 'coach99', 'tutor99', 'creator100', 'vlogger100', 'streamer100']
+[2026-10-16 23:22:29] [INFO] Batch 15 Summary: 6 valid emails -> 0 intra-batch dups -> 3 master dups -> 3 genuinely new leads
+[2026-10-16 23:22:29] [INFO] Target not yet satisfied. Remaining shortage: 188
+[2026-10-16 23:22:29] [INFO] --- Starting Apify Batch 16 (Shortage: 188) ---
+[2026-10-16 23:22:29] [INFO] Batch 16 queries (10): ['coder100', 'gamer100', 'builder100', 'hustler100', 'trader100', 'maker100', 'stylist100', 'coach100', 'tutor100', 'creator101']
+[2026-10-16 23:22:30] [ERROR] Apify credit or authorization failure in batch 16: Apify credits/usage limit reached on run start (HTTP 402): {
+  "error": {
+    "type": "not-enough-usage-to-run-paid-actor",
+    "message": "Your remaining usage of $0.424107 this billing cycle isn't enough for this run. Increase your limit by upgrading to a paid plan at https://console.apify.com/billing/subscription"
+  }
+}
+[2026-10-16 23:22:30] [INFO] Overnight preparation run complete. Daily email is scheduled for 11:00 AM IST.
