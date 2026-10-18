@@ -3,9 +3,11 @@
 import os
 import re
 import email
+import email.utils
 import imaplib
 import logging
 from pathlib import Path
+from datetime import timezone, timedelta
 from email.header import decode_header
 from typing import Optional, Tuple, Dict, Any, List
 
@@ -19,6 +21,8 @@ from src.outreach.campaign_state import CampaignState
 from src.outreach.attachment_parser import parse_lead_file
 
 logger = logging.getLogger(__name__)
+
+IST_TZ = timezone(timedelta(hours=5, minutes=30))
 
 
 class DetectedLeadDelivery:
@@ -111,15 +115,18 @@ class GmailWatcher:
             date_str=date_str,
         )
 
-    def check_imap_inbox(self, max_messages: int = 15) -> Optional[DetectedLeadDelivery]:
+    def check_imap_inbox(self, max_messages: int = 15, target_date_str: Optional[str] = None) -> Optional[DetectedLeadDelivery]:
         """
         Connect via IMAP SSL to detect newly delivered lead emails.
         Matches:
         - Sender matches sender_filter
         - Subject matches subject_pattern
+        - Subject date matches today's IST date
+        - Message Date header in IST matches today's IST date
         - Contains .txt or .csv attachment
-        - Message ID not already processed
         """
+        today_ist = target_date_str or get_today_ist_date()
+
         if not self.username or not self.password:
             logger.info("IMAP credentials not configured. Skipping IMAP mailbox check.")
             return None
@@ -162,7 +169,29 @@ class GmailWatcher:
                 if not match:
                     continue
 
-                date_str = match.group(1) if match.groups() else get_today_ist_date()
+                subject_date = match.group(1) if match.groups() else None
+                if subject_date and subject_date != today_ist:
+                    logger.info(
+                        f"Skipping IMAP message '{subject}': subject date {subject_date} != today's IST date {today_ist}"
+                    )
+                    continue
+
+                # Enforce message Date header matching today's IST date
+                date_header = msg.get("Date")
+                if date_header:
+                    try:
+                        msg_dt = email.utils.parsedate_to_datetime(date_header)
+                        msg_ist_dt = msg_dt.astimezone(IST_TZ)
+                        msg_ist_date = msg_ist_dt.strftime("%Y-%m-%d")
+                        if msg_ist_date != today_ist:
+                            logger.info(
+                                f"Skipping IMAP message '{subject}': header Date in IST ({msg_ist_date}) != today's IST date ({today_ist})"
+                            )
+                            continue
+                    except Exception as e:
+                        logger.warning(f"Could not parse message Date header '{date_header}': {e}")
+
+                date_str = subject_date or today_ist
                 gmail_msg_id = msg.get("Message-ID", f"IMAP-{msg_id.decode('ascii')}")
 
                 # Extract attachment
@@ -191,20 +220,39 @@ class GmailWatcher:
 
         return None
 
-    def detect_next_delivery(self, manual_file: Optional[Path] = None) -> Optional[DetectedLeadDelivery]:
+    def detect_next_delivery(
+        self,
+        manual_file: Optional[Path] = None,
+        target_date_str: Optional[str] = None,
+    ) -> Optional[DetectedLeadDelivery]:
         """
         Unified detector checking:
         1. Explicit manual file input
-        2. IMAP mailbox inspection (if configured)
-        3. Local workspace delivery receipt / output file
+        2. IMAP mailbox inspection (matching target/today's IST date only)
+        3. Local workspace delivery receipt / output file (matching target/today's IST date only)
         """
+        today_ist = target_date_str or get_today_ist_date()
+
         if manual_file and manual_file.exists():
             return self.check_manual_file(manual_file)
 
         # Try IMAP first if credentials are present
-        imap_result = self.check_imap_inbox()
+        imap_result = self.check_imap_inbox(target_date_str=today_ist)
         if imap_result:
-            return imap_result
+            if imap_result.date_str == today_ist:
+                return imap_result
+            logger.warning(
+                f"Discarding IMAP lead delivery: message date {imap_result.date_str} != target IST date {today_ist}"
+            )
 
-        # Fallback to local workspace output
-        return self.check_local_receipt()
+        # Fallback to local workspace output for today's IST date
+        local_result = self.check_local_receipt(date_str=today_ist)
+        if local_result:
+            if local_result.date_str == today_ist:
+                return local_result
+            logger.warning(
+                f"Discarding local receipt: date {local_result.date_str} != target IST date {today_ist}"
+            )
+
+        logger.info(f"No fresh lead delivery detected for target date ({today_ist} IST).")
+        return None

@@ -31,10 +31,11 @@ def test_is_valid_one_word_niche():
 
 
 def test_seed_niches_all_strictly_one_word():
-    """Ensure every single seed niche is strictly one word and there are 300+ entries."""
-    assert len(SEED_NICHES) >= 300
+    """Ensure every single seed niche is strictly one word, has no digits, and there are 5000+ entries."""
+    assert len(SEED_NICHES) >= 5000
     for niche in SEED_NICHES:
         assert is_valid_one_word_niche(niche), f"Seed niche '{niche}' is not a valid one-word niche"
+        assert not any(c.isdigit() for c in niche), f"Seed niche '{niche}' contains digits"
 
 
 def test_normalize_niche():
@@ -205,3 +206,26 @@ def test_previously_used_niches_never_selected_again(tmp_path):
         niche_mgr.record_batch_as_used(batch, date_str="2026-09-30")
 
     assert len(all_selected_names) == 50
+
+
+def test_pool_exhaustion_clean_without_numbered_fallback(tmp_path):
+    """When all curated niches and prefixes are exhausted, select_batch_niches returns clean partial/empty list without synthetic numbers."""
+    state = StateManager(tmp_path / "m.csv", tmp_path / "q.csv", tmp_path / "n.csv", tmp_path / "r.csv")
+    niche_mgr = NicheManager(state)
+
+    # Mark all SEED_NICHES as used
+    used = [{"niche": s, "date_used": "2026-10-01", "query_text": "q"} for s in SEED_NICHES]
+    state.record_used_niches(used)
+
+    # Also mark all possible prefix+stem combos as used
+    prefixes = ["micro", "macro", "neuro", "cyber", "bio", "astro", "crypto", "retro", "hyper", "meta", "techno", "eco", "omni", "ultra", "pro"]
+    stems = ["tech", "finance", "fitness", "coding", "gaming", "design", "media", "science", "art", "craft", "music", "health", "space", "sports", "logic", "trade", "robotics", "optics", "analytics", "motion", "vlog", "audio", "cinema", "growth", "skills", "market"]
+    more_used = [{"niche": f"{p}{s}", "date_used": "2026-10-01", "query_text": "q"} for p in prefixes for s in stems]
+    state.record_used_niches(more_used)
+
+    # Calling select_batch_niches must cleanly return empty list (no crash, NO creator1, vlogger101, etc.)
+    batch = niche_mgr.select_batch_niches(count=10)
+    assert len(batch) == 0
+    for name, _ in batch:
+        assert not any(c.isdigit() for c in name)
+

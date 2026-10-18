@@ -7,98 +7,24 @@ from src.state_manager import StateManager, get_today_ist_date
 
 logger = logging.getLogger(__name__)
 
+from src.curated_niches import CURATED_NICHES
+
 # Query Template specified in section 3 & 23 of the specification
 QUERY_TEMPLATE = 'site:youtube.com "{niche}" "Business Inquiries" "gmail.com" India'
 
 # Curated single-word niches tailored for high-volume YouTube outreach.
-# STRICT RULE: Every niche must be exactly ONE WORD.
-SEED_NICHES = [
-    # Mindset, Motivation & Personal Growth
-    "mindset", "motivation", "discipline", "productivity", "habits", "focus", "success",
-    "meditation", "stoicism", "resilience", "inspiration", "growth", "ambition", "journaling",
-    "mindfulness", "confidence", "struggle", "purpose", "leadership", "wisdom", "solitude",
-    "grit", "gratitude", "manifestation", "positivity", "selfcare", "clarity", "affirmations",
-    # Fitness, Health & Nutrition
-    "fitness", "bodybuilding", "calisthenics", "crossfit", "yoga", "pilates", "nutrition",
-    "diet", "running", "marathon", "powerlifting", "cardio", "wellness", "flexibility",
-    "mobility", "physique", "hypertrophy", "strength", "athletics", "stretching", "skincare",
-    "dermatology", "ayurveda", "weightloss", "supplements", "posture", "longevity", "rehab",
-    "gym", "workouts", "aerobics", "zumba", "kettlebell", "triathlon", "endurance",
-    # Software, Coding & Computing
-    "coding", "programming", "python", "javascript", "typescript", "react", "flutter",
-    "golang", "rust", "devops", "linux", "cybersecurity", "hacking", "networking",
-    "database", "backend", "frontend", "fullstack", "algorithms", "leetcode", "docker",
-    "kubernetes", "microservices", "cloud", "automation", "solidity", "blockchain",
-    "webdev", "sysadmin", "computers", "software", "technology", "debugging", "compilers",
-    # AI, Machine Learning & Data Science
-    "ai", "deeplearning", "machinelearning", "datascience", "analytics", "vision",
-    "nlp", "chatgpt", "prompting", "agents", "neural", "bigdata", "statistics",
-    "transformers", "generative", "robotics", "llms", "synthetics", "genai",
-    # Business, Entrepreneurship & Careers
-    "business", "entrepreneurship", "startups", "freelancing", "marketing", "sales",
-    "copywriting", "branding", "ecommerce", "dropshipping", "consulting", "management",
-    "interviews", "resumes", "negotiation", "advertising", "agency", "careers",
-    "retention", "monetization", "outsourcing", "solopreneur", "b2b", "crowdfunding",
-    # Finance, Wealth & Investing
-    "finance", "wealth", "investing", "stocks", "trading", "crypto", "bitcoin",
-    "ethereum", "forex", "budgeting", "banking", "accounting", "taxation", "dividends",
-    "mutualfunds", "commodities", "gold", "cryptocurrency", "economics", "fintech",
-    "venture", "arbitrage", "derivatives", "options", "equities", "pensions",
-    # Gaming & Esports
-    "gaming", "gameplay", "esports", "minecraft", "valorant", "bgmi", "pubg",
-    "roblox", "fortnite", "gta", "streaming", "speedrun", "playthrough", "walkthrough",
-    "retrogaming", "cosplay", "gamers", "playstation", "xbox", "nintendo", "anime", "manga",
-    # Creative Arts, Media, Video & Audio
-    "design", "illustration", "animation", "blender", "photoshop", "premiere",
-    "filmmaking", "cinematography", "photography", "vlogging", "podcasts", "storytelling",
-    "voiceover", "audio", "sound", "music", "singing", "guitar", "piano", "drumming",
-    "beats", "djing", "rap", "production", "calligraphy", "origami", "woodworking",
-    "pottery", "painting", "sketching", "sculpting", "crafts", "typography", "cinema",
-    "lighting", "acting", "theater", "screenwriting", "directing", "broadcasting",
-    # Travel, Food & Outdoor Living
-    "travel", "backpacking", "hiking", "trekking", "camping", "biking", "food",
-    "cooking", "baking", "recipes", "streetfood", "dining", "culinary", "restaurant",
-    "pastry", "sourdough", "cocktails", "gardening", "aquascaping", "farming",
-    "pets", "dogs", "cats", "aquarium", "homesteading", "survival", "bushcraft",
-    "wildlife", "nature", "foraging", "hydroponics", "permaculture", "botany",
-    # Sports & Athletics
-    "cricket", "football", "badminton", "tennis", "swimming", "boxing", "mma",
-    "wrestling", "karate", "taekwondo", "judo", "chess", "basketball", "volleyball",
-    "tabletennis", "cycling", "skating", "sprinting", "archery", "golf", "motorsport",
-    "climbing", "bouldering", "surfing", "diving", "kayaking", "rowing", "sailing",
-    # Automotive & Mobility
-    "cars", "supercars", "motorcycles", "superbikes", "automotive", "tuning",
-    "offroading", "racing", "drifting", "evs", "restoration", "aviation", "planes", "drones",
-    # Education, Sciences & Humanities
-    "physics", "chemistry", "biology", "mathematics", "astronomy", "astrophysics",
-    "history", "geopolitics", "geography", "philosophy", "psychology", "sociology",
-    "literature", "linguistics", "grammar", "vocabulary", "science", "experiment",
-    "neuroscience", "genetics", "biochemistry", "anthropology", "archaeology", "ecology",
-    # Lifestyle, Entertainment & Culture
-    "fashion", "styling", "grooming", "streetwear", "sneakers", "movies",
-    "comedy", "standup", "magic", "illusion", "mentalism", "unboxing", "critique",
-    "reviews", "lifestyle", "parenting", "relationships", "dating", "marriage",
-    "minimalism", "interior", "architecture", "decor", "thrifting", "perfumes",
-    "watches", "jewelry", "satire", "parody", "improv", "ventriloquism", "acrobatics",
-    # Specialized Crafts & Hobbies
-    "carpentry", "blacksmithing", "leathercraft", "barista", "coffee", "brewing",
-    "fermentation", "metallurgy", "woodcraft", "sewing", "embroidery", "quilting",
-    "weaving", "crochet", "ceramics", "glassblowing", "gemology", "macrame",
-    "woodturning", "lapidary", "enameling", "pyrography", "quilling", "tatting",
-    "bonsai", "beekeeping", "entomology", "mycology", "horticulture", "viticulture",
-    "mixology", "gastronomy", "charcuterie", "chocolatier", "patisserie", "confectionery",
-    "roasting", "grilling", "smoking", "sommelier", "cartography", "cryptography"
-]
+# STRICT RULE: Every niche must be exactly ONE WORD with no digits.
+SEED_NICHES = CURATED_NICHES
 
 
 def is_valid_one_word_niche(niche: str) -> bool:
-    """Validate that niche string contains strictly one single word."""
+    """Validate that niche string contains strictly one single word and no digits."""
     if not niche or not isinstance(niche, str):
         return False
     stripped = niche.strip()
     if not stripped or len(stripped.split()) != 1:
         return False
-    return bool(re.match(r"^[A-Za-z0-9_-]+$", stripped))
+    return bool(re.match(r"^[A-Za-z_-]+$", stripped)) and not any(c.isdigit() for c in stripped)
 
 
 def normalize_niche(niche: str) -> str:
@@ -217,23 +143,14 @@ class NicheManager:
                     norm = normalize_niche(candidate)
                     if norm not in used_set and not any(are_niches_semantically_too_close(candidate, s) for s in selected):
                         selected.append(candidate)
-
-        # 3. Dynamic Infinite Fallback: Single-word creator vertical generator
+        # If count still not reached, report genuine pool exhaustion without generating synthetic numbered keywords
         if len(selected) < count:
-            disciplines = [
-                "creator", "vlogger", "streamer", "coder", "gamer", "builder",
-                "hustler", "trader", "maker", "stylist", "coach", "tutor"
-            ]
-            counter = 1
-            while len(selected) < count and counter < 1000:
-                for disc in disciplines:
-                    if len(selected) >= count:
-                        break
-                    candidate = f"{disc}{counter}"
-                    norm = normalize_niche(candidate)
-                    if norm not in used_set and not any(are_niches_semantically_too_close(candidate, s) for s in selected):
-                        selected.append(candidate)
-                counter += 1
+            if not selected:
+                logger.warning("Niche pool exhausted! No fresh, unused niches available.")
+            else:
+                logger.warning(
+                    f"Niche pool near exhaustion: requested {count} niches, but only {len(selected)} fresh niches available."
+                )
 
         result: List[Tuple[str, str]] = []
         for niche in selected:

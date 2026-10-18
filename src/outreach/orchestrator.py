@@ -269,13 +269,27 @@ class OutreachPipeline:
         logger.info("=" * 60)
         logger.info(f"Starting Verified Outreach Pipeline | Date: {date_str} IST | Dry Run: {self.dry_run}")
 
-        # Step 1: Detect newly delivered daily lead file
+        # Step 1: Detect newly delivered daily lead file (today's IST date only)
         watcher = GmailWatcher(state_mgr=self.state_mgr)
-        delivery: Optional[DetectedLeadDelivery] = watcher.detect_next_delivery(manual_file=manual_file)
+        delivery: Optional[DetectedLeadDelivery] = watcher.detect_next_delivery(
+            manual_file=manual_file,
+            target_date_str=date_str
+        )
 
         if not delivery:
-            logger.info("No new lead delivery email or file detected today. Exiting safely.")
+            logger.info(f"No fresh lead delivery email or file detected for today ({date_str} IST). Halting outreach pipeline safely.")
             return {"status": "NO_DELIVERY_DETECTED", "date": date_str}
+
+        if delivery.source_type != "manual" and delivery.date_str != date_str:
+            logger.warning(
+                f"Detected delivery date ({delivery.date_str}) does not match today's IST date ({date_str}). "
+                "Halting outreach pipeline cleanly before campaign state, verification, or sending."
+            )
+            return {
+                "status": "STALE_DELIVERY_REJECTED",
+                "delivery_date": delivery.date_str,
+                "expected_date": date_str,
+            }
 
         logger.info(f"Detected delivery: {delivery.subject} from {delivery.source_type} (file: {delivery.attachment_filename})")
 
