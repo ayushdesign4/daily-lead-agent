@@ -1,0 +1,21 @@
+[2026-10-18 21:41:33] [INFO] ============================================================
+[2026-10-18 21:41:33] [INFO] Starting Daily Lead Agent | Run ID: RUN-56E1B19F | Date: 2026-10-19 IST
+[2026-10-18 21:41:33] [INFO] Target: 200 leads | Mode: prepare | Dry Run: False
+[2026-10-18 21:41:33] [INFO] Starting pending queue size: 99
+[2026-10-18 21:41:33] [INFO] --- Starting Apify Batch 1 (Shortage: 101) ---
+[2026-10-18 21:41:33] [INFO] Batch 1 queries (10): ['aave', 'ab-testing', 'abandonedexploration', 'abduction', 'abletonlive', 'absinthefountain', 'absolver', 'abstractalgebra', 'absworkout', 'accelerate']
+[2026-10-18 22:03:12] [INFO] Batch 1 Summary: 24 valid emails -> 0 intra-batch dups -> 12 master dups -> 12 genuinely new leads
+[2026-10-18 22:03:12] [INFO] Target not yet satisfied. Remaining shortage: 89
+[2026-10-18 22:03:12] [INFO] --- Starting Apify Batch 2 (Shortage: 89) ---
+[2026-10-18 22:03:12] [INFO] Batch 2 queries (10): ['accelerator', 'accordionmusic', 'aceattorney', 'acer', 'acidtechno', 'acnetreatment', 'acousticdiffuser', 'acrylicpainting', 'actioncam', 'actstructure']
+[2026-10-18 22:28:36] [INFO] Batch 2 Summary: 20 valid emails -> 0 intra-batch dups -> 10 master dups -> 10 genuinely new leads
+[2026-10-18 22:28:36] [INFO] Target not yet satisfied. Remaining shortage: 79
+[2026-10-18 22:28:36] [INFO] --- Starting Apify Batch 3 (Shortage: 79) ---
+[2026-10-18 22:28:36] [INFO] Batch 3 queries (10): ['accentwall', 'acousticfoampanels', 'actionfigures', 'ada', 'addons', 'adduction', 'adrevenue', 'aerodynamics', 'aesthetics', 'affiliatemarketing']
+[2026-10-18 22:28:36] [ERROR] Apify credit or authorization failure in batch 3: Apify credits/usage limit reached on run start (HTTP 402): {
+  "error": {
+    "type": "not-enough-usage-to-run-paid-actor",
+    "message": "Your remaining usage of $0.313674 this billing cycle isn't enough for this run. Increase your limit by upgrading to a paid plan at https://console.apify.com/billing/subscription"
+  }
+}
+[2026-10-18 22:28:36] [INFO] Overnight preparation run complete. Daily email is scheduled for 11:00 AM IST.
