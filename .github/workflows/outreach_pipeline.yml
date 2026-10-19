@@ -1,16 +1,19 @@
 name: Verified Outreach Pipeline
 
 on:
-  schedule:
-    # 06:00 UTC = 11:30 AM IST (Starts after the 11:00 AM IST lead delivery)
-    - cron: '0 6 * * *'
+  workflow_run:
+    workflows: ["Deliver Leads - 11 AM IST Delivery Check"]
+    types:
+      - completed
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       dry_run:
         description: 'Run in dry-run mode (no credits used, no emails sent)'
         required: false
         type: boolean
-        default: true
+        default: false
       force:
         description: 'Force execution even if completed today'
         required: false
@@ -31,12 +34,14 @@ permissions:
 
 jobs:
   outreach:
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success') }}
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
+          ref: main
           fetch-depth: 0
 
       - name: Set up Python
@@ -59,6 +64,7 @@ jobs:
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           DELIVERY_EMAIL: ${{ secrets.DELIVERY_EMAIL }}
         run: |
+          git pull --rebase origin main || true
           ARGS=""
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then

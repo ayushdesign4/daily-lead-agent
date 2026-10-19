@@ -54,6 +54,7 @@ class OutreachPipeline:
         raw_accounts_json: Optional[str] = None,
         sleep_func=None,
         random_func=None,
+        watcher: Optional[GmailWatcher] = None,
     ):
         self.dry_run = dry_run or DRY_RUN
         self.state_mgr = state_mgr or CampaignState()
@@ -62,6 +63,7 @@ class OutreachPipeline:
         self.sleep_func = sleep_func or time.sleep
         self.random_func = random_func or random.randint
         self.form_url = form_url or MAIL7_ROTATION_FORM_URL
+        self.watcher = watcher or GmailWatcher(state_mgr=self.state_mgr)
 
         self.verifier = Mail7Verifier(
             api_key=mail7_api_key or MAIL7_API_KEY,
@@ -260,17 +262,18 @@ class OutreachPipeline:
         self,
         manual_file: Optional[Path] = None,
         force: bool = False,
+        today_ist_date: Optional[str] = None,
     ) -> Dict[str, Any]:
         """
         Execute full verified outreach pipeline with Mail7 bulk verification.
         Returns execution summary dict.
         """
-        date_str = get_today_ist_date()
+        date_str = today_ist_date or get_today_ist_date()
         logger.info("=" * 60)
         logger.info(f"Starting Verified Outreach Pipeline | Date: {date_str} IST | Dry Run: {self.dry_run}")
 
         # Step 1: Detect newly delivered daily lead file (today's IST date only)
-        watcher = GmailWatcher(state_mgr=self.state_mgr)
+        watcher = self.watcher
         delivery: Optional[DetectedLeadDelivery] = watcher.detect_next_delivery(
             manual_file=manual_file,
             target_date_str=date_str
@@ -298,10 +301,24 @@ class OutreachPipeline:
             content_or_path=delivery.attachment_bytes,
             filename=delivery.attachment_filename
         )
+        if delivery.content_hash and delivery.content_hash != content_hash:
+            logger.error(
+                f"Integrity check failed: delivery content hash ({delivery.content_hash}) "
+                f"does not match parsed content hash ({content_hash}). Halting outreach."
+            )
+            return {
+                "status": "INTEGRITY_CHECK_FAILED",
+                "expected_hash": delivery.content_hash,
+                "actual_hash": content_hash,
+            }
+
         campaign_id = f"CAMP-{content_hash[:10]}-{date_str}"
 
         # Step 3: Check idempotency
-        if not force and self.state_mgr.is_campaign_completed(campaign_id):
+        if not force and (
+            self.state_mgr.is_campaign_completed(campaign_id)
+            or self.state_mgr.is_message_already_processed(delivery.message_id, content_hash)
+        ):
             logger.info(f"Campaign {campaign_id} has already COMPLETED. Exiting to prevent duplicate sending.")
             return {"status": "ALREADY_COMPLETED", "campaign_id": campaign_id}
 

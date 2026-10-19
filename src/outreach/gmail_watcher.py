@@ -2,6 +2,8 @@
 
 import os
 import re
+import json
+import hashlib
 import email
 import email.utils
 import imaplib
@@ -35,6 +37,8 @@ class DetectedLeadDelivery:
         attachment_filename: str,
         attachment_bytes: bytes,
         date_str: str,
+        run_id: Optional[str] = None,
+        content_hash: Optional[str] = None,
     ):
         self.source_type = source_type
         self.message_id = message_id
@@ -42,6 +46,8 @@ class DetectedLeadDelivery:
         self.attachment_filename = attachment_filename
         self.attachment_bytes = attachment_bytes
         self.date_str = date_str
+        self.run_id = run_id
+        self.content_hash = content_hash
 
 
 class GmailWatcher:
@@ -61,39 +67,70 @@ class GmailWatcher:
         self.subject_pattern = subject_pattern
         self.state_mgr = state_mgr or CampaignState()
 
-    def check_local_receipt(self, date_str: Optional[str] = None) -> Optional[DetectedLeadDelivery]:
+    def check_local_receipt(
+        self,
+        date_str: Optional[str] = None,
+        receipt_dir: Optional[Path] = None,
+        output_dir: Optional[Path] = None,
+        target_date_str: Optional[str] = None,
+    ) -> Optional[DetectedLeadDelivery]:
         """
-        Check if the 11 AM delivery workflow successfully completed locally
-        and produced output/leads_YYYY-MM-DD.txt and delivery receipt.
+        Check if the delivery workflow successfully completed and produced
+        output/leads_YYYY-MM-DD.txt and a verified delivery receipt (delivery_receipt_YYYY-MM-DD.json).
+        Verifies receipt existence, delivered_count > 0, date match, and content integrity.
         """
-        if not date_str:
-            date_str = get_today_ist_date()
+        target_date = date_str or target_date_str or get_today_ist_date()
+        r_dir = Path(receipt_dir) if receipt_dir else DATA_DIR
+        o_dir = Path(output_dir) if output_dir else OUTPUT_DIR
 
-        receipt_file = DATA_DIR / f"delivery_receipt_{date_str}.json"
-        lead_file = OUTPUT_DIR / f"leads_{date_str}.txt"
+        receipt_file = r_dir / f"delivery_receipt_{target_date}.json"
+        lead_file = o_dir / f"leads_{target_date}.txt"
 
-        if lead_file.exists() and lead_file.stat().st_size > 0:
-            with open(lead_file, "rb") as f:
-                content = f.read()
+        if not receipt_file.exists() or not lead_file.exists() or lead_file.stat().st_size == 0:
+            return None
 
-            message_id = f"LOCAL-RECEIPT-{date_str}"
-            if receipt_file.exists():
-                try:
-                    import json
-                    data = json.loads(receipt_file.read_text(encoding="utf-8"))
-                    message_id = data.get("receipt_id", message_id)
-                except Exception:
-                    pass
+        try:
+            receipt_data = json.loads(receipt_file.read_text(encoding="utf-8"))
+        except Exception as e:
+            logger.warning(f"Failed to parse delivery receipt {receipt_file}: {e}")
+            return None
 
-            return DetectedLeadDelivery(
-                source_type="local_receipt",
-                message_id=message_id,
-                subject=f"Daily New Leads — {date_str}",
-                attachment_filename=lead_file.name,
-                attachment_bytes=content,
-                date_str=date_str,
+        delivered_count = receipt_data.get("delivered_count", 0)
+        receipt_date = receipt_data.get("date")
+        if delivered_count <= 0 or receipt_date != target_date:
+            logger.warning(
+                f"Delivery receipt {receipt_file} is invalid: delivered_count={delivered_count}, date={receipt_date} (expected {target_date})"
             )
-        return None
+            return None
+
+        run_id = receipt_data.get("run_id") or receipt_data.get("receipt_id") or target_date
+        expected_hash = receipt_data.get("content_hash")
+
+        with open(lead_file, "rb") as f:
+            content = f.read()
+
+        # If receipt has a content_hash, verify integrity
+        if expected_hash:
+            actual_hash = hashlib.sha256(content).hexdigest()
+            raw_lines = [line.strip().lower() for line in content.decode("utf-8", errors="replace").splitlines() if line.strip()]
+            norm_hash = hashlib.sha256("\n".join(raw_lines).encode("utf-8")).hexdigest()
+            if actual_hash != expected_hash and norm_hash != expected_hash:
+                logger.error(
+                    f"Lead file content hash mismatch for {lead_file}: actual={actual_hash}, expected={expected_hash}"
+                )
+                return None
+
+        message_id = f"DELIVERY-{run_id}-{target_date}"
+        return DetectedLeadDelivery(
+            source_type="local_receipt",
+            message_id=message_id,
+            subject=f"Daily New Leads — {target_date}",
+            attachment_filename=lead_file.name,
+            attachment_bytes=content,
+            date_str=target_date,
+            run_id=run_id,
+            content_hash=expected_hash,
+        )
 
     def check_manual_file(self, file_path: Path) -> Optional[DetectedLeadDelivery]:
         """Load from explicit manual dispatch file."""
@@ -115,7 +152,7 @@ class GmailWatcher:
             date_str=date_str,
         )
 
-    def check_imap_inbox(self, max_messages: int = 15, target_date_str: Optional[str] = None) -> Optional[DetectedLeadDelivery]:
+    def check_imap_inbox(self, max_messages: int = 50, target_date_str: Optional[str] = None) -> Optional[DetectedLeadDelivery]:
         """
         Connect via IMAP SSL to detect newly delivered lead emails.
         Matches:
@@ -228,30 +265,31 @@ class GmailWatcher:
         """
         Unified detector checking:
         1. Explicit manual file input
-        2. IMAP mailbox inspection (matching target/today's IST date only)
-        3. Local workspace delivery receipt / output file (matching target/today's IST date only)
+        2. Local workspace delivery receipt & verified lead file (direct event handoff)
+        3. IMAP mailbox inspection (matching target/today's IST date only)
         """
         today_ist = target_date_str or get_today_ist_date()
 
         if manual_file and manual_file.exists():
             return self.check_manual_file(manual_file)
 
-        # Try IMAP first if credentials are present
+        # 1. Check local delivery receipt and verified output file first (direct event handoff from delivery workflow)
+        local_result = self.check_local_receipt(date_str=today_ist)
+        if local_result:
+            if local_result.date_str == today_ist:
+                logger.info(f"Detected verified delivery receipt for {today_ist} (run: {local_result.run_id})")
+                return local_result
+            logger.warning(
+                f"Discarding local receipt: date {local_result.date_str} != target IST date {today_ist}"
+            )
+
+        # 2. Check IMAP inbox for delivered email
         imap_result = self.check_imap_inbox(target_date_str=today_ist)
         if imap_result:
             if imap_result.date_str == today_ist:
                 return imap_result
             logger.warning(
                 f"Discarding IMAP lead delivery: message date {imap_result.date_str} != target IST date {today_ist}"
-            )
-
-        # Fallback to local workspace output for today's IST date
-        local_result = self.check_local_receipt(date_str=today_ist)
-        if local_result:
-            if local_result.date_str == today_ist:
-                return local_result
-            logger.warning(
-                f"Discarding local receipt: date {local_result.date_str} != target IST date {today_ist}"
             )
 
         logger.info(f"No fresh lead delivery detected for target date ({today_ist} IST).")

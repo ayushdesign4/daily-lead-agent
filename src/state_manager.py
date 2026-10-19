@@ -3,6 +3,7 @@
 import csv
 import os
 import json
+import hashlib
 import tempfile
 import logging
 from datetime import datetime, timezone, timedelta
@@ -11,6 +12,7 @@ from typing import Dict, List, Set, Optional, Tuple
 
 from src.config import (
     DATA_DIR,
+    OUTPUT_DIR,
     MASTER_LEADS_FILE,
     PENDING_QUEUE_FILE,
     USED_NICHES_FILE,
@@ -242,9 +244,19 @@ class StateManager:
         and leads will not be duplicate-delivered on a retry.
         """
         receipt_file = self.get_receipt_path(date_str)
+        lead_file = OUTPUT_DIR / f"leads_{date_str}.txt"
+        content_hash = ""
+        if lead_file.exists():
+            with open(lead_file, "rb") as f:
+                content_hash = hashlib.sha256(f.read()).hexdigest()
+        else:
+            content_hash = hashlib.sha256("\n".join(e.strip().lower() for e in delivered_emails).encode("utf-8")).hexdigest()
+
         receipt_data = {
             "date": date_str,
             "run_id": run_id,
+            "lead_file": f"leads_{date_str}.txt",
+            "content_hash": content_hash,
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "delivered_count": len(delivered_emails),
             "emails": [e.strip().lower() for e in delivered_emails],
