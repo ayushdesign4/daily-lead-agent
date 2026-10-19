@@ -5,17 +5,83 @@ strictly ONE-WORD genuine creator content niches.
 """
 
 import re
+import sys
+import csv
 from pathlib import Path
 from typing import Set, List
 
-def is_valid_one_word_niche(niche: str) -> bool:
-    if not niche or not isinstance(niche, str):
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from src.niche_manager import is_valid_one_word_niche, normalize_niche
+
+used_csv = Path("data/used_niches.csv")
+used_set: Set[str] = set()
+if used_csv.exists():
+    with open(used_csv, encoding="utf-8") as f:
+        for r in csv.DictReader(f):
+            n = r.get("niche")
+            if n:
+                used_set.add(n.strip().lower())
+                used_set.add(normalize_niche(n))
+
+MASHUP_SUFFIXES = [
+    "photography", "videography", "cinematography", "review", "reviews",
+    "tutorial", "tutorials", "tips", "hacks", "secrets", "tricks", "routine",
+    "routines", "workout", "workouts", "vlog", "vlogs", "channel", "channels",
+    "guide", "guides", "making", "hunting", "training",
+    "learning", "decor", "makeover", "restoration", "cleaning",
+    "cooking", "baking", "brewing", "farming", "gardening", "investing", "trading",
+    "marketing", "branding", "strategy", "management", "remodel",
+    "renovation", "installation", "collector", "collecting", "recording",
+    "production", "engineering", "development", "programming", "exploration",
+    "analysis", "breakdown", "theory", "theories", "documentary", "life"
+]
+
+LEGIT_EXCEPTIONS = {
+    "wildlife", "afterlife", "nightlife", "midlife",
+    "woodworking", "woodturning", "woodcarving", "metalworking", "blacksmithing",
+    "bladesmith", "silversmith", "goldsmith", "metalsmith", "locksmith",
+    "supercharger", "turbocharger", "intercooler", "overclocking", "undervolting",
+    "watercooling", "hypertrophy", "bodybuilding", "powerlifting", "calisthenics",
+    "speedrunning", "speedrunner", "simracing", "overlanding", "bikepacking",
+    "astrophotography", "videography", "cinematography", "photography",
+    "typography", "calligraphy", "cartography", "topography", "lithography",
+    "paleontology", "archaeology", "anthropology", "geopolitics", "mixology",
+    "homesteading", "permaculture", "aquascaping", "beekeeping", "antkeeping",
+    "formicarium", "terrarium", "paludarium", "vivarium", "herpetoculture",
+    "microcontroller", "semiconductor", "microbiology", "neuroscience",
+    "psychology", "sociology", "linguistics", "philosophy", "theology",
+    "mythology", "folklore", "cryptids", "creepypasta", "icebergs",
+    "supernova", "supermassive", "exoplanet", "telescope", "microscope",
+    "spectroscopy", "thermodynamics", "electromagnetism", "superconductivity",
+    "nanotechnology", "quantum", "patisserie", "chocolatier", "charcuterie",
+    "prosciutto", "fermentation", "sourdough", "croissant", "viennoiserie",
+    "espresso", "aeropress", "pourover", "latteart", "chemex", "frenchpress",
+    "smartwatch", "smartphone", "earbuds", "headphones", "audiophile",
+    "motherboard", "chipset", "processor", "keycaps", "hotswap",
+    "backpacking", "bushcraft", "spearfishing", "packrafting", "canyoneering",
+    "spelunking", "geocaching", "foraging", "mushrooming", "birdwatching",
+    "liveaboard", "survivalism", "glamping", "orienteering", "mountaineering",
+    "bouldering", "flyfishing", "flytying", "ceramiccoating", "pinstriping",
+    "upholstery", "autocross", "drivetrain", "valvetrain", "driveshaft",
+    "camshaft", "crankshaft", "coilovers", "differential", "supermoto",
+    "motocross", "supercross", "dirtbike", "caferacer", "sidecar",
+    "fingerstyle", "audiomixing", "sounddesign", "storyboarding", "rotoscoping",
+    "photogrammetry", "fingerdrumming", "orchestration", "synthesizer",
+    "pedalboard", "drummachine", "slapbass", "keyboardist", "saxophonist",
+    "trumpeter", "trombonist", "clarinetist", "accordion", "harmonica",
+    "printmaking", "screenprinting", "bookbinding", "leathercraft",
+    "cabinetmaking", "diorama", "miniatures", "airbrushing"
+}
+
+def is_unnatural_mashup(w: str) -> bool:
+    """Detect if a string is a concatenated phrase like 'weddingphotography' or 'beerbrewing'."""
+    if w in LEGIT_EXCEPTIONS:
         return False
-    stripped = niche.strip()
-    if not stripped or len(stripped.split()) != 1:
-        return False
-    # Strictly alphabetic and hyphens/underscores, NO numbers (no creator101, etc.)
-    return bool(re.match(r"^[A-Za-z_-]+$", stripped))
+    for s in MASHUP_SUFFIXES:
+        if w.endswith(s) and len(w) > len(s) + 2:
+            return True
+    return False
 
 def clean_word(w: str) -> str:
     return w.strip().lower()
@@ -31,8 +97,11 @@ def get_all_niches() -> List[str]:
                     words = item.replace(",", " ").split()
                     for w in words:
                         cw = clean_word(w)
-                        if is_valid_one_word_niche(cw) and len(cw) >= 3 and not re.search(r"\d", cw):
-                            niches.add(cw)
+                        if is_valid_one_word_niche(cw) and len(cw) >= 3 and cw.isalpha():
+                            if not is_unnatural_mashup(cw):
+                                norm = normalize_niche(cw)
+                                if norm not in used_set and cw not in used_set:
+                                    niches.add(cw)
 
     # 1. Gaming - Titles, Franchises & Universes
     add_words([
@@ -617,6 +686,76 @@ def get_all_niches() -> List[str]:
     ]
     add_words(domain_extensions)
 
+    supplemental_words = [
+        # Photography & Lighting
+        "bokeh", "vignette", "aperture", "iso", "histogram", "monochrome", "polarizer",
+        "anamorphic", "focal", "fisheye", "reflector", "speedlight", "snoot",
+        "cameraman", "cinematographer", "gaffer", "clapperboard", "steadicam", "monopod",
+        "viewfinder", "rangefinder", "darkroom", "enlarger", "daguerreotype", "tintype",
+        "cyanotype", "calotype", "halide", "transparency",
+
+        # Music, Acoustics & Audio Production
+        "polyphony", "monophony", "homophony", "counterpoint", "timbre", "cadence",
+        "arpeggio", "glissando", "staccato", "legato", "pizzicato", "crescendo",
+        "decrescendo", "scherzo", "sonata", "concerto", "symphony", "overture",
+        "prelude", "rhapsody", "nocturne", "etude", "ballade", "fantasia", "cantata",
+        "motet", "madrigal", "chorale", "requiem", "libretto", "operetta", "cabaret",
+        "vaudeville", "acapella", "reverberation", "equalizer", "compressor", "limiter",
+        "deesser", "exciter", "saturator", "bitcrusher", "vocoder", "autotune",
+        "multitrack", "overdub", "headroom", "clipping", "dithering",
+
+        # Art, Painting, Pigments & Printmaking
+        "tempera", "fresco", "encaustic", "pastel", "charcoal", "graphite", "sanguine",
+        "sepia", "bister", "pigment", "binder", "varnish", "gesso", "impasto", "glaze",
+        "scumble", "underpainting", "grisaille", "chiaroscuro", "sfumato", "tenebrism",
+        "pentimento", "canvas", "easel", "palette", "maulstick", "paletteknife",
+        "spatula", "turpentine", "linseed", "damar", "retarder", "fixative",
+        "portfolio", "monotype", "collograph", "mezzotint", "aquatint", "drypoint",
+        "woodcut", "pochoir",
+
+        # Linguistics, Languages & Speech
+        "linguist", "polyglot", "grammar", "pronunciation", "accent", "colloquial",
+        "vernacular", "dialect", "slang", "jargon", "pidgin", "creole", "orthography",
+        "grapheme", "allophone", "morpheme", "inflection", "conjugation", "declension",
+        "subjunctive", "imperative", "participle", "gerund", "preposition", "adverb",
+        "adjective", "interjection", "punctuation",
+
+        # Workshop, Metallurgy & Traditional Tools
+        "drawknife", "spokeshave", "inshave", "froe", "adze", "broadaxe", "sideaxe",
+        "gouge", "chisel", "scraper", "burnisher", "rasp", "riffler", "sawbuck",
+        "benchdog", "holdfast", "benchhook", "shootingboard", "trammel", "calipers",
+        "micrometer", "scriber", "centerpunch", "drift", "anvil", "swage", "tongs",
+        "crucible", "trowel", "plumb", "inclinometer",
+
+        # Culinary Techniques & Classical Gastronomy
+        "chiffonade", "julienne", "brunoise", "mirepoix", "soffritto", "duxelles",
+        "roux", "slurry", "bechamel", "veloute", "espagnole", "hollandaise",
+        "mayonnaise", "vinaigrette", "remoulade", "aioli", "gremolata", "chimichurri",
+        "pesto", "tapenade", "caponata", "ratatouille", "panzanella", "gazpacho",
+        "salmorejo", "vichyssoise", "consomme", "bisque", "chowder", "bouillabaisse",
+        "cioppino", "gumbo", "jambalaya", "etouffee", "succotash", "polenta",
+        "semolina", "quinoa", "farro", "bulgur", "freekeh", "barley", "spelt", "millet",
+        "sorghum", "buckwheat",
+
+        # Anatomy, Movement & Physiology
+        "pectoralis", "deltoids", "trapezius", "latissimus", "rhomboids", "infraspinatus",
+        "supraspinatus", "subscapularis", "biceps", "triceps", "brachialis", "forearms",
+        "abdominals", "obliques", "serratus", "quadriceps", "hamstrings", "gluteals",
+        "adductors", "gastrocnemius", "soleus", "tibialis", "tendon", "ligament",
+        "cartilage", "meniscus", "bursa", "synovium", "sarcomere", "myofibril",
+        "actomyosin", "glycogen", "myoglobin", "creatine", "lactate", "endorphins",
+        "dopamine", "serotonin", "adrenaline", "cortisol", "testosterone",
+
+        # Landscape, Geomorphology & Natural Wonders
+        "glade", "copse", "thicket", "grove", "tundra", "taiga", "steppe", "savanna",
+        "prairie", "pampas", "chaparral", "marsh", "swamp", "estuary", "delta",
+        "lagoon", "fjord", "canyon", "gorge", "ravine", "plateau", "mesa", "butte",
+        "escarpment", "cliff", "bluff", "ridge", "summit", "peak", "couloir", "cirque",
+        "moraine", "glacier", "crevasse", "serac", "tarn", "cataract", "cascade",
+        "geyser", "solfatara", "caldera", "crater", "cenote"
+    ]
+    add_words(supplemental_words)
+
     # Auxiliary expansions across all creator domains
     try:
         from scripts.niche_expansion_vocab import ALL_EXPANSION_LISTS as L1
@@ -627,13 +766,23 @@ def get_all_niches() -> List[str]:
         from scripts.niche_expansion_vocab_6 import ALL_EXPANSION_LISTS_6 as L6
         from scripts.niche_expansion_vocab_7 import ALL_EXPANSION_LISTS_7 as L7
         from scripts.niche_expansion_vocab_8 import ALL_EXPANSION_LISTS_8 as L8
-        for exp_group in [L1, L2, L3, L4, L5, L6, L7, L8]:
+        from scripts.niche_expansion_subniches import ALL_EXPANSION_LISTS_SUBNICHES as L_sub
+        for exp_group in [L1, L2, L3, L4, L5, L6, L7, L8, L_sub]:
             for lst in exp_group:
                 add_words(lst)
     except Exception as e:
         print(f"Warning: could not import all auxiliary vocabularies: {e}")
 
-    return sorted(list(niches))
+    # Ensure normalized uniqueness and zero overlap with used niches
+    seen_normalized = set()
+    unique_niches = []
+    for n in sorted(list(niches)):
+        norm = normalize_niche(n)
+        if norm not in seen_normalized and norm not in used_set:
+            seen_normalized.add(norm)
+            unique_niches.append(n)
+
+    return unique_niches
 
 if __name__ == "__main__":
     niches = get_all_niches()

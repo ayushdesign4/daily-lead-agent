@@ -17,8 +17,22 @@ def test_is_valid_one_word_niche():
     assert is_valid_one_word_niche("motivation") is True
     assert is_valid_one_word_niche("mindset") is True
     assert is_valid_one_word_niche("coding") is True
-    assert is_valid_one_word_niche("micro-tech") is True
-    assert is_valid_one_word_niche("web_dev") is True
+    assert is_valid_one_word_niche("micro-tech") is False
+    assert is_valid_one_word_niche("web_dev") is False
+    assert is_valid_one_word_niche("gamer101") is False
+
+    # Established compounds accepted
+    assert is_valid_one_word_niche("speedrunning") is True
+    assert is_valid_one_word_niche("woodcarving") is True
+    assert is_valid_one_word_niche("astrophotography") is True
+
+    # Artificial compound mashups rejected
+    assert is_valid_one_word_niche("weddingphotography") is False
+    assert is_valid_one_word_niche("bathroomremodel") is False
+    assert is_valid_one_word_niche("cattraining") is False
+    assert is_valid_one_word_niche("timemanagement") is False
+    assert is_valid_one_word_niche("birdphotography") is False
+    assert is_valid_one_word_niche("dogtricks") is False
 
     # Invalid multi-word or empty niches
     assert is_valid_one_word_niche("") is False

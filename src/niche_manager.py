@@ -17,14 +17,81 @@ QUERY_TEMPLATE = 'site:youtube.com "{niche}" "Business Inquiries" "gmail.com" In
 SEED_NICHES = CURATED_NICHES
 
 
+# Disallowed artificial compound suffixes that indicate glued-together multi-word phrases
+DISALLOWED_MASHUP_SUFFIXES = (
+    "photography", "videography", "cinematography", "review", "reviews",
+    "tutorial", "tutorials", "tips", "hacks", "secrets", "tricks", "routine",
+    "routines", "workout", "workouts", "vlog", "vlogs", "channel", "channels",
+    "guide", "guides", "making", "hunting", "training",
+    "learning", "decor", "makeover", "restoration", "cleaning",
+    "cooking", "baking", "brewing", "farming", "gardening", "investing", "trading",
+    "marketing", "branding", "strategy", "management", "remodel",
+    "renovation", "installation", "collector", "collecting", "recording",
+    "production", "engineering", "development", "programming", "exploration",
+    "analysis", "breakdown", "theory", "theories", "documentary", "life"
+)
+
+# Established single words / domain terms that are legitimate despite suffix matches
+ESTABLISHED_LEXICAL_COMPOUNDS = {
+    "wildlife", "afterlife", "nightlife", "midlife", "halflife",
+    "woodworking", "woodturning", "woodcarving", "metalworking", "blacksmithing",
+    "bladesmith", "silversmith", "goldsmith", "metalsmith", "locksmith",
+    "supercharger", "turbocharger", "intercooler", "overclocking", "undervolting",
+    "watercooling", "hypertrophy", "bodybuilding", "powerlifting", "calisthenics",
+    "speedrunning", "speedrunner", "simracing", "overlanding", "bikepacking",
+    "astrophotography", "videography", "cinematography", "photography",
+    "typography", "calligraphy", "cartography", "topography", "lithography",
+    "paleontology", "archaeology", "anthropology", "geopolitics", "mixology",
+    "homesteading", "permaculture", "aquascaping", "beekeeping", "antkeeping",
+    "formicarium", "terrarium", "paludarium", "vivarium", "herpetoculture",
+    "microcontroller", "semiconductor", "microbiology", "neuroscience",
+    "psychology", "sociology", "linguistics", "philosophy", "theology",
+    "mythology", "folklore", "cryptids", "creepypasta", "icebergs",
+    "supernova", "supermassive", "exoplanet", "telescope", "microscope",
+    "spectroscopy", "thermodynamics", "electromagnetism", "superconductivity",
+    "nanotechnology", "quantum", "patisserie", "chocolatier", "charcuterie",
+    "prosciutto", "fermentation", "sourdough", "croissant", "viennoiserie",
+    "espresso", "aeropress", "pourover", "latteart", "chemex", "frenchpress",
+    "smartwatch", "smartphone", "earbuds", "headphones", "audiophile",
+    "motherboard", "chipset", "processor", "keycaps", "hotswap",
+    "backpacking", "bushcraft", "spearfishing", "packrafting", "canyoneering",
+    "spelunking", "geocaching", "foraging", "mushrooming", "birdwatching",
+    "liveaboard", "survivalism", "glamping", "orienteering", "mountaineering",
+    "bouldering", "flyfishing", "flytying", "ceramiccoating", "pinstriping",
+    "upholstery", "autocross", "drivetrain", "valvetrain", "driveshaft",
+    "camshaft", "crankshaft", "coilovers", "differential", "supermoto",
+    "motocross", "supercross", "dirtbike", "caferacer", "sidecar",
+    "fingerstyle", "audiomixing", "sounddesign", "storyboarding", "rotoscoping",
+    "photogrammetry", "fingerdrumming", "orchestration", "synthesizer",
+    "pedalboard", "drummachine", "slapbass", "keyboardist", "saxophonist",
+    "trumpeter", "trombonist", "clarinetist", "accordion", "harmonica",
+    "printmaking", "screenprinting", "bookbinding", "leathercraft",
+    "cabinetmaking", "diorama", "miniatures", "airbrushing"
+}
+
+
 def is_valid_one_word_niche(niche: str) -> bool:
-    """Validate that niche string contains strictly one single word and no digits."""
+    """
+    Validate that niche string contains strictly one single word and no digits,
+    punctuation, or artificial multi-word compound mashups.
+    """
     if not niche or not isinstance(niche, str):
         return False
     stripped = niche.strip()
     if not stripped or len(stripped.split()) != 1:
         return False
-    return bool(re.match(r"^[A-Za-z_-]+$", stripped)) and not any(c.isdigit() for c in stripped)
+    # Strictly alphabetic letters only: NO hyphens, NO underscores, NO digits, NO spaces
+    if not re.match(r"^[A-Za-z]+$", stripped):
+        return False
+
+    lower = stripped.lower()
+    # Reject artificial compound mashups (e.g. weddingphotography, bathroomremodel)
+    if lower not in ESTABLISHED_LEXICAL_COMPOUNDS:
+        for s in DISALLOWED_MASHUP_SUFFIXES:
+            if lower.endswith(s) and len(lower) > len(s) + 2:
+                return False
+
+    return True
 
 
 def normalize_niche(niche: str) -> str:
