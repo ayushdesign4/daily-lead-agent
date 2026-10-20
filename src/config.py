@@ -24,6 +24,8 @@ MASTER_LEADS_FILE = DATA_DIR / "master_leads.csv"
 PENDING_QUEUE_FILE = DATA_DIR / "pending_queue.csv"
 USED_NICHES_FILE = DATA_DIR / "used_niches.csv"
 DAILY_RUNS_FILE = DATA_DIR / "daily_runs.csv"
+NICHE_SELECTION_STATE_FILE = DATA_DIR / "niche_selection_state.json"
+NICHE_PERFORMANCE_FILE = DATA_DIR / "niche_performance.json"
 
 # Lead Generation Settings
 DAILY_TARGET = int(os.getenv("DAILY_TARGET", "200"))

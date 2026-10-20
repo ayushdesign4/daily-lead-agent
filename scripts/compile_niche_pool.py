@@ -773,28 +773,143 @@ def get_all_niches() -> List[str]:
     except Exception as e:
         print(f"Warning: could not import all auxiliary vocabularies: {e}")
 
+    from src.niche_categories import classify_niche, CREATOR_CATEGORIES
+
+    PRIORITY_CREATOR_NICHES = {
+        "gaming": [
+            "speedrunning", "subnautica", "terraria", "cyberpunk", "simracing", "valheim",
+            "speedrun", "emulation", "metroidvania", "roguelike", "gameplay", "walkthrough",
+            "nuzlocke", "hitless", "retrogaming", "vrgaming", "indiegame", "soulsborne",
+            "speedrunner", "playthrough", "multiplayer", "cutscenes", "cutscene", "deathless"
+        ],
+        "technology": [
+            "overclocking", "watercooling", "audiophile", "keycaps", "videography",
+            "semiconductor", "microcontroller", "hotswap", "firmware", "cryptography",
+            "robotics", "electronics", "circuit", "arduino", "sensors", "encryption",
+            "networking", "telecom", "peripherals", "keyboards", "pcbuilding", "undervolting"
+        ],
+        "automotive": [
+            "supercharger", "turbocharger", "intercooler", "differential", "coilovers",
+            "camshaft", "crankshaft", "drivetrain", "valvetrain", "driveshaft", "supermoto",
+            "motocross", "dirtbike", "caferacer", "sidecar", "autocross", "drifting",
+            "pinstriping", "tuning", "supercars", "motorcycles", "superbikes", "exhaust",
+            "muffler", "suspension", "brakes", "dyno", "flashtune", "wastegate", "supercar"
+        ],
+        "fitness": [
+            "strongman", "kettlebells", "benchpress", "deadlift", "calisthenic",
+            "hypertrophy", "kettlebell", "squats", "pullups", "pushups", "cardio",
+            "sprinting", "athletics", "crossfit", "mobility", "stretching", "gymnastics",
+            "parkour", "boxing", "kickboxing", "mma", "wrestling", "supplements", "physique"
+        ],
+        "finance": [
+            "investing", "fintech", "dividends", "ecommerce", "valuation", "accounting",
+            "taxation", "budgeting", "venture", "syndicate", "underwriting", "equity",
+            "commodities", "portfolio", "startups", "entrepreneur", "frugal", "solopreneur"
+        ],
+        "science": [
+            "paleontology", "archaeology", "cosmology", "meteorology", "oceanography",
+            "spectroscopy", "thermodynamics", "superconductivity", "microbiology",
+            "neuroscience", "supernova", "exoplanet", "telescope", "microscope",
+            "anthropology", "geopolitics", "folklore", "mythology", "academics", "evolution"
+        ],
+        "culinary": [
+            "espresso", "croissant", "sourdough", "aeropress", "pourover", "latteart",
+            "charcuterie", "chocolatier", "patisserie", "prosciutto", "barista", "mixology",
+            "fermentation", "sommelier", "gastronomy", "baking", "roasting", "grilling",
+            "smoking", "curry", "pasta", "pizza", "sushi", "ramen", "confectionery"
+        ],
+        "outdoors": [
+            "overlanding", "bikepacking", "backpacking", "bushcraft", "packrafting",
+            "canyoneering", "spelunking", "geocaching", "foraging", "homesteading",
+            "permaculture", "aquascaping", "beekeeping", "antkeeping", "bouldering",
+            "mountaineering", "flyfishing", "flytying", "spearfishing", "wildlife", "glamping"
+        ],
+        "creative": [
+            "astrophotography", "calligraphy", "storyboarding", "rotoscoping",
+            "photogrammetry", "fingerdrumming", "orchestration", "synthesizer",
+            "pedalboard", "drummachine", "slapbass", "keyboardist", "saxophonist",
+            "trumpeter", "trombonist", "clarinetist", "accordion", "harmonica",
+            "fingerstyle", "audiomixing", "sounddesign", "airbrushing", "animation",
+            "blender", "typography", "illustration", "sketching", "watercolor"
+        ],
+        "maker": [
+            "woodcarving", "bladesmith", "leathercraft", "blacksmithing", "cabinetmaking",
+            "woodturning", "silversmith", "goldsmith", "metalsmith", "locksmith",
+            "ceramics", "glassblowing", "sculpture", "machining", "welding", "jewelry",
+            "lapidary", "gemology", "enameling", "pyrography", "quilling", "tatting",
+            "screenprinting", "bookbinding", "printmaking", "diorama", "miniatures"
+        ],
+    }
+
+    # Explicitly filter out generic grammatical tokens that lack YouTube creator intent
+    DISALLOWED_GENERIC_FILLERS = {
+        "additions", "adjusted", "adjustment", "adjustable", "additionally",
+        "admissions", "admitted", "admit", "adoption", "addressed", "addressing",
+        "adds", "adequate", "adjacent", "adjust", "admission", "advise"
+    }
+
     # Ensure normalized uniqueness and zero overlap with used niches
     seen_normalized = set()
-    unique_niches = []
+    valid_raw_niches = []
     for n in sorted(list(niches)):
         norm = normalize_niche(n)
+        if norm in DISALLOWED_GENERIC_FILLERS:
+            continue
         if norm not in seen_normalized and norm not in used_set:
             seen_normalized.add(norm)
-            unique_niches.append(n)
+            valid_raw_niches.append(n)
 
-    return unique_niches
+
+    # Group into creator categories
+    cat_buckets: Dict[str, List[str]] = {cat: [] for cat in CREATOR_CATEGORIES}
+    for n in valid_raw_niches:
+        cat = classify_niche(n)
+        cat_buckets[cat].append(n)
+
+    # Sort each category bucket: authentic creator priorities first, then rest
+    for cat in CREATOR_CATEGORIES:
+        priorities = [p for p in PRIORITY_CREATOR_NICHES.get(cat, []) if p in set(cat_buckets[cat])]
+        p_set = set(priorities)
+        rest = [n for n in cat_buckets[cat] if n not in p_set]
+        cat_buckets[cat] = priorities + rest
+
+    # Interleave categories in round-robin fashion so CURATED_NICHES is diverse across all 11 domains
+    interleaved: List[str] = []
+    max_cat_len = max(len(v) for v in cat_buckets.values())
+    for idx in range(max_cat_len):
+        for cat in CREATOR_CATEGORIES:
+            if idx < len(cat_buckets[cat]):
+                interleaved.append(cat_buckets[cat][idx])
+
+    return interleaved, cat_buckets
 
 if __name__ == "__main__":
-    niches = get_all_niches()
+    niches, categories = get_all_niches()
     print(f"Total compiled unique niches: {len(niches)}")
+    print("Category breakdown:")
+    for cat in categories:
+        print(f"  {cat:15s}: {len(categories[cat]):4d} niches")
+
     # Write to src/curated_niches.py
     out_file = Path("src/curated_niches.py")
     with open(out_file, "w", encoding="utf-8") as f:
         f.write('"""\nCurated single-word niche taxonomy for Daily Lead Agent.\n')
         f.write(f'Generated {len(niches)} distinct, verified, strictly one-word creator niches.\n')
+        f.write('Organized into 11 creator categories and interleaved in round-robin order.\n')
         f.write('Free from synthetic numbers, filler suffixes, and duplicates.\n"""\n\n')
+        
+        # Export NICHE_CATEGORIES dictionary
+        f.write("NICHE_CATEGORIES = {\n")
+        for cat, cat_niches in categories.items():
+            f.write(f'    "{cat}": [\n')
+            for n in cat_niches:
+                f.write(f'        "{n}",\n')
+            f.write("    ],\n")
+        f.write("}\n\n")
+
+        # Export CURATED_NICHES list
         f.write(f"CURATED_NICHES = [\n")
-        for i, n in enumerate(niches):
+        for n in niches:
             f.write(f'    "{n}",\n')
         f.write("]\n")
     print(f"Successfully wrote {len(niches)} niches to {out_file}")

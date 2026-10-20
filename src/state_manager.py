@@ -17,6 +17,8 @@ from src.config import (
     PENDING_QUEUE_FILE,
     USED_NICHES_FILE,
     DAILY_RUNS_FILE,
+    NICHE_SELECTION_STATE_FILE,
+    NICHE_PERFORMANCE_FILE,
     IST_TIMEZONE_OFFSET_HOURS,
 )
 
@@ -71,6 +73,30 @@ def atomic_write_csv(file_path: Path, headers: List[str], rows: List[Dict[str, s
         raise
 
 
+def atomic_write_json(file_path: Path, data: Dict) -> None:
+    """
+    Atomically write data dictionary to a JSON file.
+    Writes to a temporary file in the same directory first, then replaces the target file.
+    """
+    file_path.parent.mkdir(parents=True, exist_ok=True)
+    temp_file = None
+    try:
+        with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=file_path.parent, delete=False) as f:
+            temp_file = Path(f.name)
+            json.dump(data, f, indent=2)
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(temp_file, file_path)
+    except Exception as e:
+        logger.error(f"Failed atomic write to {file_path}: {e}")
+        if temp_file and temp_file.exists():
+            try:
+                temp_file.unlink()
+            except OSError:
+                pass
+        raise
+
+
 class StateManager:
     """Manages persistent data files and state transitions."""
 
@@ -80,11 +106,15 @@ class StateManager:
         queue_file: Path = PENDING_QUEUE_FILE,
         niches_file: Path = USED_NICHES_FILE,
         runs_file: Path = DAILY_RUNS_FILE,
+        selection_state_file: Path = NICHE_SELECTION_STATE_FILE,
+        performance_file: Path = NICHE_PERFORMANCE_FILE,
     ):
         self.master_file = master_file
         self.queue_file = queue_file
         self.niches_file = niches_file
         self.runs_file = runs_file
+        self.selection_state_file = selection_state_file
+        self.performance_file = performance_file
         self.initialize_files()
 
     def initialize_files(self) -> None:
@@ -415,3 +445,35 @@ class StateManager:
 
         atomic_write_csv(self.runs_file, DAILY_RUNS_HEADERS, runs)
         logger.info(f"Daily run recorded: date={date_str}, status={status}, delivered={delivered}/{target}")
+
+    # ----------------- Niche Selection & Performance Operations -----------------
+
+    def load_niche_selection_state(self) -> Dict:
+        """Load persistent niche category selection cursors and rotation state."""
+        if not self.selection_state_file.exists():
+            return {}
+        try:
+            with open(self.selection_state_file, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception as e:
+            logger.warning(f"Could not load niche selection state from {self.selection_state_file}: {e}")
+            return {}
+
+    def save_niche_selection_state(self, state: Dict) -> None:
+        """Atomically persist niche category selection state."""
+        atomic_write_json(self.selection_state_file, state)
+
+    def load_niche_performance(self) -> Dict:
+        """Load persistent niche performance feedback metrics."""
+        if not self.performance_file.exists():
+            return {}
+        try:
+            with open(self.performance_file, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception as e:
+            logger.warning(f"Could not load niche performance metrics from {self.performance_file}: {e}")
+            return {}
+
+    def save_niche_performance(self, perf: Dict) -> None:
+        """Atomically persist niche performance feedback metrics."""
+        atomic_write_json(self.performance_file, perf)

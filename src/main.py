@@ -147,6 +147,17 @@ class DailyLeadAgent:
                     f"{new_count} genuinely new leads"
                 )
 
+                # Record performance feedback for this completed batch
+                self.niche_manager.record_batch_performance(
+                    batch_niches=batch_niches,
+                    raw_count=raw_count,
+                    intra_dups=intra_dups,
+                    master_dups=master_dups,
+                    new_count=new_count,
+                    date_str=date_str,
+                    status="COMPLETED",
+                )
+
                 # Record batch niches as permanently used
                 self.niche_manager.record_batch_as_used(batch_niches, date_str)
 
@@ -188,12 +199,26 @@ class DailyLeadAgent:
                 credit_exhausted = True
                 exhaustion_reason = str(e)
                 logger.error(f"Apify credit or authorization failure in batch {batches_run}: {e}")
+                if batch_niches:
+                    self.niche_manager.record_batch_performance(
+                        batch_niches=batch_niches,
+                        date_str=date_str,
+                        status="FAILED",
+                        error_type=type(e).__name__,
+                    )
                 break
             except (ApifyTimeoutError, ApifyError) as e:
                 consecutive_failures += 1
                 logger.error(
                     f"Batch {batches_run} encountered error ({type(e).__name__}): {e}. "
                     f"Preserving existing leads and continuing to next batch with fresh niches."
+                )
+                # Record performance failure without degrading yield score
+                self.niche_manager.record_batch_performance(
+                    batch_niches=batch_niches,
+                    date_str=date_str,
+                    status="FAILED",
+                    error_type=type(e).__name__,
                 )
                 # Mark attempted niches as used so next batch picks fresh ones
                 self.niche_manager.record_batch_as_used(batch_niches, date_str)
