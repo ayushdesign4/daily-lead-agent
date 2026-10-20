@@ -82,3 +82,9 @@ date,status,target,delivered,reason,run_id
   }
 }",RUN-56E1B19F
 2026-10-19,COMPLETED,200,200,Delivered 200/200 leads.,RUN-16A3498C
+2026-10-20,PARTIAL_CREDIT_LIMIT,200,162,"Delivered 162/200 leads. Credit limit: Apify credits/usage limit reached on run start (HTTP 402): {
+  ""error"": {
+    ""type"": ""not-enough-usage-to-run-paid-actor"",
+    ""message"": ""Your remaining usage of $0.374888 this billing cycle isn't enough for this run. Increase your limit by upgrading to a paid plan at https://console.apify.com/billing/subscription""
+  }
+}",RUN-7F6D1B54
