@@ -1,0 +1,30 @@
+[2026-10-19 23:00:05] [INFO] ============================================================
+[2026-10-19 23:00:05] [INFO] Starting Daily Lead Agent | Run ID: RUN-184B5FE2 | Date: 2026-10-20 IST
+[2026-10-19 23:00:05] [INFO] Target: 200 leads | Mode: prepare | Dry Run: False
+[2026-10-19 23:00:05] [INFO] Starting pending queue size: 5
+[2026-10-19 23:00:05] [INFO] --- Starting Apify Batch 1 (Shortage: 195) ---
+[2026-10-19 23:00:05] [INFO] Batch 1 queries (10): ['aaron', 'abdominals', 'abortion', 'abroad', 'absence', 'absinthe', 'absolute', 'accent', 'accident', 'accompanied']
+[2026-10-19 23:30:49] [INFO] Batch 1 Summary: 44 valid emails -> 0 intra-batch dups -> 29 master dups -> 15 genuinely new leads
+[2026-10-19 23:30:49] [INFO] Target not yet satisfied. Remaining shortage: 180
+[2026-10-19 23:30:49] [INFO] --- Starting Apify Batch 2 (Shortage: 180) ---
+[2026-10-19 23:30:49] [INFO] Batch 2 queries (10): ['absent', 'acceptable', 'accidents', 'accomplished', 'accredited', 'accumulation', 'achieved', 'acids', 'acoustic', 'acquire']
+[2026-10-20 00:41:23] [INFO] Batch 2 Summary: 34 valid emails -> 0 intra-batch dups -> 25 master dups -> 9 genuinely new leads
+[2026-10-20 00:41:23] [INFO] Target not yet satisfied. Remaining shortage: 171
+[2026-10-20 00:41:23] [INFO] --- Starting Apify Batch 3 (Shortage: 171) ---
+[2026-10-20 00:41:23] [INFO] Batch 3 queries (10): ['accessed', 'accordingly', 'accretion', 'accused', 'achievement', 'acoustics', 'acquired', 'acres', 'acrobat', 'acrylic']
+[2026-10-20 01:21:30] [INFO] Batch 3 Summary: 32 valid emails -> 0 intra-batch dups -> 22 master dups -> 10 genuinely new leads
+[2026-10-20 01:21:30] [INFO] Target not yet satisfied. Remaining shortage: 161
+[2026-10-20 01:21:30] [INFO] --- Starting Apify Batch 4 (Shortage: 161) ---
+[2026-10-20 01:21:30] [INFO] Batch 4 queries (10): ['accessible', 'accordion', 'achieving', 'acquisition', 'acropora', 'acrylics', 'activation', 'actomyosin', 'actuarial', 'acute']
+[2026-10-20 02:04:39] [INFO] Batch 4 Summary: 33 valid emails -> 0 intra-batch dups -> 20 master dups -> 13 genuinely new leads
+[2026-10-20 02:04:39] [INFO] Target not yet satisfied. Remaining shortage: 148
+[2026-10-20 02:04:39] [INFO] --- Starting Apify Batch 5 (Shortage: 148) ---
+[2026-10-20 02:04:39] [INFO] Batch 5 queries (10): ['accessory', 'actively', 'actor', 'actuary', 'adams', 'adapters', 'addiction', 'addressed', 'adds', 'adductors']
+[2026-10-20 02:35:53] [INFO] Batch 5 Summary: 33 valid emails -> 0 intra-batch dups -> 18 master dups -> 15 genuinely new leads
+[2026-10-20 02:35:53] [INFO] Target not yet satisfied. Remaining shortage: 133
+[2026-10-20 02:35:53] [INFO] --- Starting Apify Batch 6 (Shortage: 133) ---
+[2026-10-20 02:35:53] [INFO] Batch 6 queries (10): ['actors', 'actuator', 'additionally', 'addressing', 'adequate', 'adjacent', 'adjective', 'adjust', 'admission', 'adopt']
+[2026-10-20 04:02:41] [INFO] Batch 6 Summary: 29 valid emails -> 0 intra-batch dups -> 17 master dups -> 12 genuinely new leads
+[2026-10-20 04:02:41] [INFO] Target not yet satisfied. Remaining shortage: 121
+[2026-10-20 04:02:41] [INFO] --- Starting Apify Batch 7 (Shortage: 121) ---
+[2026-10-20 04:02:41] [INFO] Batch 7 queries (10): ['additions', 'adjustable', 'admissions', 'adoption', 'adrenaline', 'advances', 'adventures', 'advise', 'advocacy', 'adze']
