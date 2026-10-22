@@ -39,3 +39,18 @@
   }
 }
 [2026-10-22 00:50:18] [INFO] Overnight preparation run complete. Daily email is scheduled for 11:00 AM IST.
+[2026-10-22 10:14:05] [INFO] ============================================================
+[2026-10-22 10:14:05] [INFO] Starting Daily Lead Agent | Run ID: RUN-6AD8163C | Date: 2026-10-22 IST
+[2026-10-22 10:14:05] [INFO] Target: 200 leads | Mode: deliver | Dry Run: False
+[2026-10-22 10:14:05] [INFO] Starting pending queue size: 89
+[2026-10-22 10:14:05] [INFO] --- Starting Apify Batch 1 (Shortage: 111) ---
+[2026-10-22 10:14:05] [INFO] Batch 1 queries (10): ['anamorphic', 'beachvolleyball', 'backplane', 'boxopening', 'analog', 'appliedmathematics', 'barcode', 'autobattler', 'astlibra', 'bulkferment']
+[2026-10-22 10:14:05] [ERROR] Apify credit or authorization failure in batch 1: Apify credits/usage limit reached on run start (HTTP 402): {
+  "error": {
+    "type": "not-enough-usage-to-run-paid-actor",
+    "message": "Your remaining usage of $0.411455 this billing cycle isn't enough for this run. Increase your limit by upgrading to a paid plan at https://console.apify.com/billing/subscription"
+  }
+}
+[2026-10-22 10:14:05] [WARNING] Sending credit exhaustion alert email to administrator...
+[2026-10-22 10:14:09] [INFO] Run RUN-6AD8163C finished. Status: PARTIAL_CREDIT_LIMIT | Delivered: 89/200 | Queue Remaining: 0
+[2026-10-22 10:14:09] [INFO] ============================================================

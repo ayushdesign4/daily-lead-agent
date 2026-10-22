@@ -6,7 +6,7 @@
       "intra_duplicates": 0,
       "master_duplicates": 21,
       "new_leads": 16,
-      "failures": 1,
+      "failures": 2,
       "yield_score": 0.3824,
       "last_used_date": "2026-10-22"
     },
@@ -16,7 +16,7 @@
       "intra_duplicates": 0,
       "master_duplicates": 23,
       "new_leads": 15,
-      "failures": 1,
+      "failures": 2,
       "yield_score": 0.3731,
       "last_used_date": "2026-10-22"
     },
@@ -26,7 +26,7 @@
       "intra_duplicates": 0,
       "master_duplicates": 25,
       "new_leads": 18,
-      "failures": 1,
+      "failures": 2,
       "yield_score": 0.3733,
       "last_used_date": "2026-10-22"
     },
@@ -36,7 +36,7 @@
       "intra_duplicates": 0,
       "master_duplicates": 24,
       "new_leads": 17,
-      "failures": 1,
+      "failures": 2,
       "yield_score": 0.3699,
       "last_used_date": "2026-10-22"
     },
@@ -46,7 +46,7 @@
       "intra_duplicates": 0,
       "master_duplicates": 23,
       "new_leads": 16,
-      "failures": 1,
+      "failures": 2,
       "yield_score": 0.3662,
       "last_used_date": "2026-10-22"
     },
@@ -56,7 +56,7 @@
       "intra_duplicates": 0,
       "master_duplicates": 20,
       "new_leads": 16,
-      "failures": 1,
+      "failures": 2,
       "yield_score": 0.3881,
       "last_used_date": "2026-10-22"
     },
@@ -66,7 +66,7 @@
       "intra_duplicates": 0,
       "master_duplicates": 24,
       "new_leads": 16,
-      "failures": 1,
+      "failures": 2,
       "yield_score": 0.3662,
       "last_used_date": "2026-10-22"
     },
@@ -76,7 +76,7 @@
       "intra_duplicates": 0,
       "master_duplicates": 24,
       "new_leads": 17,
-      "failures": 1,
+      "failures": 2,
       "yield_score": 0.3803,
       "last_used_date": "2026-10-22"
     },
@@ -86,7 +86,7 @@
       "intra_duplicates": 0,
       "master_duplicates": 23,
       "new_leads": 17,
-      "failures": 1,
+      "failures": 2,
       "yield_score": 0.3803,
       "last_used_date": "2026-10-22"
     },
@@ -96,7 +96,7 @@
       "intra_duplicates": 0,
       "master_duplicates": 23,
       "new_leads": 16,
-      "failures": 1,
+      "failures": 2,
       "yield_score": 0.3662,
       "last_used_date": "2026-10-22"
     },
@@ -962,6 +962,39 @@
         "fitness",
         "science",
         "culinary"
+      ],
+      "raw_emails": 0,
+      "intra_duplicates": 0,
+      "master_duplicates": 0,
+      "new_leads": 0,
+      "status": "FAILED",
+      "error_type": "ApifyCreditExhaustedError"
+    },
+    {
+      "date": "2026-10-22",
+      "niches": [
+        "anamorphic",
+        "beachvolleyball",
+        "backplane",
+        "boxopening",
+        "analog",
+        "appliedmathematics",
+        "barcode",
+        "autobattler",
+        "astlibra",
+        "bulkferment"
+      ],
+      "categories": [
+        "finance",
+        "science",
+        "gaming",
+        "automotive",
+        "fitness",
+        "technology",
+        "maker",
+        "culinary",
+        "exploration",
+        "creative"
       ],
       "raw_emails": 0,
       "intra_duplicates": 0,

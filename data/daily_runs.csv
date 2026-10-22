@@ -96,3 +96,9 @@ date,status,target,delivered,reason,run_id
     ""message"": ""Your remaining usage of $0.411455 this billing cycle isn't enough for this run. Increase your limit by upgrading to a paid plan at https://console.apify.com/billing/subscription""
   }
 }",RUN-D4B7CC5A
+2026-10-22,PARTIAL_CREDIT_LIMIT,200,89,"Delivered 89/200 leads. Credit limit: Apify credits/usage limit reached on run start (HTTP 402): {
+  ""error"": {
+    ""type"": ""not-enough-usage-to-run-paid-actor"",
+    ""message"": ""Your remaining usage of $0.411455 this billing cycle isn't enough for this run. Increase your limit by upgrading to a paid plan at https://console.apify.com/billing/subscription""
+  }
+}",RUN-6AD8163C
