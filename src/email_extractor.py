@@ -11,6 +11,12 @@ EMAIL_REGEX = re.compile(
     r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}"
 )
 
+# Unambiguous spaced email candidate regex (e.g. "creator @ gmail.com" or "creator @ gmail . com")
+# Negative lookahead (?!\s+[A-Z]) prevents matching across sentence boundaries like "in. Also"
+SPACED_EMAIL_REGEX = re.compile(
+    r"\b([A-Za-z0-9._%+-]+)\s*@\s*([A-Za-z0-9-]+(?:\.[a-zA-Z0-9-]+)*\s*\.\s*(?!\s+[A-Z])[A-Za-z]{2,10})\b"
+)
+
 # Common invalid file extensions that can masquerade as TLDs in text
 INVALID_TLDS = {
     "png", "jpg", "jpeg", "gif", "webp", "svg", "bmp",
@@ -30,10 +36,24 @@ def clean_and_normalize_email(raw_candidate: str) -> str:
     - strip whitespace
     - lowercase
     - strip surrounding punctuation (quotes, brackets, trailing periods, commas)
+    - safely repair unambiguous spacing around @ and domain dots
     """
+    if not raw_candidate or not isinstance(raw_candidate, str):
+        return ""
     text = raw_candidate.strip().lower()
     # Strip common enclosing punctuation
     text = text.strip("<>\"'()[]{}.,:;!*?")
+
+    # Safely repair unambiguous spacing around @ and dots if local and domain labels have no internal spaces
+    if "@" in text and text.count("@") == 1:
+        parts = text.split("@")
+        local = parts[0].strip()
+        domain = parts[1].strip()
+        if " " not in local:
+            domain_labels = [lbl.strip() for lbl in domain.split(".")]
+            if all(" " not in lbl and len(lbl) > 0 for lbl in domain_labels) and len(domain_labels) >= 2:
+                text = f"{local}@{'.'.join(domain_labels)}"
+
     return text
 
 
@@ -78,20 +98,26 @@ def extract_emails_from_text(text: str) -> Set[str]:
     if not text or not isinstance(text, str):
         return set()
 
-    found_raw = EMAIL_REGEX.findall(text)
     valid_emails = set()
 
-    for item in found_raw:
+    # Pass 1: Standard RFC-compliant matches
+    for item in EMAIL_REGEX.findall(text):
         cleaned = clean_and_normalize_email(item)
+        if is_valid_email(cleaned):
+            valid_emails.add(cleaned)
+
+    # Pass 2: Unambiguous spaced emails (e.g. "creator @ gmail.com" or "creator @ gmail . com")
+    for match in SPACED_EMAIL_REGEX.finditer(text):
+        cleaned = clean_and_normalize_email(match.group(0))
         if is_valid_email(cleaned):
             valid_emails.add(cleaned)
 
     return valid_emails
 
 
-def extract_emails_from_apify_item(item: Dict[str, Any]) -> Set[str]:
+def extract_emails_from_item(item: Dict[str, Any]) -> Set[str]:
     """
-    Extract valid emails from any text fields of an Apify dataset item,
+    Extract valid emails from any text fields of a scraper item,
     including organicResults, title, description, url, snippets.
     """
     emails: Set[str] = set()
@@ -108,6 +134,10 @@ def extract_emails_from_apify_item(item: Dict[str, Any]) -> Set[str]:
 
     walk_and_extract(item)
     return emails
+
+
+# Retain alias for Apify backward compatibility
+extract_emails_from_apify_item = extract_emails_from_item
 
 
 def extract_emails_from_dataset(dataset_items: List[Dict[str, Any]]) -> List[str]:

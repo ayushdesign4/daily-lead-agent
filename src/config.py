@@ -30,7 +30,24 @@ NICHE_PERFORMANCE_FILE = DATA_DIR / "niche_performance.json"
 # Lead Generation Settings
 DAILY_TARGET = int(os.getenv("DAILY_TARGET", "200"))
 MAX_QUERIES_PER_BATCH = int(os.getenv("MAX_QUERIES_PER_BATCH", "10"))
-MAX_PAGES_PER_QUERY = int(os.getenv("MAX_PAGES_PER_QUERY", "30"))
+MAX_PAGES_PER_QUERY = int(os.getenv("MAX_PAGES_PER_QUERY", "20"))
+
+# Search Provider ('brightdata' or 'apify')
+SEARCH_PROVIDER = os.getenv("SEARCH_PROVIDER", "brightdata").lower()
+
+# Bright Data SERP API Settings (3-Account Rotation Pool)
+BRIGHTDATA_API_TOKEN_1: Optional[str] = os.getenv("BRIGHTDATA_API_TOKEN_1")
+BRIGHTDATA_API_TOKEN_2: Optional[str] = os.getenv("BRIGHTDATA_API_TOKEN_2")
+BRIGHTDATA_API_TOKEN_3: Optional[str] = os.getenv("BRIGHTDATA_API_TOKEN_3")
+
+BRIGHTDATA_ZONE_DEFAULT = os.getenv("BRIGHTDATA_ZONE", "token_1")
+BRIGHTDATA_ZONE_1 = os.getenv("BRIGHTDATA_ZONE_1", "token_1")
+BRIGHTDATA_ZONE_2 = os.getenv("BRIGHTDATA_ZONE_2", "token_22")
+BRIGHTDATA_ZONE_3 = os.getenv("BRIGHTDATA_ZONE_3", "token_333")
+
+BRIGHTDATA_TIMEOUT = int(os.getenv("BRIGHTDATA_TIMEOUT", "30"))
+BRIGHTDATA_MAX_WORKERS = int(os.getenv("BRIGHTDATA_MAX_WORKERS", "5"))
+BRIGHTDATA_STATE_FILE = DATA_DIR / "brightdata_state.json"
 
 # Apify Actor Settings
 APIFY_ACTOR_ID = os.getenv("APIFY_ACTOR_ID", "apify/google-search-scraper")

@@ -47,6 +47,13 @@ jobs:
 
       - name: Run Daily Lead Agent
         env:
+          SEARCH_PROVIDER: ${{ vars.SEARCH_PROVIDER || 'brightdata' }}
+          BRIGHTDATA_API_TOKEN_1: ${{ secrets.BRIGHTDATA_API_TOKEN_1 }}
+          BRIGHTDATA_API_TOKEN_2: ${{ secrets.BRIGHTDATA_API_TOKEN_2 }}
+          BRIGHTDATA_API_TOKEN_3: ${{ secrets.BRIGHTDATA_API_TOKEN_3 }}
+          BRIGHTDATA_ZONE_1: ${{ vars.BRIGHTDATA_ZONE_1 || 'token_1' }}
+          BRIGHTDATA_ZONE_2: ${{ vars.BRIGHTDATA_ZONE_2 || 'token_22' }}
+          BRIGHTDATA_ZONE_3: ${{ vars.BRIGHTDATA_ZONE_3 || 'token_333' }}
           APIFY_API_TOKEN: ${{ secrets.APIFY_API_TOKEN }}
           GMAIL_USERNAME: ${{ secrets.GMAIL_USERNAME }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}

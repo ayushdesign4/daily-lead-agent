@@ -67,3 +67,32 @@ def test_extract_emails_from_dataset():
     unique_list = extract_emails_from_dataset(dataset)
     assert len(unique_list) == 3
     assert set(unique_list) == {"user1@gmail.com", "user2@gmail.com", "user3@gmail.com"}
+
+
+def test_conservative_normalization_and_formatting_artifacts():
+    """Verify safe conservative normalization of Bright Data search snippet artifacts."""
+    # 1. Spacing artifacts around delimiters
+    assert clean_and_normalize_email("creator @ gmail.com") == "creator@gmail.com"
+    assert clean_and_normalize_email("creator @ gmail . com") == "creator@gmail.com"
+    assert clean_and_normalize_email("  john@example.com  ") == "john@example.com"
+    assert clean_and_normalize_email("<creator@gmail.com>") == "creator@gmail.com"
+    assert clean_and_normalize_email("(creator@gmail.com),") == "creator@gmail.com"
+    assert clean_and_normalize_email("ayush.design+biz@gmail.com") == "ayush.design+biz@gmail.com"
+
+    # 2. Text extraction with spacing artifacts
+    text_with_spaces = (
+        "Contact: creator @ gmail.com or team @ agency . in. "
+        "Also write to <partner@youtube.com>, and ayush.design+biz@gmail.com. "
+        "Do NOT decode obfuscated: secret [at] gmail [dot] com. "
+        "Do NOT repair broken word spaces: jo hn@gmail.com or bad..syntax@gmail.com."
+    )
+    extracted = extract_emails_from_text(text_with_spaces)
+    assert "creator@gmail.com" in extracted
+    assert "team@agency.in" in extracted
+    assert "partner@youtube.com" in extracted
+    assert "ayush.design+biz@gmail.com" in extracted
+
+    # Ensure ambiguous obfuscation is NOT guessed or extracted
+    assert not any("secret" in e for e in extracted)
+    # Ensure broken local parts are NOT accepted
+    assert not any("jo hn" in e or "bad..syntax" in e for e in extracted)

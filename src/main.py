@@ -9,7 +9,7 @@ import uuid
 import logging
 import argparse
 from pathlib import Path
-from typing import List, Dict, Optional, Tuple
+from typing import List, Dict, Optional, Tuple, Any
 
 from src.config import (
     DAILY_TARGET,
@@ -17,11 +17,19 @@ from src.config import (
     LOGS_DIR,
     DRY_RUN,
     TEST_MODE,
+    SEARCH_PROVIDER,
 )
 from src.state_manager import StateManager, get_today_ist_date
 from src.niche_manager import NicheManager
 from src.email_extractor import extract_emails_from_dataset
 from src.deduplicator import Deduplicator
+from src.brightdata_client import (
+    BrightDataClient,
+    BrightDataCreditExhaustedError,
+    BrightDataAuthError,
+    BrightDataTimeoutError,
+    BrightDataError,
+)
 from src.apify_client import (
     ApifyClient,
     ApifyCreditExhaustedError,
@@ -65,6 +73,7 @@ class DailyLeadAgent:
         dry_run: bool = DRY_RUN,
         test_mode: bool = TEST_MODE,
         state_manager: Optional[StateManager] = None,
+        scraper_client: Optional[Any] = None,
         apify_client: Optional[ApifyClient] = None,
         delivery_manager: Optional[DeliveryManager] = None,
     ):
@@ -74,7 +83,14 @@ class DailyLeadAgent:
         self.state_manager = state_manager or StateManager()
         self.queue_manager = QueueManager(self.state_manager)
         self.niche_manager = NicheManager(self.state_manager)
-        self.apify_client = apify_client or ApifyClient()
+        # Scraper Provider Selection (Bright Data default, Apify fallback)
+        if scraper_client is not None:
+            self.scraper_client = scraper_client
+        elif apify_client is not None or SEARCH_PROVIDER == "apify":
+            self.scraper_client = apify_client or ApifyClient()
+        else:
+            self.scraper_client = BrightDataClient()
+        self.apify_client = self.scraper_client
         self.delivery_manager = delivery_manager or DeliveryManager(dry_run=self.dry_run)
         self.run_id = f"RUN-{uuid.uuid4().hex[:8].upper()}"
 
@@ -131,7 +147,7 @@ class DailyLeadAgent:
                         logger.info(f"[DRY RUN] Simulating empty Apify batch {batches_run}...")
                         dataset_items = []
                 else:
-                    dataset_items = self.apify_client.run_search_batch(queries)
+                    dataset_items = self.scraper_client.run_search_batch(queries)
 
                 # Extract emails
                 extracted_emails = extract_emails_from_dataset(dataset_items)
@@ -190,12 +206,12 @@ class DailyLeadAgent:
                 shortage = max(0, self.target - current_queue_size)
 
                 if shortage == 0:
-                    logger.info(f"Target satisfied in queue ({current_queue_size} available). Stopping Apify immediately.")
+                    logger.info(f"Target satisfied in queue ({current_queue_size} available). Stopping search immediately.")
                     break
                 else:
                     logger.info(f"Target not yet satisfied. Remaining shortage: {shortage}")
 
-            except (ApifyCreditExhaustedError, ApifyAuthError) as e:
+            except (ApifyCreditExhaustedError, ApifyAuthError, BrightDataCreditExhaustedError, BrightDataAuthError) as e:
                 credit_exhausted = True
                 exhaustion_reason = str(e)
                 logger.error(f"Apify credit or authorization failure in batch {batches_run}: {e}")
@@ -207,7 +223,7 @@ class DailyLeadAgent:
                         error_type=type(e).__name__,
                     )
                 break
-            except (ApifyTimeoutError, ApifyError) as e:
+            except (ApifyTimeoutError, ApifyError, BrightDataTimeoutError, BrightDataError) as e:
                 consecutive_failures += 1
                 logger.error(
                     f"Batch {batches_run} encountered error ({type(e).__name__}): {e}. "

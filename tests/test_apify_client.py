@@ -21,7 +21,7 @@ def test_build_actor_input():
     # Must clamp to maximum 10 queries per specification Section 3
     input_queries = actor_input["queries"].split("\n")
     assert len(input_queries) == 10
-    assert actor_input["maxPagesPerQuery"] == 30
+    assert actor_input["maxPagesPerQuery"] == 20
     assert actor_input["countryCode"] == "in"
     assert actor_input["languageCode"] == "en"
     assert actor_input["mobileResults"] is False
