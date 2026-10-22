@@ -1,0 +1,41 @@
+[2026-10-21 22:36:33] [INFO] ============================================================
+[2026-10-21 22:36:33] [INFO] Starting Daily Lead Agent | Run ID: RUN-D4B7CC5A | Date: 2026-10-22 IST
+[2026-10-21 22:36:33] [INFO] Target: 200 leads | Mode: prepare | Dry Run: False
+[2026-10-21 22:36:33] [INFO] Starting pending queue size: 11
+[2026-10-21 22:36:33] [INFO] --- Starting Apify Batch 1 (Shortage: 189) ---
+[2026-10-21 22:36:33] [INFO] Batch 1 queries (10): ['blowoff', 'wastegate', 'americantruck', 'audit', 'backlever', 'antialiasing', 'attention', 'bolognese', 'angelfish', 'anglershop']
+[2026-10-21 23:01:07] [INFO] Batch 1 Summary: 18 valid emails -> 0 intra-batch dups -> 15 master dups -> 3 genuinely new leads
+[2026-10-21 23:01:07] [INFO] Target not yet satisfied. Remaining shortage: 186
+[2026-10-21 23:01:07] [INFO] --- Starting Apify Batch 2 (Shortage: 186) ---
+[2026-10-21 23:01:07] [INFO] Batch 2 queries (10): ['ackermann', 'austerity', 'arcade', 'backtake', 'attenuation', 'anki', 'bonbons', 'annuals', 'americas', 'fingerstyle']
+[2026-10-21 23:15:03] [INFO] Batch 2 Summary: 35 valid emails -> 0 intra-batch dups -> 19 master dups -> 16 genuinely new leads
+[2026-10-21 23:15:03] [INFO] Target not yet satisfied. Remaining shortage: 170
+[2026-10-21 23:15:03] [INFO] --- Starting Apify Batch 3 (Shortage: 170) ---
+[2026-10-21 23:15:03] [INFO] Batch 3 queries (10): ['austrian', 'barbell', 'antiquities', 'autoencoder', 'bourbon', 'amino', 'anthurium', 'audiomixing', 'arena', 'boardandbatten']
+[2026-10-21 23:39:07] [INFO] Batch 3 Summary: 40 valid emails -> 0 intra-batch dups -> 17 master dups -> 23 genuinely new leads
+[2026-10-21 23:39:07] [INFO] Target not yet satisfied. Remaining shortage: 147
+[2026-10-21 23:39:07] [INFO] --- Starting Apify Batch 4 (Shortage: 147) ---
+[2026-10-21 23:39:07] [INFO] Batch 4 queries (10): ['autogen', 'brazilianfood', 'airdam', 'amongus', 'aperitivo', 'arma', 'sounddesign', 'bobbin', 'antiquity', 'avalanche']
+[2026-10-21 23:53:33] [INFO] Batch 4 Summary: 24 valid emails -> 0 intra-batch dups -> 15 master dups -> 9 genuinely new leads
+[2026-10-21 23:53:33] [INFO] Target not yet satisfied. Remaining shortage: 138
+[2026-10-21 23:53:33] [INFO] --- Starting Apify Batch 5 (Shortage: 138) ---
+[2026-10-21 23:53:33] [INFO] Batch 5 queries (10): ['bread', 'amplifiers', 'armoredwarfare', 'aperol', 'watercolor', 'antkeeping', 'barbellrow', 'boosterbox', 'alternator', 'balancesheet']
+[2026-10-22 00:16:36] [INFO] Batch 5 Summary: 29 valid emails -> 0 intra-batch dups -> 12 master dups -> 17 genuinely new leads
+[2026-10-22 00:16:36] [INFO] Target not yet satisfied. Remaining shortage: 121
+[2026-10-22 00:16:36] [INFO] --- Starting Apify Batch 6 (Shortage: 121) ---
+[2026-10-22 00:16:36] [INFO] Batch 6 queries (10): ['antiroll', 'appalachiantrail', 'apiary', 'ambientmusic', 'basejumping', 'artoffighting', 'boosterpack', 'banknifty', 'avr', 'brioche']
+[2026-10-22 00:35:52] [INFO] Batch 6 Summary: 27 valid emails -> 0 intra-batch dups -> 18 master dups -> 9 genuinely new leads
+[2026-10-22 00:35:52] [INFO] Target not yet satisfied. Remaining shortage: 112
+[2026-10-22 00:35:52] [INFO] --- Starting Apify Batch 7 (Shortage: 112) ---
+[2026-10-22 00:35:52] [INFO] Batch 7 queries (10): ['aquaponics', 'analoggear', 'asphalt', 'batting', 'boring', 'awq', 'amsterdam', 'bankruptcy', 'apiculture', 'brisket']
+[2026-10-22 00:50:18] [INFO] Batch 7 Summary: 10 valid emails -> 0 intra-batch dups -> 9 master dups -> 1 genuinely new leads
+[2026-10-22 00:50:18] [INFO] Target not yet satisfied. Remaining shortage: 111
+[2026-10-22 00:50:18] [INFO] --- Starting Apify Batch 8 (Shortage: 111) ---
+[2026-10-22 00:50:18] [INFO] Batch 8 queries (10): ['anamorphic', 'beachvolleyball', 'backplane', 'boxopening', 'analog', 'appliedmathematics', 'barcode', 'autobattler', 'astlibra', 'bulkferment']
+[2026-10-22 00:50:18] [ERROR] Apify credit or authorization failure in batch 8: Apify credits/usage limit reached on run start (HTTP 402): {
+  "error": {
+    "type": "not-enough-usage-to-run-paid-actor",
+    "message": "Your remaining usage of $0.411455 this billing cycle isn't enough for this run. Increase your limit by upgrading to a paid plan at https://console.apify.com/billing/subscription"
+  }
+}
+[2026-10-22 00:50:18] [INFO] Overnight preparation run complete. Daily email is scheduled for 11:00 AM IST.
