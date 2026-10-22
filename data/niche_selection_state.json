@@ -1,28 +1,17 @@
 {
   "category_cursors": {
-    "gaming": 27,
-    "technology": 25,
-    "creative": 23,
-    "automotive": 22,
-    "fitness": 24,
-    "maker": 24,
-    "finance": 26,
-    "science": 26,
-    "exploration": 64,
-    "culinary": 25,
-    "outdoors": 26
+    "gaming": 31,
+    "technology": 29,
+    "creative": 27,
+    "automotive": 25,
+    "fitness": 28,
+    "maker": 28,
+    "finance": 29,
+    "science": 30,
+    "exploration": 67,
+    "culinary": 28,
+    "outdoors": 30
   },
-  "last_staged_niches": [
-    "anamorphic",
-    "beachvolleyball",
-    "backplane",
-    "boxopening",
-    "analog",
-    "appliedmathematics",
-    "barcode",
-    "autobattler",
-    "astlibra",
-    "bulkferment"
-  ],
-  "category_rotation_offset": 27
+  "last_staged_niches": [],
+  "category_rotation_offset": 32
 }
