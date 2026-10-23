@@ -1,114 +1,114 @@
 {
   "categories": {
     "fitness": {
-      "batches": 27,
-      "raw_emails": 99,
+      "batches": 33,
+      "raw_emails": 145,
       "intra_duplicates": 0,
-      "master_duplicates": 48,
-      "new_leads": 37,
+      "master_duplicates": 77,
+      "new_leads": 50,
       "failures": 2,
-      "yield_score": 0.395,
-      "last_used_date": "2026-10-23"
+      "yield_score": 0.3636,
+      "last_used_date": "2026-10-24"
     },
     "automotive": {
-      "batches": 25,
-      "raw_emails": 85,
+      "batches": 30,
+      "raw_emails": 115,
       "intra_duplicates": 0,
-      "master_duplicates": 42,
-      "new_leads": 32,
+      "master_duplicates": 61,
+      "new_leads": 39,
       "failures": 2,
-      "yield_score": 0.4,
-      "last_used_date": "2026-10-23"
+      "yield_score": 0.363,
+      "last_used_date": "2026-10-24"
     },
     "finance": {
-      "batches": 29,
-      "raw_emails": 96,
+      "batches": 35,
+      "raw_emails": 133,
       "intra_duplicates": 0,
-      "master_duplicates": 46,
-      "new_leads": 36,
+      "master_duplicates": 68,
+      "new_leads": 47,
       "failures": 2,
-      "yield_score": 0.3966,
-      "last_used_date": "2026-10-23"
+      "yield_score": 0.3725,
+      "last_used_date": "2026-10-24"
     },
     "culinary": {
-      "batches": 28,
-      "raw_emails": 89,
+      "batches": 34,
+      "raw_emails": 132,
       "intra_duplicates": 0,
-      "master_duplicates": 40,
-      "new_leads": 34,
+      "master_duplicates": 66,
+      "new_leads": 46,
       "failures": 2,
-      "yield_score": 0.4037,
-      "last_used_date": "2026-10-23"
+      "yield_score": 0.3684,
+      "last_used_date": "2026-10-24"
     },
     "science": {
-      "batches": 28,
-      "raw_emails": 102,
+      "batches": 35,
+      "raw_emails": 150,
       "intra_duplicates": 0,
-      "master_duplicates": 50,
-      "new_leads": 37,
+      "master_duplicates": 80,
+      "new_leads": 50,
       "failures": 2,
-      "yield_score": 0.3852,
-      "last_used_date": "2026-10-23"
+      "yield_score": 0.3529,
+      "last_used_date": "2026-10-24"
     },
     "creative": {
-      "batches": 26,
-      "raw_emails": 98,
+      "batches": 33,
+      "raw_emails": 146,
       "intra_duplicates": 0,
-      "master_duplicates": 47,
-      "new_leads": 37,
+      "master_duplicates": 77,
+      "new_leads": 50,
       "failures": 2,
-      "yield_score": 0.3983,
-      "last_used_date": "2026-10-23"
+      "yield_score": 0.3614,
+      "last_used_date": "2026-10-24"
     },
     "gaming": {
-      "batches": 29,
-      "raw_emails": 102,
+      "batches": 35,
+      "raw_emails": 147,
       "intra_duplicates": 0,
-      "master_duplicates": 51,
-      "new_leads": 37,
+      "master_duplicates": 80,
+      "new_leads": 49,
       "failures": 2,
-      "yield_score": 0.3852,
-      "last_used_date": "2026-10-23"
+      "yield_score": 0.3533,
+      "last_used_date": "2026-10-24"
     },
     "maker": {
-      "batches": 28,
-      "raw_emails": 102,
+      "batches": 34,
+      "raw_emails": 141,
       "intra_duplicates": 0,
-      "master_duplicates": 51,
-      "new_leads": 38,
+      "master_duplicates": 76,
+      "new_leads": 48,
       "failures": 2,
-      "yield_score": 0.3934,
-      "last_used_date": "2026-10-23"
+      "yield_score": 0.3602,
+      "last_used_date": "2026-10-24"
     },
     "exploration": {
-      "batches": 27,
-      "raw_emails": 97,
+      "batches": 34,
+      "raw_emails": 145,
       "intra_duplicates": 0,
-      "master_duplicates": 48,
-      "new_leads": 36,
+      "master_duplicates": 78,
+      "new_leads": 49,
       "failures": 2,
-      "yield_score": 0.3932,
-      "last_used_date": "2026-10-23"
+      "yield_score": 0.3576,
+      "last_used_date": "2026-10-24"
     },
     "technology": {
-      "batches": 28,
-      "raw_emails": 102,
+      "batches": 35,
+      "raw_emails": 150,
       "intra_duplicates": 0,
-      "master_duplicates": 50,
-      "new_leads": 37,
+      "master_duplicates": 80,
+      "new_leads": 50,
       "failures": 2,
-      "yield_score": 0.3852,
-      "last_used_date": "2026-10-23"
+      "yield_score": 0.3529,
+      "last_used_date": "2026-10-24"
     },
     "outdoors": {
-      "batches": 25,
-      "raw_emails": 88,
+      "batches": 32,
+      "raw_emails": 136,
       "intra_duplicates": 0,
-      "master_duplicates": 47,
-      "new_leads": 29,
+      "master_duplicates": 77,
+      "new_leads": 42,
       "failures": 0,
-      "yield_score": 0.3611,
-      "last_used_date": "2026-10-23"
+      "yield_score": 0.3333,
+      "last_used_date": "2026-10-24"
     }
   },
   "history": [
@@ -1165,6 +1165,237 @@
       "intra_duplicates": 0,
       "master_duplicates": 111,
       "new_leads": 43,
+      "status": "COMPLETED",
+      "error_type": null
+    },
+    {
+      "date": "2026-10-24",
+      "niches": [
+        "cacioepepe",
+        "autophagy",
+        "bagel",
+        "aperture",
+        "bigcommerce",
+        "benchtop",
+        "bloodpressure",
+        "bullioncoins",
+        "assyria",
+        "apart"
+      ],
+      "categories": [
+        "technology",
+        "fitness",
+        "finance",
+        "maker",
+        "culinary",
+        "science",
+        "creative",
+        "exploration",
+        "outdoors",
+        "automotive"
+      ],
+      "raw_emails": 30,
+      "intra_duplicates": 0,
+      "master_duplicates": 13,
+      "new_leads": 17,
+      "status": "COMPLETED",
+      "error_type": null
+    },
+    {
+      "date": "2026-10-24",
+      "niches": [
+        "autorepair",
+        "asics",
+        "bigquery",
+        "bogleheads",
+        "bmx",
+        "astrophotography",
+        "burnishing",
+        "apexlegends",
+        "baklava",
+        "banished"
+      ],
+      "categories": [
+        "technology",
+        "fitness",
+        "finance",
+        "gaming",
+        "science",
+        "creative",
+        "outdoors",
+        "exploration",
+        "maker",
+        "automotive"
+      ],
+      "raw_emails": 59,
+      "intra_duplicates": 0,
+      "master_duplicates": 40,
+      "new_leads": 19,
+      "status": "COMPLETED",
+      "error_type": null
+    },
+    {
+      "date": "2026-10-24",
+      "niches": [
+        "aspectratio",
+        "bollinger",
+        "astrophysicsdaily",
+        "bobandweave",
+        "bushing",
+        "barbecue",
+        "apparent",
+        "bannerlord",
+        "biohacking",
+        "cakedecorating"
+      ],
+      "categories": [
+        "technology",
+        "fitness",
+        "finance",
+        "gaming",
+        "science",
+        "culinary",
+        "creative",
+        "outdoors",
+        "exploration",
+        "maker"
+      ],
+      "raw_emails": 26,
+      "intra_duplicates": 0,
+      "master_duplicates": 13,
+      "new_leads": 13,
+      "status": "COMPLETED",
+      "error_type": null
+    },
+    {
+      "date": "2026-10-24",
+      "niches": [
+        "bonds",
+        "bodybuilder",
+        "bartending",
+        "cabinbuild",
+        "apparently",
+        "bitrate",
+        "batman",
+        "cantonesecuisine",
+        "athens",
+        "audiointerface"
+      ],
+      "categories": [
+        "technology",
+        "fitness",
+        "finance",
+        "maker",
+        "gaming",
+        "culinary",
+        "science",
+        "creative",
+        "exploration",
+        "outdoors"
+      ],
+      "raw_emails": 161,
+      "intra_duplicates": 0,
+      "master_duplicates": 102,
+      "new_leads": 59,
+      "status": "COMPLETED",
+      "error_type": null
+    },
+    {
+      "date": "2026-10-24",
+      "niches": [
+        "bowling",
+        "cacti",
+        "bitsandbytes",
+        "appeals",
+        "battleroyale",
+        "audiology",
+        "carbonara",
+        "autos",
+        "basketing",
+        "backlight"
+      ],
+      "categories": [
+        "technology",
+        "fitness",
+        "gaming",
+        "science",
+        "culinary",
+        "creative",
+        "outdoors",
+        "exploration",
+        "maker",
+        "automotive"
+      ],
+      "raw_emails": 118,
+      "intra_duplicates": 0,
+      "master_duplicates": 89,
+      "new_leads": 29,
+      "status": "COMPLETED",
+      "error_type": null
+    },
+    {
+      "date": "2026-10-24",
+      "niches": [
+        "campervan",
+        "appearance",
+        "autographs",
+        "bayonetta",
+        "brainstorm",
+        "beagle",
+        "carbonsteel",
+        "aviationgeek",
+        "blazor",
+        "badgerbrush"
+      ],
+      "categories": [
+        "technology",
+        "finance",
+        "gaming",
+        "science",
+        "culinary",
+        "creative",
+        "outdoors",
+        "exploration",
+        "maker",
+        "automotive"
+      ],
+      "raw_emails": 23,
+      "intra_duplicates": 0,
+      "master_duplicates": 15,
+      "new_leads": 8,
+      "status": "COMPLETED",
+      "error_type": null
+    },
+    {
+      "date": "2026-10-24",
+      "niches": [
+        "appeared",
+        "beamng",
+        "beehive",
+        "brandcollaborations",
+        "caribbeanfood",
+        "breadboard",
+        "boxingring",
+        "barnfind",
+        "avionics",
+        "bakingmakeup"
+      ],
+      "categories": [
+        "technology",
+        "fitness",
+        "finance",
+        "gaming",
+        "culinary",
+        "science",
+        "creative",
+        "exploration",
+        "outdoors",
+        "automotive"
+      ],
+      "raw_emails": 90,
+      "intra_duplicates": 0,
+      "master_duplicates": 56,
+      "new_leads": 34,
       "status": "COMPLETED",
       "error_type": null
     }
