@@ -108,3 +108,4 @@ date,status,target,delivered,reason,run_id
 2026-10-24,COMPLETED,200,200,Delivered 200/200 leads.,RUN-7C003C30
 2026-10-25,PREPARED,200,0,Prepared queue with 204 leads.,RUN-284D86BB
 2026-10-25,COMPLETED,200,200,Delivered 200/200 leads.,RUN-B59E9376
+2026-10-26,PREPARED,200,0,Prepared queue with 207 leads.,RUN-467F5415
