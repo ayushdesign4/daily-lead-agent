@@ -79,3 +79,9 @@
 [2026-10-31 00:47:30] [INFO] Batch 19 Summary: 149 valid emails -> 0 intra-batch dups -> 113 master dups -> 36 genuinely new leads
 [2026-10-31 00:47:30] [INFO] Target satisfied in queue (231 available). Stopping search immediately.
 [2026-10-31 00:47:30] [INFO] Overnight preparation run complete. Daily email is scheduled for 11:00 AM IST.
+[2026-10-31 10:56:29] [INFO] ============================================================
+[2026-10-31 10:56:29] [INFO] Starting Daily Lead Agent | Run ID: RUN-AA1A5260 | Date: 2026-10-31 IST
+[2026-10-31 10:56:29] [INFO] Target: 200 leads | Mode: deliver | Dry Run: False
+[2026-10-31 10:56:29] [INFO] Starting pending queue size: 231
+[2026-10-31 10:56:31] [INFO] Run RUN-AA1A5260 finished. Status: COMPLETED | Delivered: 200/200 | Queue Remaining: 31
+[2026-10-31 10:56:31] [INFO] ============================================================
