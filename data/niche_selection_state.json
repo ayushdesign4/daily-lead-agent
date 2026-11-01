@@ -1,17 +1,17 @@
 {
   "category_cursors": {
-    "gaming": 160,
-    "technology": 147,
-    "creative": 150,
+    "gaming": 176,
+    "technology": 163,
+    "creative": 166,
     "automotive": 61,
-    "fitness": 144,
-    "maker": 145,
-    "finance": 145,
-    "science": 151,
-    "exploration": 186,
-    "culinary": 146,
-    "outdoors": 163
+    "fitness": 160,
+    "maker": 161,
+    "finance": 161,
+    "science": 167,
+    "exploration": 202,
+    "culinary": 162,
+    "outdoors": 179
   },
   "last_staged_niches": [],
-  "category_rotation_offset": 165
+  "category_rotation_offset": 181
 }
