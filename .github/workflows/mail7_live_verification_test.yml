@@ -1,0 +1,26 @@
+name: Mail7 Live Verification Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install requests python-dotenv
+
+      - name: Run Mail7 35-Email Verification Test
+        env:
+          MAIL7_API_KEY_1: ${{ secrets.MAIL7_API_KEY_1 }}
+        run: |
+          python scripts/run_mail7_sample_test.py
