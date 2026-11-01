@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "monthly_cycle": "2026-11",
+  "current_account_index": 1,
+  "exhausted_accounts": [],
+  "auth_failed_accounts": [],
+  "last_successful_account": null,
+  "key_fingerprints": {},
+  "history": [
+    {
+      "timestamp": "2026-11-01T00:00:00Z",
+      "event": "POOL_INITIALIZED",
+      "account_index": 1,
+      "details": "Initialized 7-account Mail7 API key pool for cycle 2026-11"
+    }
+  ]
+}

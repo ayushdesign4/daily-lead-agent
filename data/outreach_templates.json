@@ -1,0 +1,230 @@
+{
+  "version": 1,
+  "reference_templates": [
+    {
+      "id": 1,
+      "subject": "Your channel",
+      "body": "Came across your channel and thought I’d get in touch.\n\nI design YouTube thumbnails and wanted to share my work.\n\nInterested in taking a look?\n\nAyush"
+    },
+    {
+      "id": 2,
+      "subject": "Thumbnail design",
+      "body": "Found your videos recently.\n\nI work with creators on thumbnail design and thought my work might suit your channel.\n\nWant to see it?\n\nAyush"
+    },
+    {
+      "id": 3,
+      "subject": "Quick question",
+      "body": "I’ve been checking out your channel.\n\nAre you open to seeing the work of a thumbnail designer?\n\nAyush"
+    },
+    {
+      "id": 4,
+      "subject": "Your videos",
+      "body": "Came across a few of your uploads and wanted to connect.\n\nI design thumbnails for creators. Would you be interested in seeing my work?\n\nAyush"
+    },
+    {
+      "id": 5,
+      "subject": "Design work",
+      "body": "I work on YouTube thumbnails and found your channel while browsing.\n\nThought I’d introduce myself and share what I do.\n\nInterested?\n\nAyush"
+    },
+    {
+      "id": 6,
+      "subject": "Thumbnail work",
+      "body": "Your channel came up while I was exploring YouTube.\n\nI’m a thumbnail designer and thought there could be a good fit.\n\nWould you like to see my portfolio?\n\nAyush"
+    },
+    {
+      "id": 7,
+      "subject": "A quick introduction",
+      "body": "I design thumbnails for YouTube creators and wanted to get in touch.\n\nWould you be open to checking out my work?\n\nAyush"
+    },
+    {
+      "id": 8,
+      "subject": "Channel thumbnails",
+      "body": "I came across your channel and wanted to ask if you ever work with freelance thumbnail designers.\n\nI’d be happy to share my portfolio.\n\nAyush"
+    },
+    {
+      "id": 9,
+      "subject": "Your content",
+      "body": "Found your channel recently and enjoyed looking through your uploads.\n\nI’m a thumbnail designer. Would you be interested in seeing some of my work?\n\nAyush"
+    },
+    {
+      "id": 10,
+      "subject": "Thumbnail portfolio",
+      "body": "I help YouTube creators with thumbnail design.\n\nThought I’d reach out after finding your channel.\n\nWould you like me to send my portfolio?\n\nAyush"
+    }
+  ],
+  "generated_weeks": {
+    "2026-W43": {
+      "week_key": "2026-W43",
+      "generated_at": "2026-11-01T06:08:29.623397Z",
+      "templates": [
+        {
+          "template_id": 1,
+          "batch_index": 0,
+          "subject": "Portfolio introduction",
+          "body": "I’ve been checking out your channel recently.\n\nI work with creators on thumbnail design and thought my work might suit your channel.\n\nI’d be happy to share my portfolio if you’re interested.\n\nAyush"
+        },
+        {
+          "template_id": 2,
+          "batch_index": 1,
+          "subject": "Channel visuals",
+          "body": "Found your channel while browsing YouTube.\n\nI specialize in YouTube thumbnails and thought my style might work well for your uploads.\n\nInterested?\n\nAyush"
+        },
+        {
+          "template_id": 3,
+          "batch_index": 2,
+          "subject": "Thumbnail designer",
+          "body": "Your channel caught my attention while browsing.\n\nI’m a thumbnail designer looking to collaborate with creators like you.\n\nWould you like to see my portfolio?\n\nAyush"
+        },
+        {
+          "template_id": 4,
+          "batch_index": 3,
+          "subject": "Thumbnail work",
+          "body": "Came across your channel and thought I’d get in touch.\n\nI’m a freelance thumbnail designer and wanted to see if you’re open to connecting.\n\nOpen to checking out some samples?\n\nAyush"
+        },
+        {
+          "template_id": 5,
+          "batch_index": 4,
+          "subject": "Design work",
+          "body": "I’ve been looking through your channel and wanted to connect.\n\nI focus on YouTube thumbnail design and wanted to share some recent examples.\n\nAre you open to seeing the work of a thumbnail designer?\n\nAyush"
+        },
+        {
+          "template_id": 6,
+          "batch_index": 5,
+          "subject": "Your videos",
+          "body": "Came across your content and thought I’d introduce myself.\n\nI work on YouTube thumbnails and wanted to share a few examples.\n\nWould you be open to taking a look at a few examples?\n\nAyush"
+        },
+        {
+          "template_id": 7,
+          "batch_index": 6,
+          "subject": "Thumbnails for your channel",
+          "body": "Came across a few of your uploads recently.\n\nI help creators with thumbnail design and wanted to introduce what I do.\n\nWant to see it?\n\nAyush"
+        },
+        {
+          "template_id": 8,
+          "batch_index": 7,
+          "subject": "Your channel",
+          "body": "Found your videos recently while exploring YouTube.\n\nI design thumbnails for YouTube channels and thought there could be a good fit.\n\nWould you like me to send over my portfolio?\n\nAyush"
+        },
+        {
+          "template_id": 9,
+          "batch_index": 8,
+          "subject": "Thumbnail samples",
+          "body": "Found your channel and thought I’d reach out directly.\n\nI create custom YouTube thumbnails and wanted to see if you ever work with freelancers.\n\nWould you be open to checking out my work?\n\nAyush"
+        }
+      ]
+    },
+    "2026-W44": {
+      "week_key": "2026-W44",
+      "generated_at": "2026-11-01T06:08:31.021148Z",
+      "templates": [
+        {
+          "template_id": 1,
+          "batch_index": 0,
+          "subject": "Thumbnail visuals",
+          "body": "I came across your channel while looking through creator content.\n\nI focus on YouTube thumbnail design and wanted to share some recent examples.\n\nI’d be happy to share my portfolio if you’re interested.\n\nAyush"
+        },
+        {
+          "template_id": 2,
+          "batch_index": 1,
+          "subject": "Creator thumbnails",
+          "body": "Your channel caught my attention while browsing.\n\nI work with creators on thumbnail design and thought my work might suit your channel.\n\nAre you open to seeing the work of a thumbnail designer?\n\nAyush"
+        },
+        {
+          "template_id": 3,
+          "batch_index": 2,
+          "subject": "Thumbnail portfolio",
+          "body": "Came across your uploads and wanted to reach out.\n\nI work with creators on thumbnail visuals and wanted to share my portfolio.\n\nInterested?\n\nAyush"
+        },
+        {
+          "template_id": 4,
+          "batch_index": 3,
+          "subject": "Your content",
+          "body": "Found your channel while browsing YouTube.\n\nI design thumbnails for creators and thought I’d share some relevant samples.\n\nWould you be open to checking out my work?\n\nAyush"
+        },
+        {
+          "template_id": 5,
+          "batch_index": 4,
+          "subject": "Thumbnail design",
+          "body": "I’ve been looking through your channel and wanted to connect.\n\nI work on YouTube thumbnails and wanted to share a few examples.\n\nWant to see it?\n\nAyush"
+        },
+        {
+          "template_id": 6,
+          "batch_index": 5,
+          "subject": "Channel thumbnails",
+          "body": "I’ve been checking out your channel recently.\n\nI’m a thumbnail designer and wanted to share what I’ve been working on.\n\nWould you be interested in seeing some of my recent work?\n\nAyush"
+        },
+        {
+          "template_id": 7,
+          "batch_index": 6,
+          "subject": "Quick question",
+          "body": "Your channel came up while I was exploring YouTube.\n\nI specialize in YouTube thumbnails and thought my style might work well for your uploads.\n\nInterested in taking a look?\n\nAyush"
+        },
+        {
+          "template_id": 8,
+          "batch_index": 7,
+          "subject": "Video thumbnails",
+          "body": "Found your channel while exploring content in your niche.\n\nI design thumbnails for YouTube channels and thought there could be a good fit.\n\nWould you be open to taking a look at a few examples?\n\nAyush"
+        },
+        {
+          "template_id": 9,
+          "batch_index": 8,
+          "subject": "Design inquiry",
+          "body": "Found your channel recently and wanted to connect.\n\nI help creators with thumbnail design and wanted to introduce what I do.\n\nWould you like to see my portfolio?\n\nAyush"
+        }
+      ]
+    }
+  },
+  "history": [
+    {
+      "week_key": "2026-W43",
+      "subject_hashes": [
+        "75f88f0935f62421",
+        "dabf7b8a92dab930",
+        "69d1dc9a085206b4",
+        "b628430279262b81",
+        "cb608ea3a09b6c55",
+        "608da496cf515090",
+        "afeeadaa09d24064",
+        "8d91e432ef58cfce",
+        "052db58bb6b20ead"
+      ],
+      "body_hashes": [
+        "75f4b291297dd5e1",
+        "d88d097f631e14ab",
+        "2f5d47641c4e3018",
+        "b117b14a1a1221fb",
+        "ff7499b9ab29f970",
+        "679aabaa99b612a9",
+        "6066955d7e29c9c3",
+        "4099427bc52c17cd",
+        "f1f538f4b718d225"
+      ]
+    },
+    {
+      "week_key": "2026-W44",
+      "subject_hashes": [
+        "92684ea75709e644",
+        "9eabd0e47318a7cb",
+        "23997e5138040ef1",
+        "baca6a6db216faf4",
+        "be1946bc67dd6016",
+        "2c7d31aa44c1c87f",
+        "61391f16e595167d",
+        "58f261efed0f48c9",
+        "c5d8c30011fa81d7"
+      ],
+      "body_hashes": [
+        "ab98ced3149510d0",
+        "a9a10af90e71db00",
+        "055652ed669011d5",
+        "05ed09a8abc326a3",
+        "49a27f4ca0f4aed0",
+        "20d29347b8610ea9",
+        "2ac86383ed51c118",
+        "8779159e5fbd1fd4",
+        "ac0817814f7d72b8"
+      ]
+    }
+  ],
+  "active_week": "2026-W44"
+}

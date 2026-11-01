@@ -3,7 +3,7 @@
 import os
 import re
 from pathlib import Path
-from typing import Optional
+from typing import Optional, List
 from src.config import BASE_DIR, DATA_DIR, OUTPUT_DIR, LOGS_DIR, GMAIL_USERNAME, GMAIL_APP_PASSWORD, DELIVERY_EMAIL, DRY_RUN
 
 # Outreach specific paths
@@ -13,8 +13,29 @@ OUTREACH_SUPPRESSIONS_FILE = DATA_DIR / "outreach_suppressions.csv"
 VERIFICATION_LEDGER_FILE = DATA_DIR / "verification_ledger.csv"
 VERIFICATION_CACHE_FILE = DATA_DIR / "verification_cache.csv"
 
-# Mail7 Verifier settings
-MAIL7_API_KEY: Optional[str] = os.getenv("MAIL7_API_KEY")
+# Mail7 7-Account API Key Pool settings
+MAIL7_API_KEY_1: Optional[str] = os.getenv("MAIL7_API_KEY_1") or os.getenv("MAIL7_API_KEY")
+MAIL7_API_KEY_2: Optional[str] = os.getenv("MAIL7_API_KEY_2")
+MAIL7_API_KEY_3: Optional[str] = os.getenv("MAIL7_API_KEY_3")
+MAIL7_API_KEY_4: Optional[str] = os.getenv("MAIL7_API_KEY_4")
+MAIL7_API_KEY_5: Optional[str] = os.getenv("MAIL7_API_KEY_5")
+MAIL7_API_KEY_6: Optional[str] = os.getenv("MAIL7_API_KEY_6")
+MAIL7_API_KEY_7: Optional[str] = os.getenv("MAIL7_API_KEY_7")
+
+MAIL7_API_KEYS: List[Optional[str]] = [
+    MAIL7_API_KEY_1,
+    MAIL7_API_KEY_2,
+    MAIL7_API_KEY_3,
+    MAIL7_API_KEY_4,
+    MAIL7_API_KEY_5,
+    MAIL7_API_KEY_6,
+    MAIL7_API_KEY_7,
+]
+
+MAIL7_POOL_STATE_FILE: Path = DATA_DIR / "mail7_pool_state.json"
+
+# Legacy alias for backward compatibility
+MAIL7_API_KEY: Optional[str] = MAIL7_API_KEY_1
 MAIL7_API_BASE_URL: str = os.getenv("MAIL7_API_BASE_URL", "https://mail7.net")
 MAIL7_BULK_ENDPOINT: str = f"{MAIL7_API_BASE_URL.rstrip('/')}/api/validate-bulk"
 MAIL7_ROTATION_FORM_URL: Optional[str] = os.getenv("MAIL7_ROTATION_FORM_URL")

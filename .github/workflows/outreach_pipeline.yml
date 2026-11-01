@@ -57,7 +57,13 @@ jobs:
 
       - name: Execute Verified Outreach Pipeline
         env:
-          MAIL7_API_KEY: ${{ secrets.MAIL7_API_KEY }}
+          MAIL7_API_KEY_1: ${{ secrets.MAIL7_API_KEY_1 }}
+          MAIL7_API_KEY_2: ${{ secrets.MAIL7_API_KEY_2 }}
+          MAIL7_API_KEY_3: ${{ secrets.MAIL7_API_KEY_3 }}
+          MAIL7_API_KEY_4: ${{ secrets.MAIL7_API_KEY_4 }}
+          MAIL7_API_KEY_5: ${{ secrets.MAIL7_API_KEY_5 }}
+          MAIL7_API_KEY_6: ${{ secrets.MAIL7_API_KEY_6 }}
+          MAIL7_API_KEY_7: ${{ secrets.MAIL7_API_KEY_7 }}
           MAIL7_ROTATION_FORM_URL: ${{ vars.MAIL7_ROTATION_FORM_URL }}
           OUTREACH_ACCOUNTS_JSON: ${{ secrets.OUTREACH_ACCOUNTS_JSON }}
           GMAIL_USERNAME: ${{ secrets.GMAIL_USERNAME }}

@@ -3,6 +3,7 @@
 import re
 import logging
 from typing import Optional, List, Set, Tuple
+from src.email_extractor import repair_domain_boundaries
 
 logger = logging.getLogger(__name__)
 
@@ -16,14 +17,16 @@ def normalize_address(email: str) -> Optional[str]:
     """
     Normalize email address:
     - Trim whitespace
-    - Lowercase domain portion (and lowercase overall for deduplication)
+    - Strip common surrounding punctuation
+    - Lowercase domain portion
+    - Apply conservative domain boundary repair (e.g. .com.more -> .com)
     - Validate syntax
     Returns normalized email string, or None if invalid/malformed.
     """
     if not email or not isinstance(email, str):
         return None
 
-    cleaned = email.strip()
+    cleaned = email.strip().strip("<>\"'()[]{}.,:;!*?")
     if not cleaned or "@" not in cleaned:
         return None
 
@@ -35,6 +38,8 @@ def normalize_address(email: str) -> Optional[str]:
     if not local_part or not domain:
         return None
 
+    # Apply conservative domain boundary repair
+    domain = repair_domain_boundaries(domain)
     normalized = f"{local_part}@{domain}"
 
     # Syntax validation

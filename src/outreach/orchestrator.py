@@ -18,6 +18,7 @@ from src.outreach.config import (
     OUTREACH_TO_EMAIL,
     NOTIFICATION_RECIPIENT,
     MAIL7_API_KEY,
+    MAIL7_API_KEYS,
     MAIL7_ROTATION_FORM_URL,
     GITHUB_SECRETS_SETTINGS_URL,
     OUTREACH_ACCOUNTS_JSON,
@@ -26,6 +27,7 @@ from src.outreach.attachment_parser import parse_lead_file
 from src.outreach.address_normalizer import filter_and_deduplicate_addresses
 from src.outreach.quota_ledger import QuotaLedger
 from src.outreach.verification_client import Mail7Verifier, VerificationResult
+from src.outreach.mail7_pool import Mail7AccountPool
 from src.outreach.suppression import SuppressionManager
 from src.outreach.distributor import distribute_recipients
 from src.outreach.template_manager import TemplateManager
@@ -50,6 +52,8 @@ class OutreachPipeline:
         quota_ledger: Optional[QuotaLedger] = None,
         suppression_mgr: Optional[SuppressionManager] = None,
         mail7_api_key: Optional[str] = None,
+        mail7_api_keys: Optional[List[Optional[str]]] = None,
+        mail7_pool: Optional[Mail7AccountPool] = None,
         form_url: Optional[str] = None,
         raw_accounts_json: Optional[str] = None,
         sleep_func=None,
@@ -66,7 +70,9 @@ class OutreachPipeline:
         self.watcher = watcher or GmailWatcher(state_mgr=self.state_mgr)
 
         self.verifier = Mail7Verifier(
-            api_key=mail7_api_key or MAIL7_API_KEY,
+            api_key=mail7_api_key,
+            keys=mail7_api_keys,
+            pool=mail7_pool,
             ledger=self.quota_ledger,
             dry_run=self.dry_run,
             sleep_func=self.sleep_func,
@@ -125,7 +131,7 @@ class OutreachPipeline:
             "   1. Generate a replacement Mail7 API key from your Mail7 account dashboard (https://mail7.net/account).",
             f"   2. Update the secret in GitHub Actions:",
             f"      {GITHUB_SECRETS_SETTINGS_URL}",
-            "      Secret Name: MAIL7_API_KEY",
+            "      Secret Names: MAIL7_API_KEY_1 to MAIL7_API_KEY_7 (or legacy MAIL7_API_KEY)",
             form_line,
             "",
             "RESUMPTION GUARANTEE:",
@@ -410,6 +416,46 @@ class OutreachPipeline:
             f"{invalid_count} invalid, {unknown_count} unknown, {error_count} errors"
         )
 
+        # If verification failed due to network or provider error and produced 0 valid results while errors > 0
+        if error_count > 0 and len(valid_emails) == 0 and unresolved_submitted > 0:
+            logger.error(
+                f"Verification could not verify any submitted leads due to provider/network failure ({error_reason}). "
+                "Pausing outreach to preserve leads for retry."
+            )
+            unresolved = [r.email for r in v_results if r.status == "verification_error"]
+            self.state_mgr.save_checkpoint(
+                campaign_id=campaign_id,
+                checkpoint_data={
+                    "campaign_id": campaign_id,
+                    "attachment_hash": content_hash,
+                    "source_message_id": delivery.message_id,
+                    "date": date_str,
+                    "status": "VERIFICATION_PAUSED_API_ERROR",
+                    "error_reason": error_reason or "verification_api_error",
+                    "total_leads": len(unique_emails),
+                    "verified_valid": [],
+                    "unresolved_leads": unresolved,
+                    "batches": [],
+                }
+            )
+            self.state_mgr.save_campaign_state(
+                campaign_id=campaign_id,
+                status="VERIFICATION_PAUSED_API_ERROR",
+                source_message_id=delivery.message_id,
+                attachment_hash=content_hash,
+                counts={"parsed": len(raw_emails), "unique": len(unique_emails), "valid": 0, "errors": error_count},
+                date_str=date_str,
+            )
+            return {
+                "status": "VERIFICATION_PAUSED_API_ERROR",
+                "overall_status": "VERIFICATION_PAUSED_API_ERROR",
+                "reason": error_reason or "verification_api_error",
+                "campaign_id": campaign_id,
+                "unique_count": len(unique_emails),
+                "valid_count": 0,
+                "unresolved_count": len(unresolved),
+            }
+
         self.state_mgr.save_campaign_state(
             campaign_id=campaign_id,
             status="VERIFICATION_COMPLETE",
@@ -429,6 +475,52 @@ class OutreachPipeline:
         eligible_for_outreach, suppressed_count = self.suppression_mgr.filter_eligible(valid_emails)
         logger.info(f"Suppression filter: {len(valid_emails)} valid -> {suppressed_count} suppressed -> {len(eligible_for_outreach)} eligible")
 
+        if not eligible_for_outreach:
+            logger.warning(
+                f"No eligible recipients available for outreach ({len(valid_emails)} valid, {suppressed_count} suppressed). "
+                "Halting sending phase safely (no empty batches sent)."
+            )
+            overall_status = "SKIPPED_ZERO_ELIGIBLE"
+            self.state_mgr.save_campaign_state(
+                campaign_id=campaign_id,
+                status=overall_status,
+                batches_planned=0,
+                batches_sent=0,
+                counts={
+                    "parsed": len(raw_emails),
+                    "unique": len(unique_emails),
+                    "valid": len(valid_emails),
+                    "invalid": invalid_count,
+                    "unknown": unknown_count,
+                    "suppressed": suppressed_count,
+                    "eligible": 0,
+                },
+                date_str=date_str,
+            )
+            summary = {
+                "campaign_id": campaign_id,
+                "status": overall_status,
+                "overall_status": overall_status,
+                "attachment_filename": filename,
+                "attachment_hash": content_hash,
+                "leads_parsed": len(raw_emails),
+                "malformed_count": malformed_count,
+                "duplicate_count": duplicate_count,
+                "unique_count": len(unique_emails),
+                "unresolved_submitted": unresolved_submitted,
+                "cached_count": cached_count,
+                "valid_count": len(valid_emails),
+                "invalid_count": invalid_count,
+                "unknown_count": unknown_count,
+                "error_count": error_count,
+                "suppressed_count": suppressed_count,
+                "net_eligible_count": 0,
+                "batches": [],
+                "date": date_str,
+            }
+            self.send_completion_notification(summary, date_str)
+            return summary
+
         # Step 7: Load and validate 9 sender accounts
         if self.dry_run and not self.raw_accounts_json:
             logger.info("[DRY RUN] Generating 9 simulated sender accounts for dry run testing.")
@@ -447,8 +539,8 @@ class OutreachPipeline:
         # Record planned batches in state machine
         for b in batches:
             idx = b["batch_index"]
-            tmpl_id, _ = TemplateManager.get_template_for_batch(idx)
-            subj = TemplateManager.get_subject_for_batch(idx)
+            tmpl_id, _ = TemplateManager.get_template_for_batch(idx, date_str=date_str)
+            subj = TemplateManager.get_subject_for_batch(idx, date_str=date_str)
             self.state_mgr.record_batch_plan(
                 campaign_id=campaign_id,
                 batch_index=idx,
@@ -484,16 +576,20 @@ class OutreachPipeline:
         for b in batches:
             idx = b["batch_index"]
             account_obj = next(a for a in accounts if a.email == b["sender_account"])
-            tmpl_id, body_text = TemplateManager.get_template_for_batch(idx)
-            subject = TemplateManager.get_subject_for_batch(idx)
+            tmpl_id, body_text = TemplateManager.get_template_for_batch(idx, date_str=date_str)
+            subject = TemplateManager.get_subject_for_batch(idx, date_str=date_str)
             recipients = b["recipients"]
 
-            # Idempotency check: skip already SENT or SKIPPED_EMPTY batches
+            # Idempotency check: skip already SENT batches
             prev_status = existing_batches.get(idx)
-            if prev_status in ("SENT", "SKIPPED_EMPTY"):
-                logger.info(f"Batch #{idx} ({account_obj.email}) already {prev_status}. Skipping to prevent duplicate send.")
+            if prev_status == "SENT":
+                logger.info(f"Batch #{idx} ({account_obj.email}) already SENT. Skipping to prevent duplicate send.")
                 b["status"] = prev_status
                 sent_count += 1
+                continue
+            elif prev_status == "SKIPPED_EMPTY":
+                logger.info(f"Batch #{idx} ({account_obj.email}) previously SKIPPED_EMPTY.")
+                b["status"] = prev_status
                 continue
 
             # Safety check: if batch requires review, require explicit reconciliation (--force) before retrying
@@ -535,25 +631,44 @@ class OutreachPipeline:
                 error=error_msg or "",
             )
 
-            if success and batch_status in ("SENT", "SKIPPED_EMPTY"):
+            if success and batch_status == "SENT":
                 sent_count += 1
+            elif batch_status == "SKIPPED_EMPTY":
+                logger.info(f"Batch #{idx} ({account_obj.email}) has 0 recipients. Skipped without sending.")
             else:
                 has_failure = True
 
-        overall_status = "COMPLETED" if (sent_count == len(batches) and not has_failure) else (
-            "PARTIALLY_SENT" if sent_count > 0 else "FAILED_REQUIRES_REVIEW"
-        )
+        batches_with_recipients = [b for b in batches if b.get("count", 0) > 0]
+        if batches_with_recipients:
+            if sent_count == len(batches_with_recipients) and not has_failure:
+                overall_status = "COMPLETED"
+            elif sent_count > 0:
+                overall_status = "PARTIALLY_SENT"
+            else:
+                overall_status = "FAILED_REQUIRES_REVIEW"
+        else:
+            overall_status = "SKIPPED_ZERO_ELIGIBLE"
 
         self.state_mgr.save_campaign_state(
             campaign_id=campaign_id,
             status=overall_status,
-            batches_planned=len(batches),
+            batches_planned=len(batches_with_recipients),
             batches_sent=sent_count,
+            counts={
+                "parsed": len(raw_emails),
+                "unique": len(unique_emails),
+                "valid": len(valid_emails),
+                "invalid": invalid_count,
+                "unknown": unknown_count,
+                "suppressed": suppressed_count,
+                "eligible": len(eligible_for_outreach),
+            },
             date_str=date_str,
         )
 
         summary = {
             "campaign_id": campaign_id,
+            "status": overall_status,
             "overall_status": overall_status,
             "attachment_filename": filename,
             "attachment_hash": content_hash,
@@ -574,7 +689,7 @@ class OutreachPipeline:
         }
 
         # Step 10: Clear checkpoint on complete success
-        if overall_status == "COMPLETED":
+        if overall_status == "COMPLETED" and sent_count > 0:
             self.state_mgr.clear_checkpoint(campaign_id)
 
         # Step 11: Send completion notification
