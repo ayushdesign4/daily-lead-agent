@@ -4,8 +4,16 @@
   "current_account_index": 1,
   "exhausted_accounts": [],
   "auth_failed_accounts": [],
-  "last_successful_account": null,
-  "key_fingerprints": {},
+  "last_successful_account": "mail7_account_1",
+  "key_fingerprints": {
+    "1": "83e3d69e31b3e957",
+    "2": "18343711f1ceaa38",
+    "3": "2833a44720c11081",
+    "4": "cbb0726466ef2835",
+    "5": "13a0d2bf92e23df7",
+    "6": "cadc25878a977aed",
+    "7": "fea3217c53dfd9bc"
+  },
   "history": [
     {
       "timestamp": "2026-11-01T00:00:00Z",
