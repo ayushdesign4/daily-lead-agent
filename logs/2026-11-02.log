@@ -1,0 +1,89 @@
+[2026-11-01 22:57:39] [INFO] ============================================================
+[2026-11-01 22:57:39] [INFO] Starting Daily Lead Agent | Run ID: RUN-3A12A374 | Date: 2026-11-02 IST
+[2026-11-01 22:57:39] [INFO] Target: 200 leads | Mode: prepare | Dry Run: False
+[2026-11-01 22:57:39] [INFO] Starting pending queue size: 12
+[2026-11-01 22:57:39] [INFO] --- Starting Apify Batch 1 (Shortage: 188) ---
+[2026-11-01 22:57:39] [INFO] Batch 1 queries (10): ['rabbet', 'focusboost', 'glitchless', 'ichthyology', 'harness', 'fellrunning', 'pushup', 'dubstep', 'banner', 'standmixer']
+[2026-11-01 22:59:39] [INFO] Batch 1 Summary: 13 valid emails -> 0 intra-batch dups -> 6 master dups -> 7 genuinely new leads
+[2026-11-01 22:59:39] [INFO] Target not yet satisfied. Remaining shortage: 181
+[2026-11-01 22:59:39] [INFO] --- Starting Apify Batch 2 (Shortage: 181) ---
+[2026-11-01 22:59:39] [INFO] Batch 2 queries (10): ['footprint', 'immunology', 'fellwalking', 'haskell', 'putting', 'baptist', 'dunks', 'starter', 'godot', 'rainwaterharvesting']
+[2026-11-01 23:01:46] [INFO] Batch 2 Summary: 29 valid emails -> 0 intra-batch dups -> 18 master dups -> 11 genuinely new leads
+[2026-11-01 23:01:46] [INFO] Target not yet satisfied. Remaining shortage: 170
+[2026-11-01 23:01:46] [INFO] --- Starting Apify Batch 3 (Shortage: 170) ---
+[2026-11-01 23:01:46] [INFO] Batch 3 queries (10): ['indusvalley', 'haystack', 'barbados', 'rafting', 'dystopian', 'goldenidol', 'steamingmilk', 'fermenter', 'raisedbeds', 'foreclosure']
+[2026-11-01 23:05:53] [INFO] Batch 3 Summary: 25 valid emails -> 0 intra-batch dups -> 17 master dups -> 8 genuinely new leads
+[2026-11-01 23:05:53] [INFO] Target not yet satisfied. Remaining shortage: 162
+[2026-11-01 23:05:53] [INFO] --- Starting Apify Batch 4 (Shortage: 162) ---
+[2026-11-01 23:05:53] [INFO] Batch 4 queries (10): ['hdmi', 'rappelling', 'goldrush', 'electricguitar', 'stockpot', 'fern', 'reaming', 'barbara', 'freecashflow', 'inorganicchemistry']
+[2026-11-01 23:10:12] [INFO] Batch 4 Summary: 85 valid emails -> 0 intra-batch dups -> 73 master dups -> 12 genuinely new leads
+[2026-11-01 23:10:12] [INFO] Target not yet satisfied. Remaining shortage: 150
+[2026-11-01 23:10:12] [INFO] --- Starting Apify Batch 5 (Shortage: 150) ---
+[2026-11-01 23:10:12] [INFO] Batch 5 queries (10): ['reardelt', 'electricpiano', 'fernet', 'stretchandfold', 'barcelona', 'resinprinting', 'freelanceportfolio', 'goniometer', 'isopods', 'heatpipe']
+[2026-11-01 23:13:53] [INFO] Batch 5 Summary: 2 valid emails -> 0 intra-batch dups -> 1 master dups -> 1 genuinely new leads
+[2026-11-01 23:13:53] [INFO] Target not yet satisfied. Remaining shortage: 149
+[2026-11-01 23:13:53] [INFO] --- Starting Apify Batch 6 (Shortage: 149) ---
+[2026-11-01 23:13:53] [INFO] Batch 6 queries (10): ['electronicdrums', 'tacos', 'bare', 'rockcrawler', 'granblue', 'freight', 'jameswebb', 'ferretcare', 'heatsink', 'rearnakedchoke']
+[2026-11-01 23:16:50] [INFO] Batch 6 Summary: 57 valid emails -> 0 intra-batch dups -> 51 master dups -> 6 genuinely new leads
+[2026-11-01 23:16:50] [INFO] Target not yet satisfied. Remaining shortage: 143
+[2026-11-01 23:16:50] [INFO] --- Starting Apify Batch 7 (Shortage: 143) ---
+[2026-11-01 23:16:50] [INFO] Batch 7 queries (10): ['tamales', 'griftlands', 'rocketstove', 'fulfillment', 'ferrocerium', 'keep', 'helm', 'bargain', 'rebounding', 'environmentart']
+[2026-11-01 23:22:15] [INFO] Batch 7 Summary: 22 valid emails -> 0 intra-batch dups -> 18 master dups -> 4 genuinely new leads
+[2026-11-01 23:22:15] [INFO] Target not yet satisfied. Remaining shortage: 139
+[2026-11-01 23:22:15] [INFO] --- Starting Apify Batch 8 (Shortage: 139) ---
+[2026-11-01 23:22:15] [INFO] Batch 8 queries (10): ['tapas', 'roving', 'fettuccine', 'fundamental', 'killifish', 'bargains', 'heterodyne', 'repstoraillure', 'grinding', 'epoxyresin']
+[2026-11-01 23:29:43] [INFO] Batch 8 Summary: 93 valid emails -> 0 intra-batch dups -> 77 master dups -> 16 genuinely new leads
+[2026-11-01 23:29:43] [INFO] Target not yet satisfied. Remaining shortage: 123
+[2026-11-01 23:29:43] [INFO] --- Starting Apify Batch 9 (Shortage: 123) ---
+[2026-11-01 23:29:43] [INFO] Batch 9 queries (10): ['rubikscubing', 'funded', 'barley', 'kinesiology', 'hetzner', 'guildwars', 'rir', 'ficus', 'equalizer', 'tare']
+[2026-11-01 23:33:08] [INFO] Batch 9 Summary: 16 valid emails -> 0 intra-batch dups -> 13 master dups -> 3 genuinely new leads
+[2026-11-01 23:33:08] [INFO] Target not yet satisfied. Remaining shortage: 120
+[2026-11-01 23:33:08] [INFO] --- Starting Apify Batch 10 (Shortage: 120) ---
+[2026-11-01 23:33:08] [INFO] Batch 10 queries (10): ['funnel', 'kingsnake', 'guiltygear', 'homelab', 'roadbike', 'financier', 'etching', 'barrier', 'tarts', 'rustichome']
+[2026-11-01 23:37:15] [INFO] Batch 10 Summary: 51 valid emails -> 0 intra-batch dups -> 47 master dups -> 4 genuinely new leads
+[2026-11-01 23:37:15] [INFO] Target not yet satisfied. Remaining shortage: 116
+[2026-11-01 23:37:15] [INFO] --- Starting Apify Batch 11 (Shortage: 116) ---
+[2026-11-01 23:37:15] [INFO] Batch 11 queries (10): ['legionary', 'hotair', 'firecraft', 'rpe', 'barriers', 'eurodance', 'tds', 'gwent', 'saddlery', 'futures']
+[2026-11-01 23:39:35] [INFO] Batch 11 Summary: 21 valid emails -> 0 intra-batch dups -> 8 master dups -> 13 genuinely new leads
+[2026-11-01 23:39:35] [INFO] Target not yet satisfied. Remaining shortage: 103
+[2026-11-01 23:39:35] [INFO] --- Starting Apify Batch 12 (Shortage: 103) ---
+[2026-11-01 23:39:35] [INFO] Batch 12 queries (10): ['htmx', 'sambo', 'barry', 'eurorack', 'hades', 'teaceremony', 'sanding', 'firestarter', 'fvg', 'legionnaires']
+[2026-11-01 23:44:13] [INFO] Batch 12 Summary: 38 valid emails -> 0 intra-batch dups -> 21 master dups -> 17 genuinely new leads
+[2026-11-01 23:44:13] [INFO] Target not yet satisfied. Remaining shortage: 86
+[2026-11-01 23:44:13] [INFO] --- Starting Apify Batch 13 (Shortage: 86) ---
+[2026-11-01 23:44:13] [INFO] Batch 13 queries (10): ['sambor', 'exfoliation', 'halo', 'temperingchocolate', 'fisher', 'sandrail', 'gamma', 'basechain', 'leopardgecko', 'huggingface']
+[2026-11-01 23:47:51] [INFO] Batch 13 Summary: 25 valid emails -> 0 intra-batch dups -> 10 master dups -> 15 genuinely new leads
+[2026-11-01 23:47:51] [INFO] Target not yet satisfied. Remaining shortage: 71
+[2026-11-01 23:47:51] [INFO] --- Starting Apify Batch 14 (Shortage: 71) ---
+[2026-11-01 23:47:51] [INFO] Batch 14 queries (10): ['exposition', 'fisheries', 'tequila', 'scandinaviandesign', 'baseline', 'gantt', 'lightyear', 'hardcore', 'hydraulics', 'scuba']
+[2026-11-01 23:55:27] [INFO] Batch 14 Summary: 41 valid emails -> 0 intra-batch dups -> 36 master dups -> 5 genuinely new leads
+[2026-11-01 23:55:27] [INFO] Target not yet satisfied. Remaining shortage: 66
+[2026-11-01 23:55:27] [INFO] --- Starting Apify Batch 15 (Shortage: 66) ---
+[2026-11-01 23:55:27] [INFO] Batch 15 queries (10): ['terroir', 'bases', 'scrambler', 'gasfees', 'hardspace', 'linearalgebra', 'hypervisor', 'fisheye', 'shadowboxing', 'eyecream']
+[2026-11-02 00:02:00] [INFO] Batch 15 Summary: 40 valid emails -> 0 intra-batch dups -> 34 master dups -> 6 genuinely new leads
+[2026-11-02 00:02:00] [INFO] Target not yet satisfied. Remaining shortage: 60
+[2026-11-02 00:02:00] [INFO] --- Starting Apify Batch 16 (Shortage: 60) ---
+[2026-11-02 00:02:00] [INFO] Batch 16 queries (10): ['tikka', 'scrub', 'healing', 'ghostrecon', 'loaches', 'fishoil', 'hypothesis', 'shotput', 'bash', 'eyeliner']
+[2026-11-02 00:08:02] [INFO] Batch 16 Summary: 67 valid emails -> 0 intra-batch dups -> 46 master dups -> 21 genuinely new leads
+[2026-11-02 00:08:02] [INFO] Target not yet satisfied. Remaining shortage: 39
+[2026-11-02 00:08:02] [INFO] --- Starting Apify Batch 17 (Shortage: 39) ---
+[2026-11-02 00:08:02] [INFO] Batch 17 queries (10): ['secretrare', 'globalization', 'fishsauce', 'logic', 'iem', 'basically', 'shrugs', 'eyeshadow', 'hedon', 'tiradito']
+[2026-11-02 00:12:03] [INFO] Batch 17 Summary: 50 valid emails -> 0 intra-batch dups -> 39 master dups -> 11 genuinely new leads
+[2026-11-02 00:12:03] [INFO] Target not yet satisfied. Remaining shortage: 28
+[2026-11-02 00:12:03] [INFO] --- Starting Apify Batch 18 (Shortage: 28) ---
+[2026-11-02 00:12:03] [INFO] Batch 18 queries (10): ['goalsetting', 'macedon', 'basics', 'impedance', 'sidecontrol', 'heist', 'fadehaircut', 'fizz', 'tiramisu', 'shibori']
+[2026-11-02 00:15:43] [INFO] Batch 18 Summary: 29 valid emails -> 0 intra-batch dups -> 19 master dups -> 10 genuinely new leads
+[2026-11-02 00:15:43] [INFO] Target not yet satisfied. Remaining shortage: 18
+[2026-11-02 00:15:43] [INFO] --- Starting Apify Batch 19 (Shortage: 18) ---
+[2026-11-02 00:15:43] [INFO] Batch 19 queries (10): ['magnetar', 'inductance', 'heretic', 'skateboarding', 'falseeyelashes', 'flan', 'tonkotsu', 'basin', 'shiplap', 'governance']
+[2026-11-02 00:22:02] [INFO] Batch 19 Summary: 16 valid emails -> 0 intra-batch dups -> 8 master dups -> 8 genuinely new leads
+[2026-11-02 00:22:02] [INFO] Target not yet satisfied. Remaining shortage: 10
+[2026-11-02 00:22:02] [INFO] --- Starting Apify Batch 20 (Shortage: 10) ---
+[2026-11-02 00:22:02] [INFO] Batch 20 queries (10): ['inductor', 'skiing', 'flint', 'falsetto', 'tortellini', 'baskets', 'shuttle', 'hexen', 'greeks', 'mammalogy']
+[2026-11-02 00:25:08] [INFO] Batch 20 Summary: 37 valid emails -> 0 intra-batch dups -> 31 master dups -> 6 genuinely new leads
+[2026-11-02 00:25:08] [INFO] Target not yet satisfied. Remaining shortage: 4
+[2026-11-02 00:25:08] [INFO] --- Starting Apify Batch 21 (Shortage: 4) ---
+[2026-11-02 00:25:08] [INFO] Batch 21 queries (10): ['skydiving', 'featurefilm', 'bathroom', 'tortilla', 'highlights', 'silversmithing', 'growthstocks', 'flintknapping', 'mammoth', 'intel']
+[2026-11-02 00:27:07] [INFO] Batch 21 Summary: 50 valid emails -> 0 intra-batch dups -> 43 master dups -> 7 genuinely new leads
+[2026-11-02 00:27:07] [INFO] Target satisfied in queue (203 available). Stopping search immediately.
+[2026-11-02 00:27:07] [INFO] Overnight preparation run complete. Daily email is scheduled for 11:00 AM IST.
