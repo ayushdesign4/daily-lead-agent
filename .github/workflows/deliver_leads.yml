@@ -1,8 +1,14 @@
 name: Deliver Leads - 11 AM IST Delivery Check
 
 on:
+  workflow_run:
+    workflows: ["Daily Lead Agent - Overnight Run & Delivery"]
+    types:
+      - completed
+    branches:
+      - main
   schedule:
-    # 05:15 UTC = 10:45 AM IST (Just before 11:00 AM IST)
+    # 05:15 UTC = 10:45 AM IST (Backup / Security Check)
     - cron: '15 5 * * *'
   workflow_dispatch:
     inputs:
@@ -12,11 +18,16 @@ on:
         type: boolean
         default: false
 
+concurrency:
+  group: deliver-leads-${{ github.ref }}
+  cancel-in-progress: false
+
 permissions:
   contents: write
 
 jobs:
   check-and-deliver:
+    if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success') }}
     runs-on: ubuntu-latest
 
     steps:
