@@ -123,3 +123,4 @@ date,status,target,delivered,reason,run_id
 2026-11-01,PREPARED,200,0,Prepared queue with 212 leads.,RUN-CE75F6D9
 2026-11-01,COMPLETED,200,200,Delivered 200/200 leads.,RUN-2AAC09C0
 2026-11-02,PREPARED,200,0,Prepared queue with 203 leads.,RUN-3A12A374
+2026-11-02,COMPLETED,200,200,Delivered 200/200 leads.,RUN-838A1820
