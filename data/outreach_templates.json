@@ -172,6 +172,66 @@
           "body": "Found your channel recently and wanted to connect.\n\nI help creators with thumbnail design and wanted to introduce what I do.\n\nWould you like to see my portfolio?\n\nAyush"
         }
       ]
+    },
+    "2026-W45": {
+      "week_key": "2026-W45",
+      "generated_at": "2026-11-02T13:33:48.069390Z",
+      "templates": [
+        {
+          "template_id": 1,
+          "batch_index": 0,
+          "subject": "Thumbnail work",
+          "body": "I recently came across your channel.\n\nI help creators with thumbnail design and wanted to introduce what I do.\n\nAre you open to seeing the work of a thumbnail designer?\n\nAyush"
+        },
+        {
+          "template_id": 2,
+          "batch_index": 1,
+          "subject": "A quick introduction",
+          "body": "Your channel came up and I wanted to drop a quick note.\n\nI create custom YouTube thumbnails and wanted to see if you ever work with freelancers.\n\nWould you be interested in seeing some of my recent work?\n\nAyush"
+        },
+        {
+          "template_id": 3,
+          "batch_index": 2,
+          "subject": "Quick introduction",
+          "body": "I’ve been checking out your channel recently.\n\nI’m a thumbnail designer looking to collaborate with creators like you.\n\nWould you be open to checking out my work?\n\nAyush"
+        },
+        {
+          "template_id": 4,
+          "batch_index": 3,
+          "subject": "Thumbnail designer",
+          "body": "Came across your uploads and wanted to reach out.\n\nI specialize in YouTube thumbnails and thought my style might work well for your uploads.\n\nWould you like to see my portfolio?\n\nAyush"
+        },
+        {
+          "template_id": 5,
+          "batch_index": 4,
+          "subject": "Your channel",
+          "body": "I’ve been looking through your channel and wanted to connect.\n\nI design thumbnails for creators and thought I’d share some relevant samples.\n\nWould you be open to taking a look at a few examples?\n\nAyush"
+        },
+        {
+          "template_id": 6,
+          "batch_index": 5,
+          "subject": "Channel thumbnails",
+          "body": "Found your channel while browsing YouTube.\n\nI design YouTube thumbnails and wanted to share my work.\n\nWould you like me to send a few samples?\n\nAyush"
+        },
+        {
+          "template_id": 7,
+          "batch_index": 6,
+          "subject": "Portfolio introduction",
+          "body": "Your channel came up while I was exploring YouTube.\n\nI’m a thumbnail designer and wanted to share what I’ve been working on.\n\nI’d be happy to share my portfolio if you’re interested.\n\nAyush"
+        },
+        {
+          "template_id": 8,
+          "batch_index": 7,
+          "subject": "Video thumbnails",
+          "body": "Found your videos recently while exploring YouTube.\n\nI work with creators on thumbnail design and thought my work might suit your channel.\n\nInterested in seeing some examples?\n\nAyush"
+        },
+        {
+          "template_id": 9,
+          "batch_index": 8,
+          "subject": "Thumbnail portfolio",
+          "body": "Found your channel recently and wanted to connect.\n\nI work on YouTube thumbnails and wanted to share a few examples.\n\nWould you be interested in seeing my work?\n\nAyush"
+        }
+      ]
     }
   },
   "history": [
@@ -224,7 +284,32 @@
         "8779159e5fbd1fd4",
         "ac0817814f7d72b8"
       ]
+    },
+    {
+      "week_key": "2026-W45",
+      "subject_hashes": [
+        "b628430279262b81",
+        "26d7e1c169bb6436",
+        "57681863bd26b2d0",
+        "69d1dc9a085206b4",
+        "8d91e432ef58cfce",
+        "2c7d31aa44c1c87f",
+        "75f88f0935f62421",
+        "58f261efed0f48c9",
+        "23997e5138040ef1"
+      ],
+      "body_hashes": [
+        "f3a52c5e032c8a73",
+        "a3ab97422bb399e6",
+        "33e9fd93be89d525",
+        "1112caf55912b5fb",
+        "017e01be3217fdd2",
+        "7d7d98b9a2c834b8",
+        "64f0a7059d677aef",
+        "0281598824151315",
+        "d93a5e8b606a3ce9"
+      ]
     }
   ],
-  "active_week": "2026-W44"
+  "active_week": "2026-W45"
 }
