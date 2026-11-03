@@ -101,3 +101,7 @@
 [2026-11-03 03:17:24] [INFO] Starting pending queue size: 207
 [2026-11-03 03:17:26] [INFO] Run RUN-D086045F finished. Status: COMPLETED | Delivered: 200/200 | Queue Remaining: 7
 [2026-11-03 03:17:26] [INFO] ============================================================
+[2026-11-03 12:49:45] [INFO] ============================================================
+[2026-11-03 12:49:45] [INFO] Starting Daily Lead Agent | Run ID: RUN-A79709BD | Date: 2026-11-03 IST
+[2026-11-03 12:49:45] [INFO] Target: 200 leads | Mode: deliver | Dry Run: False
+[2026-11-03 12:49:45] [INFO] Delivery for today (2026-11-03) is already recorded as SENT/COMPLETED. Exiting to prevent duplicates.
