@@ -1,10 +1,12 @@
 {
   "version": 1,
   "monthly_cycle": "2026-11",
-  "current_account_index": 1,
-  "exhausted_accounts": [],
+  "current_account_index": 2,
+  "exhausted_accounts": [
+    1
+  ],
   "auth_failed_accounts": [],
-  "last_successful_account": "mail7_account_1",
+  "last_successful_account": "mail7_account_2",
   "key_fingerprints": {
     "1": "83e3d69e31b3e957",
     "2": "18343711f1ceaa38",
@@ -20,6 +22,12 @@
       "event": "POOL_INITIALIZED",
       "account_index": 1,
       "details": "Initialized 7-account Mail7 API key pool for cycle 2026-11"
+    },
+    {
+      "timestamp": "2026-11-04T06:05:28.784498Z",
+      "event": "ACCOUNT_EXHAUSTED",
+      "account_index": 1,
+      "reason": "HTTP 402/403 quota exhaustion"
     }
   ]
 }
