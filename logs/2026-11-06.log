@@ -85,3 +85,7 @@
 [2026-11-06 02:33:50] [INFO] Starting pending queue size: 204
 [2026-11-06 02:33:52] [INFO] Run RUN-777A1DD0 finished. Status: COMPLETED | Delivered: 200/200 | Queue Remaining: 4
 [2026-11-06 02:33:52] [INFO] ============================================================
+[2026-11-06 12:58:21] [INFO] ============================================================
+[2026-11-06 12:58:21] [INFO] Starting Daily Lead Agent | Run ID: RUN-1ACE63BB | Date: 2026-11-06 IST
+[2026-11-06 12:58:21] [INFO] Target: 200 leads | Mode: deliver | Dry Run: False
+[2026-11-06 12:58:21] [INFO] Delivery for today (2026-11-06) is already recorded as SENT/COMPLETED. Exiting to prevent duplicates.
