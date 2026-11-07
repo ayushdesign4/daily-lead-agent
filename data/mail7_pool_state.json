@@ -1,9 +1,10 @@
 {
   "version": 1,
   "monthly_cycle": "2026-11",
-  "current_account_index": 2,
+  "current_account_index": 3,
   "exhausted_accounts": [
-    1
+    1,
+    2
   ],
   "auth_failed_accounts": [],
   "last_successful_account": "mail7_account_2",
@@ -27,6 +28,12 @@
       "timestamp": "2026-11-04T06:05:28.784498Z",
       "event": "ACCOUNT_EXHAUSTED",
       "account_index": 1,
+      "reason": "HTTP 402/403 quota exhaustion"
+    },
+    {
+      "timestamp": "2026-11-07T03:18:39.749602Z",
+      "event": "ACCOUNT_EXHAUSTED",
+      "account_index": 2,
       "reason": "HTTP 402/403 quota exhaustion"
     }
   ]
