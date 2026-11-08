@@ -109,3 +109,7 @@
 [2026-11-08 01:39:27] [INFO] Starting pending queue size: 203
 [2026-11-08 01:39:29] [INFO] Run RUN-C9CD3DD8 finished. Status: COMPLETED | Delivered: 200/200 | Queue Remaining: 3
 [2026-11-08 01:39:29] [INFO] ============================================================
+[2026-11-08 11:57:10] [INFO] ============================================================
+[2026-11-08 11:57:10] [INFO] Starting Daily Lead Agent | Run ID: RUN-2F4EEE31 | Date: 2026-11-08 IST
+[2026-11-08 11:57:10] [INFO] Target: 200 leads | Mode: deliver | Dry Run: False
+[2026-11-08 11:57:10] [INFO] Delivery for today (2026-11-08) is already recorded as SENT/COMPLETED. Exiting to prevent duplicates.
