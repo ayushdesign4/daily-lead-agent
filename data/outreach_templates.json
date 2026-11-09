@@ -232,6 +232,66 @@
           "body": "Found your channel recently and wanted to connect.\n\nI work on YouTube thumbnails and wanted to share a few examples.\n\nWould you be interested in seeing my work?\n\nAyush"
         }
       ]
+    },
+    "2026-W46": {
+      "week_key": "2026-W46",
+      "generated_at": "2026-11-09T01:56:55.538347Z",
+      "templates": [
+        {
+          "template_id": 1,
+          "batch_index": 0,
+          "subject": "Thumbnail portfolio",
+          "body": "Came across your content and thought I’d introduce myself.\n\nI work with creators on thumbnail visuals and wanted to share my portfolio.\n\nOpen to checking out some samples?\n\nAyush"
+        },
+        {
+          "template_id": 2,
+          "batch_index": 1,
+          "subject": "Design inquiry",
+          "body": "Found your channel recently and wanted to connect.\n\nI’m a freelance thumbnail designer and wanted to see if you’re open to connecting.\n\nWould you like to see my portfolio?\n\nAyush"
+        },
+        {
+          "template_id": 3,
+          "batch_index": 2,
+          "subject": "Your channel",
+          "body": "Came across your channel and thought I’d get in touch.\n\nI create custom YouTube thumbnails and wanted to see if you ever work with freelancers.\n\nI’d be happy to share my portfolio if you’re interested.\n\nAyush"
+        },
+        {
+          "template_id": 4,
+          "batch_index": 3,
+          "subject": "Portfolio introduction",
+          "body": "Found your channel while exploring content in your niche.\n\nI design YouTube thumbnails and wanted to share my work.\n\nInterested in seeing some examples?\n\nAyush"
+        },
+        {
+          "template_id": 5,
+          "batch_index": 4,
+          "subject": "Video thumbnails",
+          "body": "Found your videos recently while exploring YouTube.\n\nI design thumbnails for creators and thought I’d share some relevant samples.\n\nWould you be open to checking out my work?\n\nAyush"
+        },
+        {
+          "template_id": 6,
+          "batch_index": 5,
+          "subject": "A quick introduction",
+          "body": "Your channel came up while I was exploring YouTube.\n\nI work on YouTube thumbnails and wanted to share a few examples.\n\nWant to see it?\n\nAyush"
+        },
+        {
+          "template_id": 7,
+          "batch_index": 6,
+          "subject": "Thumbnail samples",
+          "body": "I recently came across your channel.\n\nI work with creators on thumbnail design and thought my work might suit your channel.\n\nWould you be interested in seeing my work?\n\nAyush"
+        },
+        {
+          "template_id": 8,
+          "batch_index": 7,
+          "subject": "Design work",
+          "body": "Your channel came up and I wanted to drop a quick note.\n\nI design thumbnails for YouTube channels and thought there could be a good fit.\n\nAre you open to seeing the work of a thumbnail designer?\n\nAyush"
+        },
+        {
+          "template_id": 9,
+          "batch_index": 8,
+          "subject": "Thumbnail work",
+          "body": "Your channel caught my attention while browsing.\n\nI focus on YouTube thumbnail design and wanted to share some recent examples.\n\nInterested in taking a look?\n\nAyush"
+        }
+      ]
     }
   },
   "history": [
@@ -309,7 +369,32 @@
         "0281598824151315",
         "d93a5e8b606a3ce9"
       ]
+    },
+    {
+      "week_key": "2026-W46",
+      "subject_hashes": [
+        "23997e5138040ef1",
+        "c5d8c30011fa81d7",
+        "8d91e432ef58cfce",
+        "75f88f0935f62421",
+        "58f261efed0f48c9",
+        "26d7e1c169bb6436",
+        "052db58bb6b20ead",
+        "cb608ea3a09b6c55",
+        "b628430279262b81"
+      ],
+      "body_hashes": [
+        "98397ea31c79de39",
+        "243789f46ff1b1a2",
+        "77c457aca9ec3131",
+        "75a823720a1948a0",
+        "38a5ed297a09c54b",
+        "f02c4084f21fe84c",
+        "bf00e9e0265ef522",
+        "428a84bfd26eb05f",
+        "de1f04fc3314d416"
+      ]
     }
   ],
-  "active_week": "2026-W45"
+  "active_week": "2026-W46"
 }
