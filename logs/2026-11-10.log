@@ -152,3 +152,25 @@
 [2026-11-10 08:20:48] [INFO] Target not yet satisfied. Remaining shortage: 21
 [2026-11-10 08:20:48] [INFO] --- Starting Apify Batch 38 (Shortage: 21) ---
 [2026-11-10 08:20:48] [INFO] Batch 38 queries (10): ['photographer', 'closely', 'postpunk', 'cloth', 'skinning', 'cluster', 'snaredrum', 'cncrouter', 'steampunk', 'coaching']
+[2026-11-10 13:29:32] [INFO] ============================================================
+[2026-11-10 13:29:32] [INFO] Starting Daily Lead Agent | Run ID: RUN-6C95482A | Date: 2026-11-10 IST
+[2026-11-10 13:29:32] [INFO] Target: 200 leads | Mode: deliver | Dry Run: False
+[2026-11-10 13:29:32] [INFO] Starting pending queue size: 179
+[2026-11-10 13:29:32] [INFO] --- Starting Apify Batch 1 (Shortage: 21) ---
+[2026-11-10 13:29:32] [INFO] Batch 1 queries (10): ['photographer', 'closely', 'postpunk', 'cloth', 'skinning', 'cluster', 'snaredrum', 'cncrouter', 'steampunk', 'coaching']
+[2026-11-10 13:36:54] [INFO] Batch 1 Summary: 28 valid emails -> 0 intra-batch dups -> 26 master dups -> 2 genuinely new leads
+[2026-11-10 13:36:54] [INFO] Target not yet satisfied. Remaining shortage: 19
+[2026-11-10 13:36:54] [INFO] --- Starting Apify Batch 2 (Shortage: 19) ---
+[2026-11-10 13:36:55] [INFO] Batch 2 queries (10): ['straightrazor', 'coal', 'substancepainter', 'coastal', 'synthwave', 'coat', 'tablesaw', 'cocks', 'techwear', 'codmobile']
+[2026-11-10 13:46:16] [INFO] Batch 2 Summary: 55 valid emails -> 0 intra-batch dups -> 47 master dups -> 8 genuinely new leads
+[2026-11-10 13:46:16] [INFO] Target not yet satisfied. Remaining shortage: 11
+[2026-11-10 13:46:16] [INFO] --- Starting Apify Batch 3 (Shortage: 11) ---
+[2026-11-10 13:46:16] [INFO] Batch 3 queries (10): ['translucentpowder', 'cognitive', 'underpainting', 'col', 'violin', 'coldcases', 'woodcarving', 'colin', 'hardtechno', 'collapse']
+[2026-11-10 13:52:43] [INFO] Batch 3 Summary: 23 valid emails -> 0 intra-batch dups -> 14 master dups -> 9 genuinely new leads
+[2026-11-10 13:52:43] [INFO] Target not yet satisfied. Remaining shortage: 2
+[2026-11-10 13:52:43] [INFO] --- Starting Apify Batch 4 (Shortage: 2) ---
+[2026-11-10 13:52:43] [INFO] Batch 4 queries (10): ['colleagues', 'metalsmithing', 'cologne', 'photographic', 'columbus', 'postrock', 'combat', 'violinist', 'comfortable', 'woodcut']
+[2026-11-10 14:00:41] [INFO] Batch 4 Summary: 17 valid emails -> 0 intra-batch dups -> 11 master dups -> 6 genuinely new leads
+[2026-11-10 14:00:41] [INFO] Target satisfied in queue (204 available). Stopping search immediately.
+[2026-11-10 14:00:43] [INFO] Run RUN-6C95482A finished. Status: COMPLETED | Delivered: 200/200 | Queue Remaining: 4
+[2026-11-10 14:00:43] [INFO] ============================================================
