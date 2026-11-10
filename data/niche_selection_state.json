@@ -1,17 +1,28 @@
 {
   "category_cursors": {
-    "gaming": 451,
-    "technology": 412,
-    "creative": 455,
+    "gaming": 505,
+    "technology": 229,
+    "creative": 468,
     "automotive": 61,
     "fitness": 24,
     "maker": 38,
-    "finance": 415,
+    "finance": 403,
     "science": 349,
-    "exploration": 515,
+    "exploration": 664,
     "culinary": 0,
-    "outdoors": 442
+    "outdoors": 500
   },
-  "last_staged_niches": [],
-  "category_rotation_offset": 380
+  "last_staged_niches": [
+    "photographer",
+    "closely",
+    "postpunk",
+    "cloth",
+    "skinning",
+    "cluster",
+    "snaredrum",
+    "cncrouter",
+    "steampunk",
+    "coaching"
+  ],
+  "category_rotation_offset": 418
 }
