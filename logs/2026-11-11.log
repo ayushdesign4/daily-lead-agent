@@ -156,3 +156,17 @@
 [2026-11-11 06:06:38] [INFO] Target not yet satisfied. Remaining shortage: 6
 [2026-11-11 06:06:38] [INFO] --- Starting Apify Batch 39 (Shortage: 6) ---
 [2026-11-11 06:06:38] [INFO] Batch 39 queries (10): ['filtercutoff', 'financialfreedom', 'finds', 'finedining', 'finger', 'finland', 'firebase', 'fisting', 'fitbit', 'fits']
+[2026-11-11 12:44:39] [INFO] ============================================================
+[2026-11-11 12:44:39] [INFO] Starting Daily Lead Agent | Run ID: RUN-FD140631 | Date: 2026-11-11 IST
+[2026-11-11 12:44:39] [INFO] Target: 200 leads | Mode: deliver | Dry Run: False
+[2026-11-11 12:44:39] [INFO] Starting pending queue size: 194
+[2026-11-11 12:44:39] [INFO] --- Starting Apify Batch 1 (Shortage: 6) ---
+[2026-11-11 12:44:39] [INFO] Batch 1 queries (10): ['filtercutoff', 'financialfreedom', 'finds', 'finedining', 'finger', 'finland', 'firebase', 'fisting', 'fitbit', 'fits']
+[2026-11-11 13:07:55] [INFO] Batch 1 Summary: 58 valid emails -> 0 intra-batch dups -> 55 master dups -> 3 genuinely new leads
+[2026-11-11 13:07:55] [INFO] Target not yet satisfied. Remaining shortage: 3
+[2026-11-11 13:07:55] [INFO] --- Starting Apify Batch 2 (Shortage: 3) ---
+[2026-11-11 13:07:55] [INFO] Batch 2 queries (10): ['fixative', 'fixeddeposit', 'fjord', 'flags', 'flame', 'flashing', 'flatwhite', 'fleet', 'flightsimulator', 'flintandsteel']
+[2026-11-11 13:35:59] [INFO] Batch 2 Summary: 71 valid emails -> 0 intra-batch dups -> 66 master dups -> 5 genuinely new leads
+[2026-11-11 13:35:59] [INFO] Target satisfied in queue (202 available). Stopping search immediately.
+[2026-11-11 13:36:01] [INFO] Run RUN-FD140631 finished. Status: COMPLETED | Delivered: 200/200 | Queue Remaining: 2
+[2026-11-11 13:36:01] [INFO] ============================================================

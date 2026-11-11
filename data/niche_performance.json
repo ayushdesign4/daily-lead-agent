@@ -81,13 +81,13 @@
       "last_used_date": "2026-11-05"
     },
     "exploration": {
-      "batches": 440,
-      "raw_emails": 3496,
+      "batches": 442,
+      "raw_emails": 3625,
       "intra_duplicates": 0,
-      "master_duplicates": 2844,
-      "new_leads": 484,
+      "master_duplicates": 2965,
+      "new_leads": 492,
       "failures": 2,
-      "yield_score": 0.1405,
+      "yield_score": 0.1377,
       "last_used_date": "2026-11-11"
     },
     "technology": {
@@ -112,64 +112,6 @@
     }
   },
   "history": [
-    {
-      "date": "2026-11-09",
-      "niches": [
-        "seakayaking",
-        "snacko",
-        "vite",
-        "cams",
-        "roughnessmap",
-        "thetagang",
-        "searing",
-        "snatcher",
-        "vllm",
-        "canal"
-      ],
-      "categories": [
-        "exploration",
-        "finance",
-        "outdoors",
-        "creative",
-        "technology",
-        "gaming"
-      ],
-      "raw_emails": 11,
-      "intra_duplicates": 0,
-      "master_duplicates": 11,
-      "new_leads": 0,
-      "status": "COMPLETED",
-      "error_type": null
-    },
-    {
-      "date": "2026-11-09",
-      "niches": [
-        "snes",
-        "cancellation",
-        "vocoder",
-        "routertable",
-        "sedum",
-        "ticktick",
-        "snowrunner",
-        "candle",
-        "vrm",
-        "saddlestitch"
-      ],
-      "categories": [
-        "exploration",
-        "finance",
-        "outdoors",
-        "creative",
-        "technology",
-        "gaming"
-      ],
-      "raw_emails": 8,
-      "intra_duplicates": 0,
-      "master_duplicates": 3,
-      "new_leads": 5,
-      "status": "COMPLETED",
-      "error_type": null
-    },
     {
       "date": "2026-11-09",
       "niches": [
@@ -2743,6 +2685,54 @@
       "raw_emails": 16,
       "intra_duplicates": 0,
       "master_duplicates": 11,
+      "new_leads": 5,
+      "status": "COMPLETED",
+      "error_type": null
+    },
+    {
+      "date": "2026-11-11",
+      "niches": [
+        "filtercutoff",
+        "financialfreedom",
+        "finds",
+        "finedining",
+        "finger",
+        "finland",
+        "firebase",
+        "fisting",
+        "fitbit",
+        "fits"
+      ],
+      "categories": [
+        "exploration"
+      ],
+      "raw_emails": 58,
+      "intra_duplicates": 0,
+      "master_duplicates": 55,
+      "new_leads": 3,
+      "status": "COMPLETED",
+      "error_type": null
+    },
+    {
+      "date": "2026-11-11",
+      "niches": [
+        "fixative",
+        "fixeddeposit",
+        "fjord",
+        "flags",
+        "flame",
+        "flashing",
+        "flatwhite",
+        "fleet",
+        "flightsimulator",
+        "flintandsteel"
+      ],
+      "categories": [
+        "exploration"
+      ],
+      "raw_emails": 71,
+      "intra_duplicates": 0,
+      "master_duplicates": 66,
       "new_leads": 5,
       "status": "COMPLETED",
       "error_type": null
