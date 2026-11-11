@@ -2,16 +2,27 @@
   "category_cursors": {
     "gaming": 505,
     "technology": 229,
-    "creative": 544,
+    "creative": 371,
     "automotive": 61,
     "fitness": 24,
     "maker": 38,
     "finance": 403,
     "science": 349,
-    "exploration": 702,
+    "exploration": 1410,
     "culinary": 0,
     "outdoors": 500
   },
-  "last_staged_niches": [],
-  "category_rotation_offset": 422
+  "last_staged_niches": [
+    "filtercutoff",
+    "financialfreedom",
+    "finds",
+    "finedining",
+    "finger",
+    "finland",
+    "firebase",
+    "fisting",
+    "fitbit",
+    "fits"
+  ],
+  "category_rotation_offset": 461
 }
