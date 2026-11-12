@@ -8,10 +8,21 @@
     "maker": 38,
     "finance": 403,
     "science": 349,
-    "exploration": 1420,
+    "exploration": 1706,
     "culinary": 0,
     "outdoors": 500
   },
-  "last_staged_niches": [],
-  "category_rotation_offset": 463
+  "last_staged_niches": [
+    "herald",
+    "herbal",
+    "herein",
+    "hero",
+    "hibernate",
+    "highlight",
+    "hiit",
+    "hints",
+    "hiring",
+    "hispanic"
+  ],
+  "category_rotation_offset": 482
 }

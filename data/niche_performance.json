@@ -81,14 +81,14 @@
       "last_used_date": "2026-11-05"
     },
     "exploration": {
-      "batches": 442,
-      "raw_emails": 3625,
+      "batches": 460,
+      "raw_emails": 4132,
       "intra_duplicates": 0,
-      "master_duplicates": 2965,
-      "new_leads": 492,
+      "master_duplicates": 3424,
+      "new_leads": 540,
       "failures": 2,
-      "yield_score": 0.1377,
-      "last_used_date": "2026-11-11"
+      "yield_score": 0.1325,
+      "last_used_date": "2026-11-12"
     },
     "technology": {
       "batches": 370,
@@ -112,528 +112,6 @@
     }
   },
   "history": [
-    {
-      "date": "2026-11-09",
-      "niches": [
-        "candles",
-        "vrr",
-        "seedling",
-        "safetyrazor",
-        "sodium",
-        "timeblocking",
-        "cant",
-        "vuejs",
-        "seining",
-        "sakuga"
-      ],
-      "categories": [
-        "exploration",
-        "finance",
-        "outdoors",
-        "creative",
-        "technology",
-        "gaming"
-      ],
-      "raw_emails": 23,
-      "intra_duplicates": 0,
-      "master_duplicates": 14,
-      "new_leads": 9,
-      "status": "COMPLETED",
-      "error_type": null
-    },
-    {
-      "date": "2026-11-09",
-      "niches": [
-        "sempervivum",
-        "wafer",
-        "salicylicacid",
-        "softlock",
-        "titlegenerator",
-        "cantata",
-        "sencha",
-        "wallhack",
-        "sampler",
-        "solarsash"
-      ],
-      "categories": [
-        "exploration",
-        "finance",
-        "outdoors",
-        "creative",
-        "technology",
-        "gaming"
-      ],
-      "raw_emails": 14,
-      "intra_duplicates": 0,
-      "master_duplicates": 10,
-      "new_leads": 4,
-      "status": "COMPLETED",
-      "error_type": null
-    },
-    {
-      "date": "2026-11-09",
-      "niches": [
-        "waterblock",
-        "somagame",
-        "saxophone",
-        "todoist",
-        "canvas",
-        "senecio",
-        "waveform",
-        "songsofsyx",
-        "scalemodeling",
-        "toncoin"
-      ],
-      "categories": [
-        "exploration",
-        "finance",
-        "outdoors",
-        "creative",
-        "technology",
-        "gaming"
-      ],
-      "raw_emails": 18,
-      "intra_duplicates": 0,
-      "master_duplicates": 10,
-      "new_leads": 8,
-      "status": "COMPLETED",
-      "error_type": null
-    },
-    {
-      "date": "2026-11-09",
-      "niches": [
-        "weaviate",
-        "scalemodels",
-        "capabilities",
-        "treasuries",
-        "sericulture",
-        "sonic",
-        "webcam",
-        "scrapbooking",
-        "capcut",
-        "trello"
-      ],
-      "categories": [
-        "exploration",
-        "finance",
-        "outdoors",
-        "creative",
-        "technology",
-        "gaming"
-      ],
-      "raw_emails": 57,
-      "intra_duplicates": 0,
-      "master_duplicates": 54,
-      "new_leads": 3,
-      "status": "COMPLETED",
-      "error_type": null
-    },
-    {
-      "date": "2026-11-09",
-      "niches": [
-        "screenprinting",
-        "shakshuka",
-        "trezor",
-        "soulcalibur",
-        "capitalgains",
-        "webpack",
-        "scrollsaw",
-        "shawarma",
-        "underwrite",
-        "soundchip"
-      ],
-      "categories": [
-        "exploration",
-        "finance",
-        "outdoors",
-        "creative",
-        "technology",
-        "gaming"
-      ],
-      "raw_emails": 31,
-      "intra_duplicates": 0,
-      "master_duplicates": 27,
-      "new_leads": 4,
-      "status": "COMPLETED",
-      "error_type": null
-    },
-    {
-      "date": "2026-11-09",
-      "niches": [
-        "underwriter",
-        "soundscape",
-        "capitol",
-        "sheath",
-        "whisper",
-        "seasonalpalette",
-        "uniswap",
-        "spaceengineers",
-        "caponata",
-        "shelter"
-      ],
-      "categories": [
-        "exploration",
-        "finance",
-        "outdoors",
-        "creative",
-        "technology",
-        "gaming"
-      ],
-      "raw_emails": 25,
-      "intra_duplicates": 0,
-      "master_duplicates": 14,
-      "new_leads": 11,
-      "status": "COMPLETED",
-      "error_type": null
-    },
-    {
-      "date": "2026-11-09",
-      "niches": [
-        "upc",
-        "cappuccino",
-        "sheltercraft",
-        "wordpress",
-        "sparklite",
-        "seinen",
-        "upsell",
-        "caps",
-        "shibainu",
-        "workers"
-      ],
-      "categories": [
-        "exploration",
-        "finance",
-        "outdoors",
-        "creative",
-        "technology",
-        "gaming"
-      ],
-      "raw_emails": 20,
-      "intra_duplicates": 0,
-      "master_duplicates": 17,
-      "new_leads": 3,
-      "status": "COMPLETED",
-      "error_type": null
-    },
-    {
-      "date": "2026-11-09",
-      "niches": [
-        "shrimping",
-        "speedruns",
-        "wristrest",
-        "selvedgedenim",
-        "captain",
-        "valuestocks",
-        "shrub",
-        "spelunky",
-        "xeon",
-        "sequencer"
-      ],
-      "categories": [
-        "exploration",
-        "finance",
-        "outdoors",
-        "creative",
-        "technology",
-        "gaming"
-      ],
-      "raw_emails": 9,
-      "intra_duplicates": 0,
-      "master_duplicates": 6,
-      "new_leads": 3,
-      "status": "COMPLETED",
-      "error_type": null
-    },
-    {
-      "date": "2026-11-09",
-      "niches": [
-        "spiderman",
-        "xgboost",
-        "capture",
-        "serum",
-        "siamesecat",
-        "vanguard",
-        "spinoff",
-        "yarn",
-        "carbon",
-        "settingspray"
-      ],
-      "categories": [
-        "exploration",
-        "finance",
-        "outdoors",
-        "creative",
-        "technology",
-        "gaming"
-      ],
-      "raw_emails": 33,
-      "intra_duplicates": 0,
-      "master_duplicates": 30,
-      "new_leads": 3,
-      "status": "COMPLETED",
-      "error_type": null
-    },
-    {
-      "date": "2026-11-09",
-      "niches": [
-        "carbonfiber",
-        "yolo",
-        "shavingsoap",
-        "siberianhusky",
-        "vega",
-        "splatoon",
-        "cardetailing",
-        "zeromq",
-        "sheetmask",
-        "sinker"
-      ],
-      "categories": [
-        "exploration",
-        "finance",
-        "outdoors",
-        "creative",
-        "technology",
-        "gaming"
-      ],
-      "raw_emails": 7,
-      "intra_duplicates": 0,
-      "master_duplicates": 3,
-      "new_leads": 4,
-      "status": "COMPLETED",
-      "error_type": null
-    },
-    {
-      "date": "2026-11-09",
-      "niches": [
-        "ziglang",
-        "siphon",
-        "shoegaze",
-        "spread",
-        "verticalspread",
-        "cardmagic",
-        "backplate",
-        "skyrunning",
-        "shojo",
-        "spyro"
-      ],
-      "categories": [
-        "exploration",
-        "finance",
-        "outdoors",
-        "creative",
-        "technology",
-        "gaming"
-      ],
-      "raw_emails": 5,
-      "intra_duplicates": 0,
-      "master_duplicates": 0,
-      "new_leads": 5,
-      "status": "COMPLETED",
-      "error_type": null
-    },
-    {
-      "date": "2026-11-09",
-      "niches": [
-        "microled",
-        "shonen",
-        "stalker",
-        "videometrics",
-        "careful",
-        "slingshot",
-        "nanometer",
-        "shortfilm",
-        "stamina",
-        "viewerretention"
-      ],
-      "categories": [
-        "exploration",
-        "finance",
-        "outdoors",
-        "creative",
-        "technology",
-        "gaming"
-      ],
-      "raw_emails": 30,
-      "intra_duplicates": 0,
-      "master_duplicates": 12,
-      "new_leads": 18,
-      "status": "COMPLETED",
-      "error_type": null
-    },
-    {
-      "date": "2026-11-09",
-      "niches": [
-        "sidepart",
-        "carefully",
-        "volatility",
-        "smash",
-        "stardew",
-        "opentelemetry",
-        "silversmith",
-        "cargo",
-        "vwap",
-        "snaring"
-      ],
-      "categories": [
-        "exploration",
-        "finance",
-        "outdoors",
-        "creative",
-        "technology",
-        "gaming"
-      ],
-      "raw_emails": 56,
-      "intra_duplicates": 0,
-      "master_duplicates": 50,
-      "new_leads": 6,
-      "status": "COMPLETED",
-      "error_type": null
-    },
-    {
-      "date": "2026-11-09",
-      "niches": [
-        "warehousing",
-        "sour",
-        "starfield",
-        "carl",
-        "opentofu",
-        "sitar",
-        "waterfall",
-        "souvlaki",
-        "stationeers",
-        "carmodification"
-      ],
-      "categories": [
-        "exploration",
-        "finance",
-        "outdoors",
-        "creative",
-        "technology",
-        "gaming"
-      ],
-      "raw_emails": 69,
-      "intra_duplicates": 0,
-      "master_duplicates": 60,
-      "new_leads": 9,
-      "status": "COMPLETED",
-      "error_type": null
-    },
-    {
-      "date": "2026-11-09",
-      "niches": [
-        "wealthbuilding",
-        "stealth",
-        "carnivore",
-        "overheating",
-        "spanakopita",
-        "sketchbook",
-        "wedge",
-        "stormworks",
-        "carol",
-        "postgresql"
-      ],
-      "categories": [
-        "exploration",
-        "finance",
-        "outdoors",
-        "creative",
-        "technology",
-        "gaming"
-      ],
-      "raw_emails": 8,
-      "intra_duplicates": 0,
-      "master_duplicates": 5,
-      "new_leads": 3,
-      "status": "COMPLETED",
-      "error_type": null
-    },
-    {
-      "date": "2026-11-09",
-      "niches": [
-        "carpet",
-        "spathiphyllum",
-        "reactjs",
-        "sketches",
-        "strafe",
-        "whitepaper",
-        "carriers",
-        "speedclimbing",
-        "risercable",
-        "skinbarrier"
-      ],
-      "categories": [
-        "exploration",
-        "finance",
-        "outdoors",
-        "creative",
-        "technology",
-        "gaming"
-      ],
-      "raw_emails": 19,
-      "intra_duplicates": 0,
-      "master_duplicates": 7,
-      "new_leads": 12,
-      "status": "COMPLETED",
-      "error_type": null
-    },
-    {
-      "date": "2026-11-09",
-      "niches": [
-        "sphynxcat",
-        "scriptwriting",
-        "stutter",
-        "skinfade",
-        "wholesaling",
-        "carrompool",
-        "spoor",
-        "spark",
-        "subseries",
-        "slasher"
-      ],
-      "categories": [
-        "exploration",
-        "finance",
-        "outdoors",
-        "creative",
-        "technology",
-        "gaming"
-      ],
-      "raw_emails": 90,
-      "intra_duplicates": 0,
-      "master_duplicates": 78,
-      "new_leads": 12,
-      "status": "COMPLETED",
-      "error_type": null
-    },
-    {
-      "date": "2026-11-09",
-      "niches": [
-        "supermarket",
-        "technicalseo",
-        "slickback",
-        "carrying",
-        "winningproducts",
-        "spores",
-        "supplice",
-        "teleprompter",
-        "sludgemetal",
-        "carter"
-      ],
-      "categories": [
-        "exploration",
-        "finance",
-        "outdoors",
-        "creative",
-        "technology",
-        "gaming"
-      ],
-      "raw_emails": 21,
-      "intra_duplicates": 0,
-      "master_duplicates": 14,
-      "new_leads": 7,
-      "status": "COMPLETED",
-      "error_type": null
-    },
     {
       "date": "2026-11-09",
       "niches": [
@@ -2734,6 +2212,438 @@
       "intra_duplicates": 0,
       "master_duplicates": 66,
       "new_leads": 5,
+      "status": "COMPLETED",
+      "error_type": null
+    },
+    {
+      "date": "2026-11-12",
+      "niches": [
+        "float",
+        "flood",
+        "floral",
+        "flows",
+        "flstudio",
+        "fluid",
+        "flying",
+        "foam",
+        "focal",
+        "focused"
+      ],
+      "categories": [
+        "exploration"
+      ],
+      "raw_emails": 43,
+      "intra_duplicates": 0,
+      "master_duplicates": 36,
+      "new_leads": 7,
+      "status": "COMPLETED",
+      "error_type": null
+    },
+    {
+      "date": "2026-11-12",
+      "niches": [
+        "focuses",
+        "fold",
+        "folk",
+        "followfocus",
+        "fonts",
+        "footrest",
+        "forearms",
+        "forgotten",
+        "formation",
+        "fortune"
+      ],
+      "categories": [
+        "exploration"
+      ],
+      "raw_emails": 28,
+      "intra_duplicates": 0,
+      "master_duplicates": 26,
+      "new_leads": 2,
+      "status": "COMPLETED",
+      "error_type": null
+    },
+    {
+      "date": "2026-11-12",
+      "niches": [
+        "forzahorizon",
+        "foster",
+        "founded",
+        "fpvdrone",
+        "fragrance",
+        "framed",
+        "franchise",
+        "frappuccino",
+        "fraud",
+        "fred"
+      ],
+      "categories": [
+        "exploration"
+      ],
+      "raw_emails": 14,
+      "intra_duplicates": 0,
+      "master_duplicates": 11,
+      "new_leads": 3,
+      "status": "COMPLETED",
+      "error_type": null
+    },
+    {
+      "date": "2026-11-12",
+      "niches": [
+        "freefire",
+        "frequent",
+        "fresco",
+        "friendship",
+        "froe",
+        "frog",
+        "frosting",
+        "frozen",
+        "fruits",
+        "fucked"
+      ],
+      "categories": [
+        "exploration"
+      ],
+      "raw_emails": 64,
+      "intra_duplicates": 0,
+      "master_duplicates": 60,
+      "new_leads": 4,
+      "status": "COMPLETED",
+      "error_type": null
+    },
+    {
+      "date": "2026-11-12",
+      "niches": [
+        "funeral",
+        "funnels",
+        "furnishings",
+        "furthermore",
+        "fusion",
+        "gadgets",
+        "gaffer",
+        "gained",
+        "galaxies",
+        "gamingmouse"
+      ],
+      "categories": [
+        "exploration"
+      ],
+      "raw_emails": 16,
+      "intra_duplicates": 0,
+      "master_duplicates": 14,
+      "new_leads": 2,
+      "status": "COMPLETED",
+      "error_type": null
+    },
+    {
+      "date": "2026-11-12",
+      "niches": [
+        "gamingpc",
+        "gang",
+        "garage",
+        "gardens",
+        "garmin",
+        "gate",
+        "gathered",
+        "gatsbyjs",
+        "gauge",
+        "gazpacho"
+      ],
+      "categories": [
+        "exploration"
+      ],
+      "raw_emails": 12,
+      "intra_duplicates": 0,
+      "master_duplicates": 12,
+      "new_leads": 0,
+      "status": "COMPLETED",
+      "error_type": null
+    },
+    {
+      "date": "2026-11-12",
+      "niches": [
+        "geek",
+        "gels",
+        "gemini",
+        "gemstone",
+        "generate",
+        "genres",
+        "genshinimpact",
+        "genuine",
+        "geographic",
+        "geometry"
+      ],
+      "categories": [
+        "exploration"
+      ],
+      "raw_emails": 22,
+      "intra_duplicates": 0,
+      "master_duplicates": 21,
+      "new_leads": 1,
+      "status": "COMPLETED",
+      "error_type": null
+    },
+    {
+      "date": "2026-11-12",
+      "niches": [
+        "gerund",
+        "gesso",
+        "geyser",
+        "ghost",
+        "giant",
+        "ginicoefficient",
+        "gitflow",
+        "githubactions",
+        "gitlabci",
+        "glad"
+      ],
+      "categories": [
+        "exploration"
+      ],
+      "raw_emails": 57,
+      "intra_duplicates": 0,
+      "master_duplicates": 53,
+      "new_leads": 4,
+      "status": "COMPLETED",
+      "error_type": null
+    },
+    {
+      "date": "2026-11-12",
+      "niches": [
+        "glade",
+        "glance",
+        "glasgow",
+        "glaze",
+        "glen",
+        "glissando",
+        "globe",
+        "glory",
+        "gloves",
+        "gluteals"
+      ],
+      "categories": [
+        "exploration"
+      ],
+      "raw_emails": 25,
+      "intra_duplicates": 0,
+      "master_duplicates": 25,
+      "new_leads": 0,
+      "status": "COMPLETED",
+      "error_type": null
+    },
+    {
+      "date": "2026-11-12",
+      "niches": [
+        "glutenfree",
+        "glycogen",
+        "gmod",
+        "gnome",
+        "goalkeeper",
+        "gobo",
+        "godofwar",
+        "goldloan",
+        "gonehome",
+        "gonna"
+      ],
+      "categories": [
+        "exploration"
+      ],
+      "raw_emails": 26,
+      "intra_duplicates": 0,
+      "master_duplicates": 26,
+      "new_leads": 0,
+      "status": "COMPLETED",
+      "error_type": null
+    },
+    {
+      "date": "2026-11-12",
+      "niches": [
+        "google",
+        "gordon",
+        "gorge",
+        "gospel",
+        "goto",
+        "gouge",
+        "governing",
+        "gpt",
+        "gpu",
+        "grades"
+      ],
+      "categories": [
+        "exploration"
+      ],
+      "raw_emails": 26,
+      "intra_duplicates": 0,
+      "master_duplicates": 25,
+      "new_leads": 1,
+      "status": "COMPLETED",
+      "error_type": null
+    },
+    {
+      "date": "2026-11-12",
+      "niches": [
+        "graduates",
+        "graffiti",
+        "graham",
+        "grain",
+        "grandmaster",
+        "graph",
+        "grass",
+        "greatly",
+        "greenhell",
+        "greg"
+      ],
+      "categories": [
+        "exploration"
+      ],
+      "raw_emails": 23,
+      "intra_duplicates": 0,
+      "master_duplicates": 20,
+      "new_leads": 3,
+      "status": "COMPLETED",
+      "error_type": null
+    },
+    {
+      "date": "2026-11-12",
+      "niches": [
+        "gregory",
+        "gremolata",
+        "grew",
+        "grey",
+        "grid",
+        "grimdawn",
+        "grindsize",
+        "grip",
+        "grisaille",
+        "grocery"
+      ],
+      "categories": [
+        "exploration"
+      ],
+      "raw_emails": 22,
+      "intra_duplicates": 0,
+      "master_duplicates": 18,
+      "new_leads": 4,
+      "status": "COMPLETED",
+      "error_type": null
+    },
+    {
+      "date": "2026-11-12",
+      "niches": [
+        "gross",
+        "grounds",
+        "grove",
+        "grown",
+        "grpc",
+        "gst",
+        "gtaonline",
+        "gtav",
+        "guardian",
+        "guatemala"
+      ],
+      "categories": [
+        "exploration"
+      ],
+      "raw_emails": 33,
+      "intra_duplicates": 0,
+      "master_duplicates": 30,
+      "new_leads": 3,
+      "status": "COMPLETED",
+      "error_type": null
+    },
+    {
+      "date": "2026-11-12",
+      "niches": [
+        "guided",
+        "guild",
+        "gulf",
+        "gumbo",
+        "gundam",
+        "guns",
+        "guthealth",
+        "habitat",
+        "haircare",
+        "halfmarathon"
+      ],
+      "categories": [
+        "exploration"
+      ],
+      "raw_emails": 21,
+      "intra_duplicates": 0,
+      "master_duplicates": 13,
+      "new_leads": 8,
+      "status": "COMPLETED",
+      "error_type": null
+    },
+    {
+      "date": "2026-11-12",
+      "niches": [
+        "halide",
+        "halloween",
+        "hamilton",
+        "hamstrings",
+        "handbook",
+        "hang",
+        "happening",
+        "harbor",
+        "harddrive",
+        "harleydavidson"
+      ],
+      "categories": [
+        "exploration"
+      ],
+      "raw_emails": 15,
+      "intra_duplicates": 0,
+      "master_duplicates": 15,
+      "new_leads": 0,
+      "status": "COMPLETED",
+      "error_type": null
+    },
+    {
+      "date": "2026-11-12",
+      "niches": [
+        "harm",
+        "harris",
+        "harvard",
+        "hasselblad",
+        "hasura",
+        "hats",
+        "haven",
+        "hayday",
+        "hazard",
+        "hdd"
+      ],
+      "categories": [
+        "exploration"
+      ],
+      "raw_emails": 21,
+      "intra_duplicates": 0,
+      "master_duplicates": 18,
+      "new_leads": 3,
+      "status": "COMPLETED",
+      "error_type": null
+    },
+    {
+      "date": "2026-11-12",
+      "niches": [
+        "headed",
+        "healthinsurance",
+        "hearthstone",
+        "heather",
+        "heaven",
+        "heights",
+        "heirloom",
+        "helen",
+        "helldivers",
+        "hence"
+      ],
+      "categories": [
+        "exploration"
+      ],
+      "raw_emails": 39,
+      "intra_duplicates": 0,
+      "master_duplicates": 36,
+      "new_leads": 3,
       "status": "COMPLETED",
       "error_type": null
     }
