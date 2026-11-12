@@ -73,6 +73,7 @@ class DailyLeadAgent:
         dry_run: bool = DRY_RUN,
         test_mode: bool = TEST_MODE,
         state_manager: Optional[StateManager] = None,
+        queue_manager: Optional[QueueManager] = None,
         scraper_client: Optional[Any] = None,
         apify_client: Optional[ApifyClient] = None,
         delivery_manager: Optional[DeliveryManager] = None,
@@ -81,7 +82,7 @@ class DailyLeadAgent:
         self.dry_run = dry_run or test_mode
         self.test_mode = test_mode
         self.state_manager = state_manager or StateManager()
-        self.queue_manager = QueueManager(self.state_manager)
+        self.queue_manager = queue_manager or QueueManager(self.state_manager)
         self.niche_manager = NicheManager(self.state_manager)
         # Scraper Provider Selection (Bright Data default, Apify fallback)
         if scraper_client is not None:
@@ -245,11 +246,11 @@ class DailyLeadAgent:
 
         return credit_exhausted, exhaustion_reason, batches_run
 
-    def run(self, force: bool = False, mode: str = "all") -> int:
+    def run(self, force: bool = False, mode: str = "all", skip_scrape: bool = False) -> int:
         """
         Execute the lead workflow according to mode:
         - 'prepare': 01:00 AM overnight preparation. Fills queue. Does NOT send daily email.
-        - 'deliver': 11:00 AM IST delivery. Checks queue, runs search if needed, sends email.
+        - 'deliver': 11:00 AM IST delivery. Checks queue, delivers leads. If skip_scrape is True, never scrapes.
         - 'all': Runs preparation and delivery in one session.
         """
         date_str = get_today_ist_date()
@@ -272,7 +273,8 @@ class DailyLeadAgent:
         exhaustion_reason = ""
 
         # Step 2: Processing / Preparation
-        if mode in ("prepare", "all") or (mode == "deliver" and initial_queue_size < self.target):
+        should_scrape = (not skip_scrape) and (mode in ("prepare", "all") or (mode == "deliver" and initial_queue_size < self.target))
+        if should_scrape:
             credit_exhausted, exhaustion_reason, batches_run = self._process_and_fill_queue(date_str, logger)
 
         queue_after_processing = self.queue_manager.get_queue_size()
@@ -396,11 +398,12 @@ def parse_args():
     parser.add_argument("--test-mode", action="store_true", help="Run full pipeline with synthetic creator data (0 credits consumed)")
     parser.add_argument("--force", action="store_true", help="Bypass today's idempotency check")
     parser.add_argument("--mode", choices=["all", "prepare", "deliver"], default="all", help="Workflow mode ('prepare'=overnight, 'deliver'=11 AM)")
+    parser.add_argument("--skip-scrape", action="store_true", help="Skip scraping and deliver existing queue immediately")
     return parser.parse_args()
 
 
 if __name__ == "__main__":
     args = parse_args()
     agent = DailyLeadAgent(target=args.target, dry_run=args.dry_run, test_mode=args.test_mode)
-    count = agent.run(force=args.force, mode=args.mode)
+    count = agent.run(force=args.force, mode=args.mode, skip_scrape=args.skip_scrape)
     sys.exit(0)

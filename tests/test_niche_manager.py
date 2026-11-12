@@ -107,13 +107,9 @@ def test_niche_batch_selection_and_persistence(tmp_path):
     for name, query in batch1:
         assert is_valid_one_word_niche(name)
         assert len(name.split()) == 1
-        expected = QUERY_TEMPLATE.format(niche=name)
-        assert query == expected
-        assert "site:youtube.com" in query
+        assert ("site:youtube.com" in query or "site:instagram.com" in query)
         assert f'"{name}"' in query
-        assert '"Business Inquiries"' in query
-        assert '"gmail.com"' in query
-        assert "India" in query
+        assert "gmail.com" in query
 
     # Record batch 1 as used
     niche_mgr.record_batch_as_used(batch1, date_str="2026-09-30")
@@ -192,7 +188,7 @@ def test_all_curated_niches_used_dynamic_generation_fallback(tmp_path):
         assert len(name.split()) == 1
         # None of the dynamic niches should match any used curated niche
         assert normalize_niche(name) not in used_norms
-        assert "site:youtube.com" in query
+        assert ("site:youtube.com" in query or "site:instagram.com" in query)
 
 
 def test_previously_used_niches_never_selected_again(tmp_path):

@@ -69,12 +69,16 @@ class Mail7Verifier:
         dry_run: bool = False,
         sleep_func=None,
         random_func=None,
+        chunk_size: int = 35,
+        pacing_delay: float = 3.0,
     ):
         self.endpoint = endpoint or MAIL7_BULK_ENDPOINT
         self.ledger = ledger or QuotaLedger()
         self.dry_run = dry_run
         self.sleep_func = sleep_func or time.sleep
         self.random_func = random_func or random.uniform
+        self.chunk_size = chunk_size
+        self.pacing_delay = pacing_delay
 
         if pool is not None:
             self.pool = pool
@@ -158,147 +162,170 @@ class Mail7Verifier:
                 )
             return [results_by_email[e] for e in ordered_unique], None
 
-        # 3. Perform resilient bulk verification across the 7-account pool
-        remaining_unresolved = list(unresolved_emails)
+        # 3. Perform resilient bulk verification across the 7-account pool in paced chunks
         final_error_reason: Optional[str] = None
-        cache_records_to_save: List[Dict[str, str]] = []
         billable_by_account: Dict[str, int] = {}
+        chunk_size = self.chunk_size
+        num_chunks = (len(unresolved_emails) + chunk_size - 1) // chunk_size
 
-        while remaining_unresolved:
-            active_account = self.pool.get_active_account()
+        for chunk_idx in range(num_chunks):
+            chunk_slice = unresolved_emails[chunk_idx * chunk_size : (chunk_idx + 1) * chunk_size]
+            current_chunk = [
+                e for e in chunk_slice
+                if e not in results_by_email or results_by_email[e].status == "verification_error"
+            ]
+            if not current_chunk:
+                continue
 
-            if not active_account or not active_account.is_configured:
-                if self.pool.is_all_exhausted():
-                    logger.error("All 7 Mail7 accounts in pool are exhausted for this monthly cycle.")
-                    final_error_reason = "quota_exhausted"
-                elif any(self.pool.state.get("auth_failed_accounts", [])):
-                    logger.error("Active Mail7 account failed authentication. Halting to alert user.")
-                    final_error_reason = "unauthorized_api_key"
-                else:
-                    logger.error("No valid Mail7 API keys configured in pool.")
-                    final_error_reason = "missing_api_key"
+            logger.info(f"Processing Mail7 chunk {chunk_idx + 1}/{num_chunks} ({len(current_chunk)} emails)...")
 
-                for email in remaining_unresolved:
-                    results_by_email[email] = VerificationResult(
-                        email=email,
-                        status="verification_error",
-                        account_id="mail7_pool",
-                        reason=final_error_reason,
+            chunk_resolved = False
+            while not chunk_resolved:
+                active_account = self.pool.get_active_account()
+
+                if not active_account or not active_account.is_configured:
+                    if self.pool.is_all_exhausted():
+                        logger.error("All 7 Mail7 accounts in pool are exhausted for this monthly cycle.")
+                        final_error_reason = "quota_exhausted"
+                    elif any(self.pool.state.get("auth_failed_accounts", [])):
+                        logger.error("Active Mail7 account failed authentication. Halting to alert user.")
+                        final_error_reason = "unauthorized_api_key"
+                    else:
+                        logger.error("No valid Mail7 API keys configured in pool.")
+                        final_error_reason = "missing_api_key"
+
+                    for email in current_chunk:
+                        results_by_email[email] = VerificationResult(
+                            email=email,
+                            status="verification_error",
+                            account_id="mail7_pool",
+                            reason=final_error_reason,
+                        )
+                    chunk_resolved = True
+                    break
+
+                logger.info(
+                    f"Submitting chunk of {len(current_chunk)} emails to Mail7 using "
+                    f"Account {active_account.index} ({active_account.account_id})..."
+                )
+
+                verified_chunk_map, chunk_err = self._verify_chunk_with_bisection(
+                    chunk_emails=current_chunk,
+                    api_key=active_account.api_key,
+                    account_id=active_account.account_id,
+                    date_str=date_str,
+                    max_retries=max_retries,
+                )
+
+                # Check for quota exhaustion: rotate to next available account
+                if chunk_err == "quota_exhausted":
+                    logger.warning(
+                        f"Mail7 confirmed quota exhaustion on Account {active_account.index}. "
+                        "Rotating to next available account in pool..."
                     )
-                break
+                    # Preserve any definitively resolved emails from this chunk
+                    chunk_cache_records = []
+                    for em, vr in verified_chunk_map.items():
+                        if vr.status in ("valid", "invalid", "unknown"):
+                            results_by_email[em] = vr
+                            chunk_cache_records.append({
+                                "email": vr.email,
+                                "account_id": vr.account_id,
+                                "status": vr.status,
+                                "date_verified": date_str,
+                                "raw_result": vr.reason,
+                            })
+                    if chunk_cache_records and not self.dry_run:
+                        self.ledger.cache_verification_results(chunk_cache_records)
 
-            logger.info(
-                f"Submitting {len(remaining_unresolved)} emails to Mail7 using "
-                f"Account {active_account.index} ({active_account.account_id})..."
-            )
+                    next_account = self.pool.mark_account_exhausted(
+                        account_index=active_account.index,
+                        reason="HTTP 402/403 quota exhaustion",
+                    )
+                    current_chunk = [
+                        e for e in current_chunk
+                        if e not in results_by_email or results_by_email[e].status == "verification_error"
+                    ]
+                    if not next_account:
+                        logger.error("All 7 Mail7 accounts in pool have been exhausted.")
+                        final_error_reason = "quota_exhausted"
+                        for email in current_chunk:
+                            results_by_email[email] = VerificationResult(
+                                email=email,
+                                status="verification_error",
+                                account_id=active_account.account_id,
+                                reason="quota_exhausted",
+                            )
+                        chunk_resolved = True
+                        break
+                    else:
+                        logger.info(
+                            f"Continuing verification with Account {next_account.index} "
+                            f"for {len(current_chunk)} remaining leads in current chunk..."
+                        )
+                        continue
 
-            verified_chunk_map, chunk_err = self._verify_chunk_with_bisection(
-                chunk_emails=remaining_unresolved,
-                api_key=active_account.api_key,
-                account_id=active_account.account_id,
-                date_str=date_str,
-                max_retries=max_retries,
-            )
-
-            # Check for quota exhaustion: rotate to next available account
-            if chunk_err == "quota_exhausted":
-                logger.warning(
-                    f"Mail7 confirmed quota exhaustion on Account {active_account.index}. "
-                    "Rotating to next available account in pool..."
-                )
-                # Preserve any results already definitively resolved
-                for em, vr in verified_chunk_map.items():
-                    if vr.status in ("valid", "invalid", "unknown"):
-                        results_by_email[em] = vr
-                        cache_records_to_save.append({
-                            "email": vr.email,
-                            "account_id": vr.account_id,
-                            "status": vr.status,
-                            "date_verified": date_str,
-                            "raw_result": vr.reason,
-                        })
-
-                next_account = self.pool.mark_account_exhausted(
-                    account_index=active_account.index,
-                    reason="HTTP 402/403 quota exhaustion",
-                )
-
-                remaining_unresolved = [
-                    e for e in remaining_unresolved
-                    if e not in results_by_email or results_by_email[e].status == "verification_error"
-                ]
-
-                if not next_account:
-                    logger.error("All 7 Mail7 accounts in pool have been exhausted.")
-                    final_error_reason = "quota_exhausted"
-                    for email in remaining_unresolved:
+                elif chunk_err == "unauthorized_api_key":
+                    logger.error(
+                        f"Mail7 Account {active_account.index} failed authentication (HTTP 401/403). "
+                        "Halting to alert user without consuming other accounts."
+                    )
+                    self.pool.mark_account_auth_failed(active_account.index, reason="HTTP 401/403 auth failure")
+                    final_error_reason = "unauthorized_api_key"
+                    for email in current_chunk:
                         results_by_email[email] = VerificationResult(
                             email=email,
                             status="verification_error",
                             account_id=active_account.account_id,
-                            reason="quota_exhausted",
+                            reason="unauthorized_api_key",
                         )
+                    chunk_resolved = True
                     break
+
+                elif chunk_err and chunk_err not in ("bad_request",):
+                    final_error_reason = chunk_err
+                    for email, vr in verified_chunk_map.items():
+                        results_by_email[email] = vr
+                    chunk_resolved = True
+                    break
+
                 else:
-                    logger.info(
-                        f"Continuing verification with Account {next_account.index} "
-                        f"for {len(remaining_unresolved)} remaining leads..."
+                    # Successfully verified chunk!
+                    results_by_email.update(verified_chunk_map)
+                    self.pool.record_success(active_account.index)
+
+                    # IMMEDIATELY persist cache entries after each chunk
+                    chunk_cache_records = []
+                    chunk_billable = 0
+                    for vr in verified_chunk_map.values():
+                        if vr.status in ("valid", "invalid", "unknown"):
+                            chunk_cache_records.append({
+                                "email": vr.email,
+                                "account_id": vr.account_id,
+                                "status": vr.status,
+                                "date_verified": date_str,
+                                "raw_result": vr.reason,
+                            })
+                        if vr.status in ("valid", "invalid") and vr.reason != "rejected_by_api_malformed_syntax":
+                            chunk_billable += 1
+
+                    if chunk_cache_records and not self.dry_run:
+                        self.ledger.cache_verification_results(chunk_cache_records)
+
+                    billable_by_account[active_account.account_id] = (
+                        billable_by_account.get(active_account.account_id, 0) + chunk_billable
                     )
-                    continue
+                    chunk_resolved = True
 
-            # Check for authentication failure: halt immediately and alert user
-            elif chunk_err == "unauthorized_api_key":
-                logger.error(
-                    f"Mail7 Account {active_account.index} failed authentication (HTTP 401/403). "
-                    "Halting to alert user without consuming other accounts."
-                )
-                self.pool.mark_account_auth_failed(active_account.index, reason="HTTP 401/403 auth failure")
-                final_error_reason = "unauthorized_api_key"
-                for email in remaining_unresolved:
-                    results_by_email[email] = VerificationResult(
-                        email=email,
-                        status="verification_error",
-                        account_id=active_account.account_id,
-                        reason="unauthorized_api_key",
-                    )
+                    # Pacing: Sleep between chunks to stay safely below 20 req/min
+                    if chunk_idx < num_chunks - 1:
+                        self.sleep_func(self.pacing_delay)
+
+            # If unrecoverable auth or quota error occurred, stop further chunks
+            if final_error_reason in ("quota_exhausted", "unauthorized_api_key"):
                 break
 
-            # Check for permanent server error or network failure
-            elif chunk_err and chunk_err not in ("bad_request",):
-                final_error_reason = chunk_err
-                for email, vr in verified_chunk_map.items():
-                    results_by_email[email] = vr
-                break
-
-            else:
-                # Successfully verified chunk!
-                results_by_email.update(verified_chunk_map)
-                self.pool.record_success(active_account.index)
-
-                # Record cache entries and count billable usage
-                chunk_billable = 0
-                for vr in verified_chunk_map.values():
-                    if vr.status in ("valid", "invalid", "unknown"):
-                        cache_records_to_save.append({
-                            "email": vr.email,
-                            "account_id": vr.account_id,
-                            "status": vr.status,
-                            "date_verified": date_str,
-                            "raw_result": vr.reason,
-                        })
-                    if vr.status in ("valid", "invalid") and vr.reason != "rejected_by_api_malformed_syntax":
-                        chunk_billable += 1
-
-                billable_by_account[active_account.account_id] = (
-                    billable_by_account.get(active_account.account_id, 0) + chunk_billable
-                )
-                break
-
-        # 4. Persist cache records
-        if cache_records_to_save and not self.dry_run:
-            self.ledger.cache_verification_results(cache_records_to_save)
-
-        # 5. Record billable usage per account
+        # 4. Record billable usage per account
         if not self.dry_run:
             for acc_id, count in billable_by_account.items():
                 if count > 0:
@@ -310,7 +337,7 @@ class Mail7Verifier:
         self,
         chunk_emails: List[str],
         api_key: str,
-        max_retries: int = 3,
+        max_retries: int = 4,
     ) -> Tuple[Optional[List[Dict[str, Any]]], Optional[str]]:
         """
         Executes a single POST request with multipart form emails to Mail7 bulk validation endpoint.
@@ -352,16 +379,22 @@ class Mail7Verifier:
                     return None, "bad_request"
 
                 if resp.status_code == 429:
-                    retry_header = resp.headers.get("Retry-After", "3")
+                    retry_header = resp.headers.get("Retry-After", "")
                     try:
                         retry_after = int(retry_header)
                     except ValueError:
-                        retry_after = 3
-                    logger.warning(f"Mail7 returned HTTP 429 Too Many Requests. Retrying after {retry_after}s...")
+                        # Documented Mail7 rate limit is 20 req/min for free tier
+                        # Exponential backoff with jitter: 5s, 10s, 20s, 40s
+                        retry_after = min(60, max(5, 5 * (2 ** attempt)))
+                    jitter = self.random_func(0.5, 1.5)
+                    total_wait = retry_after + jitter
+                    logger.warning(
+                        f"Mail7 returned HTTP 429 Too Many Requests (attempt {attempt + 1}/{max_retries}). "
+                        f"Pacing backoff: waiting {total_wait:.1f}s before retry (DO NOT rotate account)..."
+                    )
                     last_error_reason = "rate_limited"
                     if attempt < max_retries - 1:
-                        jitter = self.random_func(0.5, 1.5)
-                        self.sleep_func(retry_after + jitter)
+                        self.sleep_func(total_wait)
                         continue
                     break
 

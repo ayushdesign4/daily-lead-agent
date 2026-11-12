@@ -16,8 +16,8 @@ def test_ledger(tmp_path):
 
 
 def test_200_emails_one_bulk_request(test_ledger):
-    """Test requirement J.1 & J.4: 200 emails use exactly ONE bulk API request with correct headers and multipart field."""
-    verifier = Mail7Verifier(api_key="mk_live_testkey123", ledger=test_ledger)
+    """Test requirement J.1 & J.4: 200 emails use exactly ONE bulk API request with correct headers and multipart field when chunk_size=200."""
+    verifier = Mail7Verifier(api_key="mk_live_testkey123", ledger=test_ledger, chunk_size=200)
 
     emails = [f"lead_{i:03d}@example.com" for i in range(200)]
 

@@ -8,8 +8,8 @@ on:
     branches:
       - main
   schedule:
-    # 05:15 UTC = 10:45 AM IST (Backup / Security Check)
-    - cron: '15 5 * * *'
+    # 05:17 UTC = 10:47 AM IST (Backup / Security Check - off-peak minute)
+    - cron: '17 5 * * *'
   workflow_dispatch:
     inputs:
       force:
@@ -27,7 +27,7 @@ permissions:
 
 jobs:
   check-and-deliver:
-    if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success') }}
+    if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || (github.event_name == 'workflow_run' && contains(fromJSON('["success", "cancelled"]'), github.event.workflow_run.conclusion)) }}
     runs-on: ubuntu-latest
 
     steps:
@@ -67,7 +67,7 @@ jobs:
           if [ "${{ github.event.inputs.force }}" = "true" ]; then
             ARGS="$ARGS --force"
           fi
-          python -m src.main --mode deliver $ARGS
+          python -m src.main --mode deliver --skip-scrape $ARGS
 
       - name: Commit and Push Persistent State
         if: always()

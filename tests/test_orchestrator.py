@@ -581,6 +581,7 @@ def test_orchestrator_only_selects_and_records_one_word_niches(test_env):
         # Check query template
         query = row["query_text"]
         assert f'"{niche}"' in query
-        assert "site:youtube.com" in query
+        assert ("site:youtube.com" in query or "site:instagram.com" in query)
+        assert "gmail.com" in query
 
 

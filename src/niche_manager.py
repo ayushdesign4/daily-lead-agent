@@ -9,6 +9,15 @@ logger = logging.getLogger(__name__)
 
 from src.curated_niches import CURATED_NICHES, NICHE_CATEGORIES
 from src.niche_categories import CREATOR_CATEGORIES, classify_niche
+from src.discovery_matrix import (
+    DiscoveryMatrix,
+    ALL_CURATED_NICHES,
+    REFRESHED_ONE_WORD_NICHES,
+    REALISTIC_MULTI_WORD_NICHES,
+    INDIAN_LOCATIONS,
+    YOUTUBE_DORKS,
+    INSTAGRAM_YOUTUBE_DORKS,
+)
 
 # Query Template specified in section 3 & 23 of the specification
 QUERY_TEMPLATE = 'site:youtube.com "{niche}" "Business Inquiries" "gmail.com" India'
@@ -96,6 +105,21 @@ def is_valid_one_word_niche(niche: str) -> bool:
     return True
 
 
+def is_valid_niche(niche: str) -> bool:
+    """
+    Validate that niche is a valid creator category string (1 to 5 words).
+    Allows both refreshed single-word niches and realistic multi-word niches.
+    """
+    if not niche or not isinstance(niche, str):
+        return False
+    stripped = niche.strip()
+    words = stripped.split()
+    if not (1 <= len(words) <= 5):
+        return False
+    # Allow letters, digits, and spaces (e.g. 'ps5 gameplay hindi', 'gta v roleplay hindi')
+    return bool(re.match(r"^[A-Za-z0-9\s]+$", stripped))
+
+
 def normalize_niche(niche: str) -> str:
     """
     Normalize niche string before comparison:
@@ -155,8 +179,13 @@ class NicheManager:
     adaptive yield feedback, and query generation.
     """
 
-    def __init__(self, state_manager: Optional[StateManager] = None):
+    def __init__(
+        self,
+        state_manager: Optional[StateManager] = None,
+        discovery_matrix: Optional[DiscoveryMatrix] = None,
+    ):
         self.state_manager = state_manager or StateManager()
+        self.discovery_matrix = discovery_matrix or DiscoveryMatrix()
 
     def get_used_normalized_niches(self) -> Set[str]:
         """Return a set of all normalized niches already used historically."""
@@ -240,11 +269,13 @@ class NicheManager:
 
     def select_batch_niches(self, count: int = 10) -> List[Tuple[str, str]]:
         """
-        Select up to `count` fresh, unused niches that do not overlap with
-        each other or historically used niches.
-        Uses category-based round-robin with persistent cursors, preventing
-        alphabetical clustering while ensuring diverse domain representation.
-        EVERY SELECTED NICHE IS STRICTLY ONE WORD.
+        Select up to `count` fresh, highly diverse queries using the Multi-Dork Discovery Matrix.
+        Combines:
+        - Diverse YouTube Dorks (majority: ~80-90%)
+        - Targeted YouTube-creator Instagram Dorks (~10-20%)
+        - Rotating developed Indian urban hubs (Mumbai, Delhi, Pune, Bengaluru, etc.)
+        - Refreshed 1-word & realistic 2-3 word creator niches
+        - Query fingerprint tracking to prevent repeated searches
         Returns list of (niche_name, formatted_query).
         """
         used_set = self.get_used_normalized_niches()
@@ -398,12 +429,13 @@ class NicheManager:
 
         result: List[Tuple[str, str]] = []
         for niche in selected:
-            # Enforce strict single-word rule
-            assert is_valid_one_word_niche(niche), f"Niche '{niche}' must be exactly one word"
-            query = QUERY_TEMPLATE.format(niche=niche)
+            if self.discovery_matrix:
+                query = self.discovery_matrix.format_query_for_niche(niche)
+            else:
+                query = QUERY_TEMPLATE.format(niche=niche)
             result.append((niche, query))
 
-        logger.info(f"Selected {len(result)} fresh one-word niches for current batch")
+        logger.info(f"Selected {len(result)} fresh niches for current batch")
         return result
 
     def record_batch_as_used(self, batch_niches: List[Tuple[str, str]], date_str: Optional[str] = None) -> None:
@@ -418,6 +450,10 @@ class NicheManager:
             for niche, query in batch_niches
         ]
         self.state_manager.record_used_niches(rows)
+
+        # Record executed queries in discovery history to prevent duplicate searches
+        if self.discovery_matrix is not None:
+            self.discovery_matrix.record_queries_as_used([q for _, q in batch_niches])
 
         # Clear staged niches in state since they are now permanently recorded
         selection_state = self.load_selection_state()
