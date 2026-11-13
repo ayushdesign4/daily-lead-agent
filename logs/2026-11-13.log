@@ -64,3 +64,9 @@
 [2026-11-13 06:35:33] [INFO] Target not yet satisfied. Remaining shortage: 24
 [2026-11-13 06:35:33] [INFO] --- Starting Apify Batch 16 (Shortage: 24) ---
 [2026-11-13 06:35:33] [INFO] Batch 16 queries (10): ['joining', 'joke', 'jonathan', 'josh', 'journalism', 'jpeg', 'jrpg', 'juan', 'judgement', 'judicial']
+[2026-11-13 06:41:26] [INFO] ============================================================
+[2026-11-13 06:41:26] [INFO] Starting Daily Lead Agent | Run ID: RUN-2E23A467 | Date: 2026-11-13 IST
+[2026-11-13 06:41:26] [INFO] Target: 200 leads | Mode: deliver | Dry Run: False
+[2026-11-13 06:41:26] [INFO] Starting pending queue size: 176
+[2026-11-13 06:41:28] [INFO] Run RUN-2E23A467 finished. Status: COMPLETED | Delivered: 176/200 | Queue Remaining: 0
+[2026-11-13 06:41:28] [INFO] ============================================================
