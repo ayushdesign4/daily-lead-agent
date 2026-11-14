@@ -8,21 +8,10 @@
     "maker": 38,
     "finance": 403,
     "science": 349,
-    "exploration": 1972,
+    "exploration": 1895,
     "culinary": 0,
     "outdoors": 500
   },
-  "last_staged_niches": [
-    "joining",
-    "joke",
-    "jonathan",
-    "josh",
-    "journalism",
-    "jpeg",
-    "jrpg",
-    "juan",
-    "judgement",
-    "judicial"
-  ],
-  "category_rotation_offset": 498
+  "last_staged_niches": [],
+  "category_rotation_offset": 804
 }
