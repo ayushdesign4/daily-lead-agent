@@ -12,3 +12,10 @@
 [2026-11-21 00:56:37] [WARNING] No leads available to deliver today.
 [2026-11-21 00:56:37] [INFO] Run RUN-D6C31D16 finished. Status: NO_LEADS_AVAILABLE | Delivered: 0/200 | Queue Remaining: 0
 [2026-11-21 00:56:37] [INFO] ============================================================
+[2026-11-21 13:28:12] [INFO] ============================================================
+[2026-11-21 13:28:12] [INFO] Starting Daily Lead Agent | Run ID: RUN-FF47E509 | Date: 2026-11-21 IST
+[2026-11-21 13:28:12] [INFO] Target: 200 leads | Mode: deliver | Dry Run: False
+[2026-11-21 13:28:12] [INFO] Starting pending queue size: 0
+[2026-11-21 13:28:12] [WARNING] No leads available to deliver today.
+[2026-11-21 13:28:12] [INFO] Run RUN-FF47E509 finished. Status: NO_LEADS_AVAILABLE | Delivered: 0/200 | Queue Remaining: 0
+[2026-11-21 13:28:12] [INFO] ============================================================
