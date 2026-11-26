@@ -177,3 +177,4 @@ date,status,target,delivered,reason,run_id
 2026-11-25,NO_LEADS_AVAILABLE,200,0,No leads available. Credit exhausted: False,RUN-ED85EF64
 2026-11-25,NO_LEADS_AVAILABLE,200,0,No leads available. Credit exhausted: False,RUN-01DAA8E5
 2026-11-26,PREPARED,200,0,Prepared queue with 0 leads.,RUN-7FA8DFC0
+2026-11-26,NO_LEADS_AVAILABLE,200,0,No leads available. Credit exhausted: False,RUN-0709CFB8
