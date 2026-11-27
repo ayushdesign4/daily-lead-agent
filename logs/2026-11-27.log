@@ -1,0 +1,7 @@
+[2026-11-27 02:23:41] [INFO] ============================================================
+[2026-11-27 02:23:41] [INFO] Starting Daily Lead Agent | Run ID: RUN-4D300D55 | Date: 2026-11-27 IST
+[2026-11-27 02:23:41] [INFO] Target: 200 leads | Mode: prepare | Dry Run: False
+[2026-11-27 02:23:41] [INFO] Starting pending queue size: 0
+[2026-11-27 02:23:41] [INFO] --- Starting Apify Batch 1 (Shortage: 200) ---
+[2026-11-27 02:23:41] [WARNING] No unused niches available in pool. Stopping search.
+[2026-11-27 02:23:41] [INFO] Overnight preparation run complete. Daily email is scheduled for 11:00 AM IST.
